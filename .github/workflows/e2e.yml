@@ -12,6 +12,12 @@ on:
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - "*.md"
+      - "LICENSE"
+      - ".gitignore"
+      - ".gitattributes"
+      - ".github/workflows/**"
   merge_group:
     branches:
       - main
