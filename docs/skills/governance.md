@@ -83,7 +83,7 @@ required for a PR to merge — triagers count for `docs/**` and `*.md` paths.
 
 | Repo | Mechanism | Required approvals |
 |---|---|---|
-| `common` | Ruleset `main-review-required-with-renovate-bypass` | 2 |
+| `common` | Ruleset `main-review-required-with-renovate-bypass` | 1 |
 | `bluefin` | Branch protection on `main` | 1 |
 | `bluefin-lts` | Branch protection on `main` | 1 |
 | `dakota` | Branch protection on `main` | 1 |

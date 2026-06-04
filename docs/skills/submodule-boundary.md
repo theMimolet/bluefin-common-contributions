@@ -44,3 +44,11 @@ and prints a clear error if the submodule has been manually edited.
 
 Changes to any of these for **all** variants go upstream. Changes **only for Bluefin** go in
 `system_files/bluefin/`.
+
+## Upstream policy — ublue-os repos
+
+**Agents must never file issues or PRs in `ublue-os/*` repos.** If a change requires
+`ublue-os/aurorafin-shared`, tell the human contributor to report it there manually.
+
+When you encounter a PR that touches `system_files/shared/`, leave a comment explaining
+the boundary and close the loop — do not attempt to create the upstream PR yourself.
