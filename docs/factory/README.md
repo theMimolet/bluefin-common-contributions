@@ -64,6 +64,7 @@ Bonedigger manages this lifecycle across all factory repos. No PR activity in 7 
 - Run repo-required validation before commit; in `common`, `just check` is mandatory.
 - Do not rewrite image refs from `ghcr.io/ublue-os/bluefin*` to `projectbluefin` without explicit maintainer approval.
 - Prefer existing skills and workflows over inventing new process.
+- **Prefer the smallest change that fully satisfies the requirement.** Only add indirection or generalization when a concrete requirement demands it. See [agentic-model.md](agentic-model.md) for the canonical rule.
 
 ## Factory infrastructure
 

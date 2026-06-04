@@ -11,6 +11,7 @@ All 5 factory repos operate under a shared agentic model. Agents MUST read this 
 - **Squash only.** All 5 repos use squash merge. Never merge-commit or rebase-merge.
 - **Max 4 open PRs per agent at once.**
 - **`just check` before every commit.**
+- **Prefer the smallest change that fully satisfies the requirement.** If a `.desktop` file with `Exec=xdg-open https://help.gnome.org/` fixes a broken help URI handler, that is the fix — not a custom script that parses URI components. Only add indirection or generalization when a concrete requirement demands it.
 
 ## Issue lifecycle
 
