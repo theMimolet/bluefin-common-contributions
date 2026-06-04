@@ -26,4 +26,3 @@ if [ -d "${SYSTEM_HOOKS_DIRECTORY}" ] ; then
 		bash $script
 	done
 fi
-
