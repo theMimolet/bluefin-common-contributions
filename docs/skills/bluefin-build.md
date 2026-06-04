@@ -125,7 +125,7 @@ just hive    # or: ~/src/hive-status --watch
 # 1. Branch from origin main (or testing for bluefin/bluefin-lts/dakota)
 # origin = projectbluefin/<repo> directly — no fork
 git fetch origin && git checkout -b feat/my-change origin/main
-# 2. Make changes, run just check
+# 2. Make changes, run just check && pre-commit run --all-files
 # 3. Squash to one commit, then open PR:
 gh pr create \
   --repo projectbluefin/<repo> \

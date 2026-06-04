@@ -10,7 +10,7 @@ All 5 factory repos operate under a shared agentic model. Agents MUST read this 
 - **Attribution on every AI commit:** `Assisted-by: <Model> via <Tool>`
 - **Squash only.** All 5 repos use squash merge. Never merge-commit or rebase-merge.
 - **Max 4 open PRs per agent at once.**
-- **`just check` before every commit.**
+- **`just check` and `pre-commit run --all-files` before every commit.** `just check` validates Justfile syntax; `pre-commit` catches trailing whitespace, missing newlines, YAML/JSON hygiene, and floating action tags across all files.
 - **Prefer the smallest change that fully satisfies the requirement.** If a `.desktop` file with `Exec=xdg-open https://help.gnome.org/` fixes a broken help URI handler, that is the fix — not a custom script that parses URI components. Only add indirection or generalization when a concrete requirement demands it.
 
 ## Issue lifecycle

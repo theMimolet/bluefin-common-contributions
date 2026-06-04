@@ -47,7 +47,7 @@ pre-commit run --all-files    # json/yaml/toml hygiene + actionlint
    ```bash
    git fetch upstream && git checkout -b feat/my-change upstream/main
    ```
-2. Make changes. Run `just check` and verify it passes.
+2. Make changes. Run `just check` and `pre-commit run --all-files` and verify both pass.
 3. Squash all commits to **one logical commit** before opening the PR.
 4. Resolve any conflicts locally before pushing — never open a PR with conflicts.
 5. PR title: Conventional Commits format (`feat:`, `fix:`, `chore(deps):`, etc.)
