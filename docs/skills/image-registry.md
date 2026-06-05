@@ -28,20 +28,21 @@ sign-off.** This would break OTA updates, E2E CI, and the rollback helper for al
 
 ## Files where ublue-os image refs MUST remain ublue-os
 
-- `.github/workflows/e2e.yml` — `image: ghcr.io/ublue-os/bluefin:*`
-- `.github/workflows/pr-e2e.yml` — base image for composed test
 - `system_files/bluefin/usr/bin/ublue-rollback-helper` — reads `IMAGE_VENDOR` from
   `image-info.json` to construct the registry path; changing the vendor changes the OTA target
 - Any ujust recipe that references the image registry for rollback/rebase
 
-## Narrow exception for testing-stream gates
+## Allowed projectbluefin testing refs in CI workflows
 
-`common/.github/workflows/promotion-candidate-e2e.yml` is allowed to reference:
+`validate.yml` maintains an explicit allowlist. The following workflow files are allowed to use `projectbluefin` testing-stream refs:
 
-- `ghcr.io/projectbluefin/bluefin:testing`
-- `ghcr.io/projectbluefin/bluefin:lts-testing`
+| Workflow file | Allowed refs |
+|---|---|
+| `promotion-candidate-e2e.yml` | `ghcr.io/projectbluefin/bluefin:testing`, `ghcr.io/projectbluefin/bluefin:lts-testing` |
+| `e2e.yml` | `ghcr.io/projectbluefin/bluefin:testing`, `ghcr.io/projectbluefin/bluefin:lts-testing` |
+| `pr-e2e.yml` | `ghcr.io/projectbluefin/bluefin:testing` |
 
-Those are testing-only candidate tags used to add common-side promotion feedback. They are **not** production OTA targets. `validate.yml` explicitly whitelists only these two refs; all other `ghcr.io/projectbluefin/bluefin*` workflow refs remain blocked.
+These are testing-only candidate tags used for E2E gates. They are **not** production OTA targets. All other `ghcr.io/projectbluefin/bluefin*` refs in workflow files are blocked by `validate.yml`.
 
 ## How ublue-rollback-helper uses the registry
 

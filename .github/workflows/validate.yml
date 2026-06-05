@@ -89,8 +89,10 @@ jobs:
                   print(f"  - {violation}")
               print("")
               print("Production images are still published at ghcr.io/ublue-os/.")
-              print("Only the promotion-candidate testing tags are allowed under")
-              print("ghcr.io/projectbluefin/bluefin in .github/workflows/promotion-candidate-e2e.yml.")
+              print("Only testing-stream tags are allowed under ghcr.io/projectbluefin/bluefin,")
+              print("and only in the explicitly whitelisted workflow files:")
+              for allowed_path, allowed in allowed_refs.items():
+                  print(f"  {allowed_path}: {sorted(allowed)}")
               print("See docs/skills/image-registry.md for details.")
               sys.exit(1)
           PY

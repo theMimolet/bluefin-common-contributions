@@ -146,7 +146,6 @@ Count duplicates during each audit pass. Each duplicate is a maintenance liabili
 | Gap | Issue | Automatable? |
 |---|---|---|
 | Policy contradiction: org AGENTS.md says ublue-os is open; common says absolute prohibition | — | No — human decision first, then doc fix |
-| `pr-e2e.yml` gate documented as disabled but no disabling condition in file | #421 | Yes |
 | `bluefin-lts` has no post-merge e2e gate | #420 | Yes |
 
 ### P1 — Must land soon
@@ -176,14 +175,13 @@ Count duplicates during each audit pass. Each duplicate is a maintenance liabili
 ## Improvement Priority Order
 
 1. Resolve the ublue-os policy contradiction (P0 — human input needed first)
-2. Diagnose and fix `pr-e2e.yml` gate state (P0)
-3. Wire `bluefin-lts` post-merge e2e gate (P0)
-4. Fix Renovate config (P1 — dependency drift is a security concern)
-5. Consolidate duplicate docs (P1 — cheap, high leverage)
-6. Close stale issue #418 (P1 — confirm bonedigger onboarded)
-7. `bluefin` pre-push hook (P1 — repeat incident prevention)
-8. Merge `docs-quality.yml` + `skill-drift.yml` (Backlog)
-9. Merge `factory/README.md` + `agentic-model.md` (Backlog)
+2. Wire `bluefin-lts` post-merge e2e gate (P0)
+3. Fix Renovate config (P1 — dependency drift is a security concern)
+4. Consolidate duplicate docs (P1 — cheap, high leverage)
+5. Close stale issue #418 (P1 — confirm bonedigger onboarded)
+6. `bluefin` pre-push hook (P1 — repeat incident prevention)
+7. Merge `docs-quality.yml` + `skill-drift.yml` (Backlog)
+8. Merge `factory/README.md` + `agentic-model.md` (Backlog)
 
 ---
 
