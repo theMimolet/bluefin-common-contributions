@@ -51,10 +51,10 @@ Full workflow, label reference, and human/agent instructions:
 | Stage | How |
 |---|---|
 | `filed` | Issue opened |
-| `triage` | Maintainer sets `kind/`, `area/`, `priority/`; removes `needs-triage` |
-| `approved` | Comment `/approve` — adds `status/approved` + `queue/agent-ready` |
-| `queued` | Issue has `queue/agent-ready`; in the work pool |
-| `claimed` | Comment `/claim` — assigned, `queue/claimed` set, leaves pool |
+| `triage` | Maintainer sets `kind/`, `area/`, `priority/`; removes `status/triage` |
+| `approved` | Comment `/approve` — adds `status/approved` + `status/queued` |
+| `queued` | Issue has `status/queued`; in the work pool |
+| `claimed` | Comment `/claim` — assigned, `status/claimed` set, leaves pool |
 | `done` | Fix shipped + 3× `ujust verify` or maintainer override |
 
 No PR activity in 7 days: comment `/unclaim` to return the issue to the queue.

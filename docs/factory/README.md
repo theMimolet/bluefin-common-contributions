@@ -51,7 +51,7 @@ Lifecycle: `filed → approved → queued → claimed → done`
 |---|---|
 | `filed` | Issue exists but is not ready for execution |
 | `approved` | Maintainer adds `status/approved` or comments `/approve` |
-| `queued` | `queue/agent-ready` marks the issue ready for pickup |
+| `queued` | `status/queued` marks the issue ready for pickup |
 | `claimed` | Agent comments `/claim`; issue is assigned and leaves the pool |
 | `done` | Fix is shipped and verified; standard target is 3× `ujust verify`, or maintainer override |
 
@@ -83,7 +83,7 @@ The canonical definition lives in `common/AGENTS.md`. This is a pointer.
 The following are wired across the factory today (not every item applies to every repo):
 
 - **AGENTS.md** — per-repo operating contract
-- **Label taxonomy** — `hive/p0`, `hive/p1`, `queue/agent-ready`, `queue/claimed`, `agent/blocked`, `source:*`
+- **Label taxonomy** — `hive/p0`, `hive/p1`, `status/queued`, `status/claimed`, `agent/blocked`, `source:*`
 - **Squash-only merge + delete-branch-on-merge**
 - **5 standard issue templates**
 - **CODEOWNERS** with triage sentinel — synced from `common` to downstream repos via `sync-codeowners.yml`
@@ -122,7 +122,7 @@ For the full blindspot / constraint-rule reference, see [`../skills/acmm-audit-l
 - **Installability gate** — no installer/bootc-install gate before `testing → stable` promotion [#423](https://github.com/projectbluefin/common/issues/423)
 - **bonedigger crash/panic signal** not wired into promotion decisions [#424](https://github.com/projectbluefin/common/issues/424)
 - **Regression contract** across `latest`/`stable`/`gts`/`lts` streams is undefined [#420](https://github.com/projectbluefin/common/issues/420)
-- **Migration upgrade path testing** is not auto-triggered — `testsuite/migration-test.yml` is `workflow_dispatch` only; schedule addition is `queue/hold` pending zstd:chunked stability (testsuite#232)
+- **Migration upgrade path testing** is not auto-triggered — `testsuite/migration-test.yml` is `workflow_dispatch` only; schedule addition is `status/hold` pending zstd:chunked stability (testsuite#232)
 - **bonedigger not factory-onboarded** — no AGENTS.md, no hive labels [#418](https://github.com/projectbluefin/common/issues/418)
 - **Lifecycle bot unification** — bonedigger SHA-pin inconsistent across org; `bluefin-lts`/`dakota` use intentional `@main` [#409](https://github.com/projectbluefin/common/issues/409)
 - **consumer contract** for `actions@v1` has no machine verification — `aurora`/`bazzite` compat can silently break

@@ -23,7 +23,7 @@ filed → approved → queued → claimed → done
 |---|---|
 | `filed` | Issue opened |
 | `approved` | Maintainer adds `status/approved` or comments `/approve` |
-| `queued` | `queue/agent-ready` label added |
+| `queued` | `status/queued` label added |
 | `claimed` | Agent comments `/claim` — gets assigned, removed from pool |
 | `done` | Fix shipped, verified |
 
@@ -37,9 +37,9 @@ source of truth. The summary below is for quick agent lookup.
 
 ### Lifecycle labels (ordered)
 ```
-needs-triage → status/discussing → status/approved → queue/agent-ready → queue/claimed → done
+status/triage → status/discussing → status/approved → status/queued → status/claimed → done
 ```
-Overlays (can coexist with any stage): `queue/hold`, `agent/blocked`
+Overlays (can coexist with any stage): `status/hold`, `agent/blocked`
 
 ### Hive labels (dynamic — reset each release cycle)
 | Label | Meaning |
@@ -50,9 +50,9 @@ Overlays (can coexist with any stage): `queue/hold`, `agent/blocked`
 ### Queue labels
 | Label | Meaning |
 |---|---|
-| `queue/agent-ready` | Ready for an agent or contributor to pick up |
-| `queue/claimed` | Actively being worked — comment `/unclaim` to return |
-| `queue/hold` | Do not touch — intentionally paused by maintainers |
+| `status/queued` | Ready for an agent or contributor to pick up |
+| `status/claimed` | Actively being worked — comment `/unclaim` to return |
+| `status/hold` | Do not touch — intentionally paused by maintainers |
 | `agent/blocked` | Agent is stuck — read the issue comment for what's needed |
 
 ### Priority labels (static backlog)
@@ -106,7 +106,7 @@ dakota only: `elements/`
 gh search issues --label "hive/p0" --owner projectbluefin --state open
 
 # Ready for pickup
-gh search issues --label "queue/agent-ready" --owner projectbluefin --state open
+gh search issues --label "status/queued" --owner projectbluefin --state open
 
 # Live hive snapshot
 just hive   # from ~/src

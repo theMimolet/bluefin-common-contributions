@@ -21,8 +21,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        > **How this gets resolved:** `filed` → `triage` → `approved` → `queued` → `claimed` → closed
-        > A maintainer sets kind/area after you file. Then `/approve` queues it. A contributor or agent `/claim`s it and ships a fix.
+        > **How this gets resolved:**
+        > ```
+        > filed ──▶ triage ──▶ approved ──▶ queued ──▶ claimed ──▶ done
+        >        [status/    [status/     [status/   [status/
+        >         triage]     approved]    queued]    claimed]
+        > ```
+        > You filed it. A maintainer sets kind/area/priority and removes `status/triage`.
+        > `/approve` queues it. A contributor or agent `/claim`s it and ships the fix.
 
   - type: checkboxes
     id: checks

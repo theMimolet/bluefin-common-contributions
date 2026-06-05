@@ -12,8 +12,14 @@ body:
 
         Contributors can implement well-scoped work fast. But they can only act on what is clearly defined.
 
-        > **How this gets built:** `filed` → `discussing` → `approved` → `queued` → `claimed` → closed
-        > Your proposal enters discussion. A maintainer approves it when the spec is clear. Then a contributor or agent claims it.
+        > **How this gets built:**
+        > ```
+        > filed ──▶ discussing ──▶ approved ──▶ queued ──▶ claimed ──▶ done
+        >        [status/         [status/     [status/   [status/
+        >         discussing]      approved]    queued]    claimed]
+        > ```
+        > Your proposal enters discussion. A maintainer approves it when the spec is clear.
+        > Then a contributor or agent `/claim`s it and builds it.
 
   - type: textarea
     id: problem

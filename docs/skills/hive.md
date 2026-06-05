@@ -26,9 +26,9 @@ Reset each cycle by hive agents and human triage. Apply to issues currently bein
 ### Queue labels
 | Label | Meaning |
 |---|---|
-| `queue/agent-ready` | Ready for an agent to pick up — no blockers |
-| `queue/claimed` | Agent has claimed this, work in progress |
-| `queue/hold` | Do not close or auto-merge yet |
+| `status/queued` | Ready for an agent to pick up — no blockers |
+| `status/claimed` | Agent has claimed this, work in progress |
+| `status/hold` | Do not close or auto-merge yet |
 | `agent/blocked` | Agent hit a blocker — needs human input before continuing |
 
 ## Hive sync workflows
@@ -53,7 +53,7 @@ gh search issues --label "hive/p0" --owner projectbluefin --state open --json nu
 gh search issues --label "hive/p1" --owner projectbluefin --state open --json number,title,repository
 
 # Ready for agent pickup
-gh search issues --label "queue/agent-ready" --owner projectbluefin --state open --json number,title,repository
+gh search issues --label "status/queued" --owner projectbluefin --state open --json number,title,repository
 
 # Live snapshot
 just hive   # from ~/src

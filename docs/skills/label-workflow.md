@@ -19,12 +19,12 @@ Labels are the handoff signal between the two.
 Issues follow one of two entry paths depending on type, then converge into a shared pipeline:
 
 ```
-BUG:     filed → [needs-triage] → status/approved → queue/agent-ready → queue/claimed → done
-FEATURE: filed → [status/discussing] → status/approved → queue/agent-ready → queue/claimed → done
+BUG:     filed → [status/triage] → status/approved → status/queued → status/claimed → done
+FEATURE: filed → [status/discussing] → status/approved → status/queued → status/claimed → done
 ```
 
 Blocking overlays (can be applied at any stage):
-- `queue/hold` — paused intentionally, do not touch
+- `status/hold` — paused intentionally, do not touch
 - `agent/blocked` — agent stuck, needs human input
 
 ---
@@ -37,22 +37,22 @@ Use the issue templates — they set the right initial labels automatically.
 
 If filing without a template, include enough context that someone else can act on it without asking you follow-up questions. Issues that require clarification stay in triage indefinitely.
 
-**Bug reports** get `needs-triage` automatically.
+**Bug reports** get `status/triage` automatically.
 **Feature requests** get `status/discussing` automatically.
 
 ### Triaging a bug (maintainers and triagers)
 
-When you see `needs-triage`:
+When you see `status/triage`:
 
 1. Is this valid? Is it a duplicate?
    - Invalid or duplicate → close with explanation; add `kind/wontfix` if you want to track the decision
-   - Needs more data → add `ghost/needs-data`, ask in a comment, leave `needs-triage` in place
+   - Needs more data → add `ghost/needs-data`, ask in a comment, leave `status/triage` in place
 2. Set **exactly one** `kind/` label
 3. Set **one or more** `area/` labels
 4. Optionally set one `priority/` label (backlog ordering) or `hive/p0`/`hive/p1` (current-cycle urgency)
-5. Remove `needs-triage`
+5. Remove `status/triage`
 
-If the bug needs design discussion before anyone implements a fix, add `status/discussing` after removing `needs-triage`.
+If the bug needs design discussion before anyone implements a fix, add `status/discussing` after removing `status/triage`.
 
 ### Advancing a feature discussion
 
@@ -67,12 +67,12 @@ When an issue is fully scoped and ready for implementation:
 
 - Comment `/approve`
 
-Bonedigger responds by adding `status/approved` and `queue/agent-ready`.
+Bonedigger responds by adding `status/approved` and `status/queued`.
 The issue is now in the work pool.
 
 **Manual fallback (if bonedigger is down):**
 ```
-Add: status/approved + queue/agent-ready
+Add: status/approved + status/queued
 ```
 
 ### Reviewing agent PRs
@@ -95,7 +95,7 @@ The agent resumes on its next run.
 
 ### Pausing work
 
-- `queue/hold` — add to prevent any agent from claiming. Always add a comment explaining why and when it can be unpaused.
+- `status/hold` — add to prevent any agent from claiming. Always add a comment explaining why and when it can be unpaused.
 - `needs-human/agent-oops` — agent made an error that requires manual correction. Do not re-trigger agents on this issue; fix the underlying problem by hand first.
 
 ---
@@ -106,10 +106,10 @@ The agent resumes on its next run.
 
 ```bash
 # All factory repos — start here
-gh search issues --label "queue/agent-ready" --owner projectbluefin --state open
+gh search issues --label "status/queued" --owner projectbluefin --state open
 
 # Single repo
-gh issue list --repo projectbluefin/common --label "queue/agent-ready" --state open
+gh issue list --repo projectbluefin/common --label "status/queued" --state open
 
 # Live hive snapshot (if available)
 just hive   # from ~/src
@@ -117,19 +117,19 @@ just hive   # from ~/src
 
 **Pick order:** `hive/p0` first → `hive/p1` → `priority/p0` → `priority/p1` → `priority/p2` → unlabeled.
 
-Check each candidate issue for `queue/hold` before claiming — those are off-limits.
+Check each candidate issue for `status/hold` before claiming — those are off-limits.
 
 ### Claiming an issue
 
 Comment `/claim` on the issue. Bonedigger will:
-1. Replace `queue/agent-ready` with `queue/claimed`
+1. Replace `status/queued` with `status/claimed`
 2. Assign the issue to you
 3. Remove you from the available pool for this issue
 
 **Manual fallback (if bonedigger is down):**
 ```
-Add: queue/claimed
-Remove: queue/agent-ready
+Add: status/claimed
+Remove: status/queued
 Assign: yourself
 ```
 
@@ -167,8 +167,8 @@ Comment: /unclaim
 
 **Manual fallback:**
 ```
-Remove: queue/claimed
-Add: queue/agent-ready
+Remove: status/claimed
+Add: status/queued
 Unassign yourself
 ```
 
@@ -178,16 +178,16 @@ Unassign yourself
 
 ### Lifecycle — defines where an issue is
 
-> **Invariants:** at most one lifecycle label active at a time (except overlays `queue/hold` and `agent/blocked`, which can coexist with any stage)
+> **Invariants:** at most one lifecycle label active at a time (except overlays `status/hold` and `agent/blocked`, which can coexist with any stage)
 
 | Label | Color | Who sets it | Meaning |
 |---|---|---|---|
-| `needs-triage` | lavender | Auto on bug reports | New bug. Human must set kind/area/priority. |
+| `status/triage` | lavender | Auto on bug reports | New bug. Human must set kind/area/priority. |
 | `status/discussing` | blue | Auto on features; human for bugs needing design | Under discussion. Not ready for work. |
 | `status/approved` | green | Human (`/approve`) | Approved by maintainer. Ready for contributors. |
-| `queue/agent-ready` | purple | Bonedigger or human | In the work pool. Comment `/claim` to take it. |
-| `queue/claimed` | yellow | Bonedigger or agent | Someone is actively working this. |
-| `queue/hold` | white | Human | Intentionally paused. Do not touch. Requires a comment explaining why. |
+| `status/queued` | purple | Bonedigger or human | In the work pool. Comment `/claim` to take it. |
+| `status/claimed` | yellow | Bonedigger or agent | Someone is actively working this. |
+| `status/hold` | white | Human | Intentionally paused. Do not touch. Requires a comment explaining why. |
 | `agent/blocked` | red | Agent | Agent is stuck and needs human input. Read the issue comment. |
 
 ### Kind — what type of work?
@@ -306,12 +306,12 @@ Applied to issues to request a specific agent workflow:
 
 | Trigger | What bonedigger does |
 |---|---|
-| Bug report opened | Adds `needs-triage` |
+| Bug report opened | Adds `status/triage` |
 | Feature request opened | Adds `status/discussing` |
-| `/approve` comment | Adds `status/approved` + `queue/agent-ready` |
-| `/claim` comment | Removes `queue/agent-ready`, adds `queue/claimed`, assigns |
-| `/unclaim` comment | Removes `queue/claimed`, re-adds `queue/agent-ready`, unassigns |
-| No PR activity in 7 days | Returns claim: removes `queue/claimed`, re-adds `queue/agent-ready` *(target state — not fully consistent across all repos yet)* |
+| `/approve` comment | Adds `status/approved` + `status/queued` |
+| `/claim` comment | Removes `status/queued`, adds `status/claimed`, assigns |
+| `/unclaim` comment | Removes `status/claimed`, re-adds `status/queued`, unassigns |
+| No PR activity in 7 days | Returns claim: removes `status/claimed`, re-adds `status/queued` *(target state — not fully consistent across all repos yet)* |
 
 ---
 
@@ -324,7 +324,7 @@ Applied to issues to request a specific agent workflow:
 → Open an issue → use the Feature Request template → be specific → done. Vague proposals wait indefinitely in `status/discussing`.
 
 **I want to implement something:**
-1. Find an issue with `queue/agent-ready` in the target repo
+1. Find an issue with `status/queued` in the target repo
 2. Comment `/claim`
 3. Read the issue + the repo's `AGENTS.md`
 4. Branch, build, test, PR with "Closes #NNN"
@@ -335,7 +335,7 @@ Applied to issues to request a specific agent workflow:
 3. Done — bonedigger queues it automatically
 
 **I need to stop automation from touching something:**
-→ Add `queue/hold` and leave a comment explaining why
+→ Add `status/hold` and leave a comment explaining why
 
 ---
 
@@ -349,12 +349,12 @@ while templates and automation are updated. **Do not use them for new issues.**
 | `bug` (bare) | `kind/bug` | Template update needed in common |
 | `type/bug` | `kind/bug` | Template update needed in bluefin, bluefin-lts |
 | `type/feature` | `kind/enhancement` | Template update needed in bluefin, bluefin-lts |
-| `kind:agent-donation` (colon) | `flow/agent-donation` | Template update needed in common, bluefin, bluefin-lts |
-| `needs-human/agent-ready` | `queue/agent-ready` | Docs update needed |
-| `agent/claimed` | `queue/claimed` | Verify no automation dependency |
-| `priority/critical`, `priority/high` | `priority/p0`, `priority/p1` | Bonedigger sets these — cannot remove until bonedigger is updated |
+| `flow/agent-donation` (colon) | `flow/agent-donation` | Template update needed in common, bluefin, bluefin-lts |
+| `needs-human/agent-ready` | `status/queued` | Docs update needed |
+| `agent/claimed` | `status/claimed` | Verify no automation dependency |
+| `priority/p0`, `priority/p1` | `priority/p0`, `priority/p1` | Bonedigger sets these — cannot remove until bonedigger is updated |
 | `size:*` (colon variants) | `size/*` (slash variants) | Check automation consumers per repo |
-| `copilot-ready` | `queue/agent-ready` | Label cleanup only |
-| `hold` (bare) | `queue/hold` | Verify automation consumers |
+| `copilot-ready` | `status/queued` | Label cleanup only |
+| `hold` (bare) | `status/hold` | Verify automation consumers |
 
 Tracking issue: file one in `projectbluefin/common` with `kind/tech-debt` + `area/agent`.

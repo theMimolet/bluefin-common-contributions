@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   bonedigger:
-    uses: projectbluefin/bonedigger/.github/workflows/lifecycle.yml@743f56403af826b148d2841524faa1edb68a4538
+    uses: projectbluefin/bonedigger/.github/workflows/lifecycle.yml@bbbd4cdd3a4daa8adeaf72acf8a7dfed64d2c083
     with:
       brand_name: "Common"
       brand_emoji: "🧱"
