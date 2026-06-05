@@ -4,7 +4,12 @@
 # Tracks: status/queued, status/claimed, hive/p0, hive/p1 counts
 # CI status: build.yml (common's primary build workflow)
 #
+# Also syncs all open epics (kind/epic) and P0/P1 issues (hive/p0, hive/p1,
+# priority/p0, priority/p1) from all factory repos to the project board as
+# cards. addProjectV2ItemById is idempotent — safe to run hourly.
+#
 # Requires: PROJECT_TOKEN secret with project + read:project OAuth scopes
+#   and read access to all factory repos (org PAT or GitHub App token)
 # Project board: PVT_kwDOCCE0ds4BLZBC (todo.projectbluefin.io, #2)
 
 name: Hive Progress Sync
@@ -132,5 +137,102 @@ jobs:
           resp      = json.loads(result.stdout)
           update_id = resp["data"]["createProjectV2StatusUpdate"]["statusUpdate"]["id"]
           print(f"Posted: {update_id}")
+          PYEOF
+        shell: bash
+
+      - name: Sync epics and P0/P1 issues to project board
+        env:
+          PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          python3 << 'PYEOF'
+          import json, subprocess, sys, os
+
+          PROJECT_ID = "PVT_kwDOCCE0ds4BLZBC"
+
+          FACTORY_REPOS = [
+             "projectbluefin/common",
+             "projectbluefin/bluefin",
+             "projectbluefin/bluefin-lts",
+             "projectbluefin/dakota",
+             "projectbluefin/testsuite",
+             "projectbluefin/knuckle",
+          ]
+
+          AUTO_ADD_LABELS = [
+             "kind/epic",
+             "hive/p0",
+             "hive/p1",
+             "priority/p0",
+             "priority/p1",
+          ]
+
+          project_token = os.environ.get("PROJECT_TOKEN", "")
+          if not project_token:
+             print("WARNING: PROJECT_TOKEN not set — skipping board sync", file=sys.stderr)
+             sys.exit(0)
+
+          def gh(*args, token=None):
+             env = {**os.environ, "GH_TOKEN": token or project_token}
+             result = subprocess.run(["gh"] + list(args), capture_output=True, text=True, env=env)
+             if result.returncode != 0:
+                 print(f"gh error: {result.stderr.strip()}", file=sys.stderr)
+                 return None
+             return result.stdout.strip()
+
+          def get_issues(repo, label):
+             raw = gh("issue", "list", "--repo", repo,
+                      "--label", label, "--state", "open",
+                      "--limit", "100", "--json", "id,number,title")
+             if raw is None:
+                 return []
+             try:
+                 return json.loads(raw)
+             except json.JSONDecodeError:
+                 return []
+
+          ADD_MUTATION = (
+             "mutation($p:ID!,$c:ID!){"
+             "addProjectV2ItemById(input:{projectId:$p,contentId:$c})"
+             "{item{id}}"
+             "}"
+          )
+
+          def add_to_board(node_id):
+             result = subprocess.run(
+                 ["gh", "api", "graphql",
+                  "-f", f"query={ADD_MUTATION}",
+                  "-f", f"p={PROJECT_ID}",
+                  "-f", f"c={node_id}"],
+                 capture_output=True, text=True,
+                 env={**os.environ, "GH_TOKEN": project_token},
+             )
+             if result.returncode != 0 or '"errors"' in result.stdout:
+                 print(f"  warn: failed to add {node_id}: {result.stdout.strip()}", file=sys.stderr)
+                 return False
+             return True
+
+          seen = set()
+          added = 0
+          already = 0
+          failed = 0
+
+          for repo in FACTORY_REPOS:
+             for label in AUTO_ADD_LABELS:
+                 issues = get_issues(repo, label)
+                 for issue in issues:
+                     node_id = issue.get("id")
+                     if not node_id or node_id in seen:
+                         continue
+                     seen.add(node_id)
+                     ok = add_to_board(node_id)
+                     if ok:
+                         added += 1
+                         print(f"  + {repo}#{issue['number']} [{label}] {issue['title'][:60]}")
+                     else:
+                         failed += 1
+
+          print(f"\nBoard sync: {added} ensured, {failed} failures ({len(seen)} unique issues scanned)")
+          if failed > 0:
+             sys.exit(1)
           PYEOF
         shell: bash
