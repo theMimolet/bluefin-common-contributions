@@ -159,9 +159,14 @@ caught until live e2e (requires ghost runner access).
 
 **Repo:** bluefin-lts
 
-No `renovate.json` (or `.github/renovate.json`) in the repo. Renovate config is inherited
-from the org-level `projectbluefin/renovate-config`. Repo-specific overrides cannot be
-added without first creating the file.
+No `.github/renovate.json` exists. Renovate inherits silently from org-level
+`projectbluefin/renovate-config`. An agent making repo-specific Renovate changes will
+find no file to edit and may create unexpected config or edit the org-level config
+instead.
+
+**Constraint rule:** If you need to add a Renovate override for `bluefin-lts`
+specifically, first create `.github/renovate.json` extending the org config before
+adding overrides.
 
 ---
 
