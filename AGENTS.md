@@ -124,6 +124,7 @@ system_files/
   run-testsuite.yml        # Local wrapper that centralizes the testsuite SHA pin
   skill-drift.yml          # PR advisory gate for implementation/doc parity
   sync-codeowners.yml      # Syncs CODEOWNERS TRIAGERS block to downstream repos on push
+  sync-labels.yml          # Syncs labels.json to all factory repos on push (requires MERGERAPTOR secrets)
   validate.yml             # PR gate: just check, pre-commit, shellcheck, submodule drift
   validate-brewfiles.yaml  # PR gate: Brewfile validation
 ```

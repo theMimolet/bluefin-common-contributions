@@ -133,7 +133,7 @@ grep -rh "github/codeql-action" .github/workflows/ | sort -u
 | `clean.yml` | Weekly | GHCR image cleanup (>90d) |
 | `scorecard.yml` | Push to main, weekly | OSSF Scorecard |
 | `cherry-pick-to-stable.yml` | `cherry-pick` label on PR | Backport via GitHub App token |
-| `bonedigger.yml` | Issue events, daily | Issue lifecycle |
+| `lifecycle-caller.yml` | Issue events, PRs, daily | Issue/PR lifecycle (slash commands, widget, label guard, stale sweep) — calls `common/lifecycle.yml` |
 | `moderator.yml` | Issues/comments | AI spam detection |
 
 > Never use `web_fetch` for GitHub URLs. See: github skill for the full rule.

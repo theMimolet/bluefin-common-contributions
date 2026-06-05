@@ -87,7 +87,7 @@ The canonical definition lives in `common/AGENTS.md`. This is a pointer.
 The following are wired across the factory today (not every item applies to every repo):
 
 - **AGENTS.md** — per-repo operating contract
-- **Label taxonomy** — canonical definitions in `labels.json`, synced to all repos by `sync-labels.yml`; key labels: `hive/p0`, `hive/p1`, `status/queued`, `status/claimed`, `agent/blocked`, `source:*`
+- **Label taxonomy** — canonical definitions in `labels.json` (67 labels; includes `hardware/*` for promotion gates), synced to all repos by `sync-labels.yml` (⚠️ requires `MERGERAPTOR_APP_ID`/`MERGERAPTOR_PRIVATE_KEY` secrets — issue #511); key labels: `hive/p0`, `hive/p1`, `status/queued`, `status/claimed`, `agent/blocked`, `source:*`, `hardware/blocker`
 - **Squash-only merge + delete-branch-on-merge**
 - **5 standard issue templates**
 - **CODEOWNERS** with triage sentinel — synced from `common` to downstream repos via `sync-codeowners.yml`

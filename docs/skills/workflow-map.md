@@ -23,6 +23,7 @@ Load this when you need to understand **what each GitHub workflow in `projectblu
 | `promotion-candidate-e2e.yml` | Weekly smoke/common check against `bluefin:testing` and `bluefin:lts-testing` | Adjusting common-side signal before downstream Tuesday promotions |
 | `skill-drift.yml` | Warns when implementation changes land without matching docs/skills updates | Adjusting doc-drift coverage or path mapping |
 | `sync-codeowners.yml` | Keeps CODEOWNERS/policy state in sync | Governance / CODEOWNERS automation work |
+| `sync-labels.yml` | Syncs `labels.json` (67 labels) to all factory repos — requires `MERGERAPTOR_APP_ID` + `MERGERAPTOR_PRIVATE_KEY` secrets (see issue #511) | Adding/retiring labels or debugging label drift |
 | `release.yml` | Monthly/versioned OCI release flow | Changing versioned layer release behavior |
 | `lifecycle-caller.yml` | Issue/PR lifecycle — slash commands, widget, label guard, stale sweep. Calls common `lifecycle.yml`. | Changing factory lifecycle automation |
 | `hive-progress-sync.yml` | Publishes common repo progress into Hive state | Changing Hive reporting or dashboard sync behavior |
@@ -43,7 +44,7 @@ Load this when you need to understand **what each GitHub workflow in `projectblu
 
 ### Factory operations
 
-`lifecycle-caller.yml`, `sync-codeowners.yml`, and `hive-progress-sync.yml` are factory-policy workflows rather than image-test workflows. Lifecycle ownership itself lives in `common`'s reusable `.github/workflows/lifecycle.yml`.
+`lifecycle-caller.yml`, `sync-codeowners.yml`, `sync-labels.yml`, and `hive-progress-sync.yml` are factory-policy workflows rather than image-test workflows. Lifecycle ownership itself lives in `common`'s reusable `.github/workflows/lifecycle.yml`.
 
 ## Which skill to load next
 
