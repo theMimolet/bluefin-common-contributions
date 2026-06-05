@@ -53,6 +53,23 @@ body:
       required: true
 
   - type: textarea
+    id: implementation
+    attributes:
+      label: "Implementation guidance"
+      description: |
+        Optional. For issues intended to be claimed by an agent or contributor immediately:
+        - Which files to change
+        - Reference implementations (e.g. "dakota publish.yml already does this correctly")
+        - Known gotchas or order-of-operations constraints
+        - Links to related PRs or issues
+      placeholder: |
+        Files to change: .github/workflows/post-testing-e2e.yml
+        Reference: dakota publish.yml (e2e-gate job)
+        Must implement after: #517
+    validations:
+      required: false
+
+  - type: textarea
     id: extra
     attributes:
       label: "Extra context"
