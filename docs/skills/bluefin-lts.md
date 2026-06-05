@@ -272,6 +272,12 @@ skopeo inspect --no-creds docker://ghcr.io/projectbluefin/IMAGE:FLOATING_TAG \
 > **Resolved issues (GitHub Releases bugs, SBOM Pipeline, Race condition in scheduled-lts-release.yml):**
 > `cat ~/src/skills/bluefin-lts/REFERENCE.md`
 
+> **2026-06-05 — Silent failure fixed (PR #70):**
+> `scheduled-lts-release.yml` now has a `report-failure` job. If the weekly LTS release
+> fails for any reason (build timeout, cosign failure, upgrade test), GitHub automatically
+> opens or updates an issue titled `ci: weekly LTS release failure` with the run URL.
+> Previously these failures were invisible until a maintainer checked manually.
+
 ---
 
 ### Squash-merge auto-repair guard — HISTORICAL (2026-05-30: create-lts-pr.yml deleted)

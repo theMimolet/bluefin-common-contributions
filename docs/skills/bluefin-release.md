@@ -43,6 +43,27 @@ Load with: `cat ~/src/skills/bluefin-release/SKILL.md`
 | `latest` | F44 | Medium | Tracks latest Fedora |
 | `beta` | F44 | Low | Testing upcoming changes |
 
+## Stable Promotion — N=7 Floor (added 2026-06-05)
+
+`weekly-testing-promotion.yml` runs on the **Tuesday 06:00 UTC** cron but enforces a
+minimum 7-day gap between stable promotions before doing any work.
+
+**How it works:**
+1. `check-promotion-floor` job queries the most recent GitHub release date.
+2. If the last release was **< 7 days ago**, the job sets `should_promote=false` and all
+   downstream jobs are skipped — no error, clean no-op.
+3. If the gap is ≥ 7 days, `verify-e2e` proceeds as normal (SHA lock → cosign verify →
+   broad e2e suite → retag → release).
+4. **`workflow_dispatch` bypasses the floor** — maintainers can always force a promotion.
+
+**Why:** Prevents churn when multiple PRs land in a single week. Users on `:stable` see
+a predictable weekly-ish cadence rather than multiple rapid-fire updates.
+
+**To force an out-of-cycle promotion:**
+```bash
+gh workflow run weekly-testing-promotion.yml --repo projectbluefin/bluefin
+```
+
 ## Usage
 
 ```bash

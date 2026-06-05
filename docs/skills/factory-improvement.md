@@ -40,7 +40,7 @@ Never automate these. Never propose automating them without explicit maintainer 
 | `/approve` comment — lifecycle moves the issue directly to `status/queued` | Prioritization judgment; agent scope assignment |
 | PR merge approval (1 human reviewer per CODEOWNERS) | Accountability; trust for org-critical changes |
 | `hive/p0` and `hive/p1` label assignment | Release impact judgment |
-| Production promotion decisions (Tuesday cadence) | Final go/no-go for user-facing changes |
+| Production promotion decisions (Tuesday 06:00 UTC, N=7 floor) | Final go/no-go for user-facing changes — automation handles the gate, but human review of the e2e results is the last word |
 | `/unclaim` on stale PRs | Judgment on abandoned vs. still-active claim |
 | Any write or automated action to `ublue-os/*` namespace | Absolute prohibition — includes issues, PRs, reports, webhooks, dispatch. Reads only. |
 
@@ -116,8 +116,8 @@ Missing any row = a gap to close.
 | Repo | Pre-merge | Post-merge | Promotion |
 |---|---|---|---|
 | common | `pr-e2e.yml` (composed + common suite) | `e2e.yml` | `promotion-candidate-e2e.yml` |
-| bluefin | PR smoke gate | post-merge common suite | Tuesday promotion check |
-| bluefin-lts | PR validation | **MISSING ← GAP** | promotion smoke |
+| bluefin | PR smoke gate | post-merge common suite | Tuesday 06:00 UTC, N=7 floor, broad e2e suite |
+| bluefin-lts | PR validation | post-merge e2e (PR #70) | promotion smoke + failure issue reporting (PR #70) |
 | dakota | PR CI | post-merge gate | — |
 
 Gaps in this matrix = testing blind spots. File issues for missing gates.
