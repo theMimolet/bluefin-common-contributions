@@ -14,6 +14,32 @@ Labels are the handoff signal between the two.
 
 ---
 
+## Next-step reference
+
+Every issue and PR always has exactly one actor who owns it. Find the active label — that tells you who acts next and what they do.
+
+### Issues
+
+| Label | 🟠 Actor | Next action |
+|---|---|---|
+| `status/triage` | **Human** triager | Set `kind/` + `area/`, then `/approve` or add `status/discussing` |
+| `status/discussing` | **Human** maintainer | Drive to consensus, update spec, then `/approve` |
+| `status/queued` | **Agent** / contributor | Comment `/claim` |
+| `status/claimed` | **Agent** | Implement → open PR with `Closes #NNN` |
+| `agent/blocked` | **Human** | Read issue comment → unblock → remove label |
+| `status/hold` | *nobody* | Intentionally paused — read comments for reason |
+
+### PRs
+
+| Label | 🟠 Actor | Next action |
+|---|---|---|
+| `pr/needs-review` | **Human** reviewer | Review → add `lgtm` or request changes |
+| `lgtm` + CI green | *automation* | Merges automatically |
+| Changes requested | **Agent** | Address feedback → re-request review |
+| `do-not-merge` | **Human** | Investigate → remove when resolved |
+
+---
+
 ## Issue lifecycle
 
 Issues follow one of two entry paths depending on type, then converge into a shared pipeline:
@@ -77,11 +103,13 @@ Add: status/approved + status/queued
 
 ### Reviewing agent PRs
 
+PRs opened by agents carry `pr/needs-review` automatically. When you see it:
+
 1. Verify the diff solves the stated issue (not just technically correct — actually the right fix)
 2. Check `agent-tested` is present (e2e passed)
 3. If it looks good: add `lgtm` — the PR will merge when CI is green
 4. If something is wrong: leave a review comment — the agent will address it on next run
-5. To stop automation entirely: add `do-not-merge`
+5. To block merge entirely: add `do-not-merge`
 
 ### Unblocking a stuck agent
 
@@ -182,13 +210,13 @@ Unassign yourself
 
 | Label | Color | Who sets it | Meaning |
 |---|---|---|---|
-| `status/triage` | lavender | Auto on bug reports | New bug. Human must set kind/area/priority. |
-| `status/discussing` | blue | Auto on features; human for bugs needing design | Under discussion. Not ready for work. |
-| `status/approved` | green | Human (`/approve`) | Approved by maintainer. Ready for contributors. |
-| `status/queued` | purple | Bonedigger or human | In the work pool. Comment `/claim` to take it. |
-| `status/claimed` | yellow | Bonedigger or agent | Someone is actively working this. |
-| `status/hold` | white | Human | Intentionally paused. Do not touch. Requires a comment explaining why. |
-| `agent/blocked` | red | Agent | Agent is stuck and needs human input. Read the issue comment. |
+| `status/triage` | 🟠 orange | Auto on bug reports | New bug. Human must set kind/ + area/, then /approve or add discussing. |
+| `status/discussing` | 🔵 blue | Auto on features; human for bugs needing design | Under discussion. Human must reach consensus before /approve. |
+| `status/approved` | 🟢 green | Human (`/approve`) | Approved. Bonedigger adds status/queued automatically. |
+| `status/queued` | 🟣 purple | Bonedigger or human | In the work pool. Agent: comment /claim to take it. |
+| `status/claimed` | 🟡 amber | Bonedigger or agent | Actively being worked. Open PR with Closes #NNN. |
+| `status/hold` | ⬜ gray | Human | Off-limits — do not claim or touch. Read comments for reason. |
+| `agent/blocked` | 🔴 red | Agent | Agent stuck; needs human decision. Read the issue comment. |
 
 ### Kind — what type of work?
 
@@ -196,15 +224,14 @@ Unassign yourself
 
 | Label | Meaning |
 |---|---|
-| `kind/bug` | Something broken |
-| `kind/enhancement` | New capability — needs spec before work begins |
-| `kind/improvement` | Incremental improvement to existing behavior |
-| `kind/tech-debt` | Cleanup with no user-visible change |
-| `kind/documentation` | Docs only |
-| `kind/parity` | Behavior that differs across image variants |
-| `kind/renovate` | Automated dependency update |
-| `kind/epic` | Multi-issue tracking issue — no implementation here |
-| `kind/wontfix` | Terminal: will not be implemented |
+| `kind/bug` | Broken behavior. Requires a fix PR. Verify with `ujust verify` after fix. |
+| `kind/enhancement` | New capability. Must have a written spec in the issue body before claiming. |
+| `kind/improvement` | Incremental improvement to existing behavior. No new spec required. |
+| `kind/tech-debt` | Cleanup or refactor with no user-visible change. No spec required. |
+| `kind/documentation` | Docs only. In `common`, commit directly to main — no PR needed. |
+| `kind/translation` | i18n/l10n change. Coordinate with translation team before claiming. |
+| `kind/epic` | Multi-issue tracker. Do not implement here; file child issues instead. |
+| `kind/wontfix` | Will not be implemented. Do not claim or open PRs for this issue. |
 
 ### Priority — two families, different purposes
 
@@ -248,21 +275,22 @@ Note: `source:` uses a colon separator — this is intentional for compatibility
 
 ### PR labels
 
-> Size labels are auto-set where the bot is wired; otherwise set manually.
+> `pr/needs-review` is auto-set when a PR is opened. Size labels are auto-set where wired.
 
-| Label | Meaning |
-|---|---|
-| `size/XS` | ~1 hour: single file |
-| `size/S` | ~half day: small, well-understood change |
-| `size/M` | ~1 day: moderate change across a few files |
-| `size/L` | ~3 days: larger change, some design needed |
-| `size/XL` | ~1 week+: significant feature or refactor |
-| `lgtm` | Maintainer approved, ready to merge |
-| `do-not-merge` | Never auto-merge this |
-| `agent-tested` | e2e ran and passed via agent (where wired) |
-| `tests:pass` | CI gate passed, enables auto-merge (where wired) |
+| Label | Color | Who sets it | Meaning |
+|---|---|---|---|
+| `pr/needs-review` | 🟠 orange | Auto on PR open | Awaiting human review. Add `lgtm` or request changes. |
+| `lgtm` | 🟢 green | Human | Maintainer approved. Merges automatically when CI is green. |
+| `do-not-merge` | 🔴 red | Human | Blocks all merges. Remove only when the blocking issue resolves. |
+| `agent-tested` | 🟢 green | CI automation | e2e test suite passed. Set automatically after a clean run. |
+| `tests:pass` | 🔵 blue | CI automation | Required CI gate passed. Enables auto-merge where wired. |
+| `size/XS` | gray | Auto | ~1 hour: 0–9 lines changed |
+| `size/S` | gray | Auto | ~half day: 10–29 lines changed |
+| `size/M` | gray | Auto | ~1 day: 30–99 lines changed |
+| `size/L` | gray | Auto | ~3 days: 100–499 lines changed |
+| `size/XL` | gray | Auto | ~1 week: 500–999 lines changed |
 
-`size/XXL` is removed from the taxonomy. PRs that large should be split. If you see one, split the PR or split the issue.
+PRs over ~1000 lines should be split. If you see one that size, split the PR or the issue.
 
 Note: `tests:pass` uses a colon separator — retained for CI automation compatibility.
 
@@ -272,21 +300,17 @@ Applied to issues to request a specific agent workflow:
 
 | Label | Meaning |
 |---|---|
-| `flow/issue-review` | Agent reviews a linked issue and produces a sourced report |
-| `flow/project-report` | Agent produces a project-wide status report |
-| `flow/pr-review` | Agent reviews a linked PR and produces a sourced report |
-| `flow/agent-donation` | Donate agent time for a specific repo, issue, or review |
+| `flow/issue-review` | Agent: review the linked issue, post findings as a comment, remove this label. |
+| `flow/pr-review` | Agent: review the linked PR, post findings as a comment, remove this label. |
 
 ### Special and automation labels
 
 | Label | Meaning |
 |---|---|
-| `ai-context` | ACMM audit finding — AI/LLM context gap that improves agent reliability |
-| `stale` | No recent activity; candidate for auto-close |
-| `stale-digest` | Filed against an outdated image digest — verify on current image first |
-| `aarch64` | ARM64-specific issue or change |
-| `needs-human/agent-oops` | Agent error — do not re-run automation; fix manually |
-| `dependencies` | Automated dependency update PR (Renovate) |
+| `ai-context` | ACMM audit finding — AI/LLM context gap that improves agent reliability org-wide |
+| `stale` | No recent activity; will auto-close unless updated |
+| `needs-human/agent-oops` | Agent error — do not re-run automation; fix manually then re-queue |
+| `dependencies` | Renovate dependency update PR. Automerges on CI pass; only major bumps need review. |
 
 ---
 
@@ -296,10 +320,12 @@ Applied to issues to request a specific agent workflow:
 |---|---|
 | Bug report opened | Adds `status/triage` |
 | Feature request opened | Adds `status/discussing` |
+| PR opened | Adds `pr/needs-review` |
 | `/approve` comment | Adds `status/approved` + `status/queued` |
 | `/claim` comment | Removes `status/queued`, adds `status/claimed`, assigns |
 | `/unclaim` comment | Removes `status/claimed`, re-adds `status/queued`, unassigns |
 | No PR activity in 7 days | Returns claim: removes `status/claimed`, re-adds `status/queued` *(target state — not fully consistent across all repos yet)* |
+| PR review submitted | Removes `pr/needs-review` |
 
 ---
 
@@ -337,10 +363,8 @@ while templates and automation are updated. **Do not use them for new issues.**
 | `bug` (bare) | `kind/bug` | Template update needed in common |
 | `type/bug` | `kind/bug` | Template update needed in bluefin, bluefin-lts |
 | `type/feature` | `kind/enhancement` | Template update needed in bluefin, bluefin-lts |
-| `flow/agent-donation` (colon) | `flow/agent-donation` | Template update needed in common, bluefin, bluefin-lts |
 | `needs-human/agent-ready` | `status/queued` | Docs update needed |
 | `agent/claimed` | `status/claimed` | Verify no automation dependency |
-| `priority/p0`, `priority/p1` | `priority/p0`, `priority/p1` | Bonedigger sets these — cannot remove until bonedigger is updated |
 | `size:*` (colon variants) | `size/*` (slash variants) | Check automation consumers per repo |
 | `copilot-ready` | `status/queued` | Label cleanup only |
 | `hold` (bare) | `status/hold` | Verify automation consumers |
