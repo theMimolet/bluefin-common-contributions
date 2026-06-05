@@ -20,7 +20,6 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       REPO: ${{ github.repository }}
       BRAND_NAME: "Common"
-      BRAND_EMOJI: "🧱"
       INPUT_ISSUES: ${{ github.event.inputs.issues }}
     steps:
       - name: Inject pipeline widget into issues missing it
@@ -30,7 +29,6 @@ jobs:
 
           repo       = os.environ['REPO']
           brand_name = os.environ['BRAND_NAME']
-          brand_emoji = os.environ['BRAND_EMOJI']
           input_issues = os.environ['INPUT_ISSUES'].strip()
 
           def gh(*args):
@@ -100,15 +98,15 @@ jobs:
 
               widget = '\n'.join([
                   '<!-- factory-pipeline-start -->',
+                  f'**{brand_name} · issue pipeline**',
+                  '',
                   '```text',
-                  f'{brand_emoji} {brand_name} · issue pipeline',
-                  '──────────────────────────────────────────────────',
                   *status_lines,
-                  '──────────────────────────────────────────────────',
-                  f'  area:       {area}    priority: {priority}',
-                  f'  maintainer: {maintainer_actions[stage]}',
-                  f'  reporter:   {reporter_actions[stage]}',
                   '```',
+                  '',
+                  f'**area:** {area} &nbsp; **priority:** {priority}  ',
+                  f'**maintainer:** {maintainer_actions[stage]}  ',
+                  f'**reporter:** {reporter_actions[stage]}',
                   '<!-- factory-pipeline-end -->',
               ])
 

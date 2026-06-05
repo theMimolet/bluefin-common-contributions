@@ -20,5 +20,4 @@ jobs:
     uses: ./.github/workflows/lifecycle.yml
     with:
       brand_name: "Common"
-      brand_emoji: "🧱"
     secrets: inherit

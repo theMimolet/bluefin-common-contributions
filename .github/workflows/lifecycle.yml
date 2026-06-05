@@ -6,9 +6,6 @@ on:
       brand_name:
         type: string
         default: Project Bluefin
-      brand_emoji:
-        type: string
-        default: "🏭"
 
 permissions:
   issues: write
@@ -33,7 +30,6 @@ jobs:
       REPO: ${{ github.repository }}
       NUMBER: ${{ github.event.issue.number }}
       BRAND_NAME: ${{ inputs.brand_name }}
-      BRAND_EMOJI: ${{ inputs.brand_emoji }}
     steps:
       - name: Initialize issue pipeline
         shell: bash
@@ -59,7 +55,7 @@ jobs:
 
           update_widget() {
             refresh_issue_json
-            export ISSUE_JSON NUMBER BRAND_NAME BRAND_EMOJI
+            export ISSUE_JSON NUMBER BRAND_NAME
             local new_body
             new_body=$(python3 - <<'PY'
           import json
@@ -69,7 +65,6 @@ jobs:
           issue = json.loads(os.environ['ISSUE_JSON'])
           number = os.environ['NUMBER']
           brand_name = os.environ['BRAND_NAME']
-          brand_emoji = os.environ['BRAND_EMOJI']
           labels = [label['name'] for label in issue.get('labels', [])]
           assignees = [assignee['login'] for assignee in issue.get('assignees', [])]
           body = issue.get('body') or ''
@@ -125,15 +120,15 @@ jobs:
 
           widget = '\n'.join([
               '<!-- factory-pipeline-start -->',
+              f'**{brand_name} · issue pipeline**',
+              '',
               '```text',
-              f'{brand_emoji} {brand_name} · issue pipeline',
-              '──────────────────────────────────────────────────',
               *status_lines,
-              '──────────────────────────────────────────────────',
-              f'  area:       {area}    priority: {priority}',
-              f'  maintainer: {maintainer_actions[stage]}',
-              f'  reporter:   {reporter_actions[stage]}',
               '```',
+              '',
+              f'**area:** {area} &nbsp; **priority:** {priority}  ',
+              f'**maintainer:** {maintainer_actions[stage]}  ',
+              f'**reporter:** {reporter_actions[stage]}',
               '<!-- factory-pipeline-end -->',
           ])
 
@@ -177,7 +172,6 @@ jobs:
       COMMENT_BODY: ${{ github.event.comment.body }}
       COMMENTER: ${{ github.event.comment.user.login }}
       BRAND_NAME: ${{ inputs.brand_name }}
-      BRAND_EMOJI: ${{ inputs.brand_emoji }}
     steps:
       - name: Route slash commands
         shell: bash
@@ -255,7 +249,7 @@ jobs:
 
           update_widget() {
             refresh_issue_json
-            export ISSUE_JSON NUMBER BRAND_NAME BRAND_EMOJI
+            export ISSUE_JSON NUMBER BRAND_NAME
             local new_body
             new_body=$(python3 - <<'PY'
           import json
@@ -265,7 +259,6 @@ jobs:
           issue = json.loads(os.environ['ISSUE_JSON'])
           number = os.environ['NUMBER']
           brand_name = os.environ['BRAND_NAME']
-          brand_emoji = os.environ['BRAND_EMOJI']
           labels = [label['name'] for label in issue.get('labels', [])]
           assignees = [assignee['login'] for assignee in issue.get('assignees', [])]
           body = issue.get('body') or ''
@@ -323,15 +316,15 @@ jobs:
 
           widget = '\n'.join([
               '<!-- factory-pipeline-start -->',
+              f'**{brand_name} · issue pipeline**',
+              '',
               '```text',
-              f'{brand_emoji} {brand_name} · issue pipeline',
-              '──────────────────────────────────────────────────',
               *status_lines,
-              '──────────────────────────────────────────────────',
-              f'  area:       {area}    priority: {priority}',
-              f'  maintainer: {maintainer_actions[stage]}',
-              f'  reporter:   {reporter_actions[stage]}',
               '```',
+              '',
+              f'**area:** {area} &nbsp; **priority:** {priority}  ',
+              f'**maintainer:** {maintainer_actions[stage]}  ',
+              f'**reporter:** {reporter_actions[stage]}',
               '<!-- factory-pipeline-end -->',
           ])
 
@@ -486,7 +479,6 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       REPO: ${{ github.repository }}
       BRAND_NAME: ${{ inputs.brand_name }}
-      BRAND_EMOJI: ${{ inputs.brand_emoji }}
     steps:
       - name: Return stale claims to queue
         shell: bash
@@ -534,7 +526,7 @@ jobs:
           update_widget() {
             local issue_number="$1"
             refresh_issue_json "$issue_number"
-            export ISSUE_JSON NUMBER="$issue_number" BRAND_NAME BRAND_EMOJI
+            export ISSUE_JSON NUMBER="$issue_number" BRAND_NAME
             local new_body
             new_body=$(python3 - <<'PY'
           import json
@@ -544,7 +536,6 @@ jobs:
           issue = json.loads(os.environ['ISSUE_JSON'])
           number = os.environ['NUMBER']
           brand_name = os.environ['BRAND_NAME']
-          brand_emoji = os.environ['BRAND_EMOJI']
           labels = [label['name'] for label in issue.get('labels', [])]
           assignees = [assignee['login'] for assignee in issue.get('assignees', [])]
           body = issue.get('body') or ''
@@ -602,15 +593,15 @@ jobs:
 
           widget = '\n'.join([
               '<!-- factory-pipeline-start -->',
+              f'**{brand_name} · issue pipeline**',
+              '',
               '```text',
-              f'{brand_emoji} {brand_name} · issue pipeline',
-              '──────────────────────────────────────────────────',
               *status_lines,
-              '──────────────────────────────────────────────────',
-              f'  area:       {area}    priority: {priority}',
-              f'  maintainer: {maintainer_actions[stage]}',
-              f'  reporter:   {reporter_actions[stage]}',
               '```',
+              '',
+              f'**area:** {area} &nbsp; **priority:** {priority}  ',
+              f'**maintainer:** {maintainer_actions[stage]}  ',
+              f'**reporter:** {reporter_actions[stage]}',
               '<!-- factory-pipeline-end -->',
           ])
 
