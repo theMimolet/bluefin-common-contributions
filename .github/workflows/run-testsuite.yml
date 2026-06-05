@@ -21,7 +21,11 @@ permissions:
 
 jobs:
   e2e:
-    uses: projectbluefin/testsuite/.github/workflows/e2e.yml@303e7163a3777510b2bed048f3e6a3a86b57523d # main
+<<<<<<< HEAD
+    uses: projectbluefin/testsuite/.github/workflows/e2e.yml@20fb066e50c81d62d15cf84633d36c260c4115db # main
+=======
+    uses: projectbluefin/testsuite/.github/workflows/e2e.yml@20fb066e50c81d62d15cf84633d36c260c4115db # main
+>>>>>>> 7340aa0 (ci: bump testsuite SHA to 20fb066 (all env + screenshot fixes))
     permissions:
       contents: read
       packages: write
