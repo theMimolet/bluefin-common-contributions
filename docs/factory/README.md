@@ -88,21 +88,27 @@ The following are wired across all factory repos (bluefin, bluefin-lts, common, 
 - **5 standard issue templates**
 - **CODEOWNERS** with triage sentinel — synced from `common` to downstream repos via `sync-codeowners.yml`
 - **hive-progress-sync.yml** — hourly org board update
-- **bonedigger lifecycle automation** — issue pipeline active in all repos
-- **skill-drift.yml** — PR advisory gate for doc/impl parity
-- **pre-commit** — json/yaml/toml hygiene and no-floating-action-tags
-- **Renovate** — automated dependency updates
+- **bonedigger lifecycle automation** — issue pipeline active in common, bluefin, bluefin-lts, and dakota (all use `projectbluefin/` managed floating `@main` tag — intentional, exempt from no-floating-action-tags hook)
+- **skill-drift.yml** — PR advisory gate for doc/impl parity (all six repos)
+- **pre-commit** — json/yaml/toml hygiene and no-floating-action-tags (common, bluefin, bluefin-lts, dakota, actions)
+- **Renovate** — automated dependency updates (common, bluefin, bluefin-lts, actions, testsuite)
 
 `common` also has a **promotion-candidate smoke/common gate** (`promotion-candidate-e2e.yml`). It is not a full installer gate, but it gives early signal on `bluefin:testing` and `bluefin:lts-testing` before the downstream Tuesday promotions.
+
+`bluefin-lts` now has a **post-merge e2e gate** (`post-merge-e2e.yml`) running `smoke,common` against `:lts-testing` after every main-branch build.
+
+`actions` now has a **consumer contract pre-commit check** (`scripts/check-consumer-contract.py` + `docs/consumer-contract.yml`) that validates required inputs for out-of-org consumers (`ublue-os/aurora`, `ublue-os/bazzite`) are not silently broken.
 
 ## Open gaps
 
 - **bonedigger (the tool)** is not itself factory-onboarded — no AGENTS.md, no hive labels, CI issues pending [#418](https://github.com/projectbluefin/common/issues/418)
-- **Renovate config** in `common` has invalid `packageRules` — Renovate is paused until fixed [#487](https://github.com/projectbluefin/common/issues/487)
 - **Regression contract** across `latest`/`stable`/`gts`/`lts` streams is undefined [#420](https://github.com/projectbluefin/common/issues/420)
 - **bonedigger crash/panic signal** not wired into promotion decisions [#424](https://github.com/projectbluefin/common/issues/424)
+- **Migration upgrade path testing** is not auto-triggered — `testsuite/migration-test.yml` is `workflow_dispatch` only; 3-lane UEFI workflow (issue testsuite#232) is `queue/hold` pending zstd:chunked stability
+- **Nightly e2e for `bluefin:lts`** fails due to `org.gnome.Shell` session bus issue — image-side fix needed (testsuite#373, `queue/agent-ready`)
+- **Installability gate** — no installer/bootc-install gate before `testing → stable` promotion [#423](https://github.com/projectbluefin/common/issues/423)
 
-Tracking epics: [#403](https://github.com/projectbluefin/common/issues/403) (common as org brain) · [#404](https://github.com/projectbluefin/common/issues/404) (infra parity) · [#405](https://github.com/projectbluefin/common/issues/405) (QA model)
+Tracking epics: [#404](https://github.com/projectbluefin/common/issues/404) (infra parity) · [#405](https://github.com/projectbluefin/common/issues/405) (QA model)
 
 ## Per-repo AGENTS.md entry points
 
