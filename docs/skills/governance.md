@@ -23,14 +23,15 @@ Each repo has its own `.github/CODEOWNERS`. The **triage section is the single s
 
 ```
 # BEGIN TRIAGERS — managed by projectbluefin/common, do not edit manually in downstream repos
-docs/**  @handle1 @handle2
-*.md     @handle1 @handle2
+# To add a triager: append @handle to the line below, then commit to main.
+**/*.md  @handle1 @handle2 @projectbluefin/maintainers
 # END TRIAGERS
 ```
 
-**To add/remove a triager:** edit the two active lines inside the sentinel block in
+**To add/remove a triager:** edit the `**/*.md` line inside the sentinel block in
 `common/.github/CODEOWNERS` → commit to `main` → the sync workflow pushes the change to
-`bluefin`, `bluefin-lts`, `dakota`, and `knuckle` automatically.
+`bluefin`, `bluefin-lts`, `dakota`, and `knuckle` automatically, and reconciles GitHub
+triage permissions.
 
 ### Per-repo ownership (maintained in each repo separately)
 

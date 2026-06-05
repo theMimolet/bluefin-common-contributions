@@ -74,7 +74,9 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           DESIRED=$(sed -n '/^# BEGIN TRIAGERS/,/^# END TRIAGERS/p' .github/CODEOWNERS \
-            | grep '^# @' | sed 's/^# @//')
+            | grep -oP '@\K[a-zA-Z0-9][a-zA-Z0-9_-]*' \
+            | grep -v 'projectbluefin' \
+            | sort -u)
 
           if [[ -z "$DESIRED" ]]; then
             echo "No triagers listed in sentinel block — skipping permission reconciliation."

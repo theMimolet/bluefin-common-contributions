@@ -120,6 +120,7 @@ system_files/
 ```
 system_files/shared/**   @inffy @renner0e @ledif @castrojo @hanthor @ahmedadan
 system_files/bluefin/**  @castrojo @hanthor @ahmedadan
+**/*.md                  @repires @KiKaraage @projectbluefin/maintainers  (inside BEGIN/END TRIAGERS sentinel)
 ```
 
 ## Build and validate
