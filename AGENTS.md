@@ -149,6 +149,7 @@ Load the relevant skill doc before making changes in these areas.
 | Governance / CODEOWNERS | [`docs/skills/governance.md`](docs/skills/governance.md) |
 | PR queue / merge decisions | [`docs/skills/queue-dashboard.md`](docs/skills/queue-dashboard.md) |
 | Hive monitoring | [`docs/skills/hive-review.md`](docs/skills/hive-review.md) |
+| Improving the factory (gap audit, automation coverage, pipeline parity) | [`docs/skills/factory-improvement.md`](docs/skills/factory-improvement.md) |
 | Onboarding / dev setup | [`docs/skills/onboarding.md`](docs/skills/onboarding.md) |
 
 For the full factory operating model, see [`docs/factory/README.md`](docs/factory/README.md).

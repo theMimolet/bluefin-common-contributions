@@ -46,6 +46,7 @@ Agent-specific instruction files (`.github/copilot-instructions.md`, `AGENTS.md`
 | [skill-drift.md](skill-drift.md) | How to satisfy the PR skill-drift check and what counts as a real skill update |
 | [SKILL_DRIFT_CI.md](SKILL_DRIFT_CI.md) | Skill-drift CI internals — when it fires, what it validates, how to satisfy or suppress it |
 | [acmm-audit-level1.md](acmm-audit-level1.md) | ACMM Level 1 audit (2026-06-04) — blindspots, feedback mechanisms, structural obstacles, Level 2 recommendations and issue batch |
+| [factory-improvement.md](factory-improvement.md) | Self-improving factory loop — gap audit protocol, pipeline uniformity checklist, human gates, known gaps, and priority order for full automation |
 | [dakota-add-package.md](dakota-add-package.md) | Adding a new software package to the dakota/Bluefin BuildStream build |
 | [dakota-agent-quickstart.md](dakota-agent-quickstart.md) | Zero-context entry point for routine dakota maintenance — routing table for add/remove/update |
 | [dakota-bst-overrides.md](dakota-bst-overrides.md) | BuildStream junction element overrides in dakota — upstream-first principle and patterns |
