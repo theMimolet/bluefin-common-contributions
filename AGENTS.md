@@ -6,14 +6,21 @@ Home repo: [projectbluefin/common](https://github.com/projectbluefin/common)
 
 ## 🚫 ABSOLUTE PROHIBITION — ublue-os org
 
-**NEVER create issues, pull requests, comments, forks, or any GitHub resource in any `ublue-os/*` repository.**
+**NEVER create issues, pull requests, comments, forks, webhook calls, API writes, automated reports, or any other programmatic action targeting any `ublue-os/*` repository.**
 
-This applies in every situation, without exception:
-- If a task seems to require touching an upstream `ublue-os` repo → **stop and tell the human to report it manually**
-- `ghcr.io/ublue-os` image registry reads are fine — production images are still published there
-- Writing to `ublue-os` GitHub repos is **never** permitted, under any framing
+This applies in every situation, without exception, regardless of task framing:
+- Issues, comments, PRs, forks → **BANNED**
+- Automated reports (bonedigger output, CI notifications, diagnostic uploads) → **BANNED**
+- Workflow `repository_dispatch` or `workflow_dispatch` calls to `ublue-os/*` → **BANNED**
+- Any `gh` CLI command that writes to `ublue-os/*` → **BANNED**
 
-Violating this risks getting the organization banned.
+If a task seems to require touching an upstream `ublue-os` repo → **stop and tell the human to report it manually.**
+
+**Allowed reads only:**
+- `ghcr.io/ublue-os` image registry pulls (CI, e2e, rollback helper)
+- `gh api` read-only calls to `ublue-os` repos (e.g., checking a release tag)
+
+Violating this risks getting the projectbluefin organization banned from GitHub.
 
 ## Org pipeline — projectbluefin
 

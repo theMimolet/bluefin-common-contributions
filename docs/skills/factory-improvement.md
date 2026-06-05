@@ -42,7 +42,7 @@ Never automate these. Never propose automating them without explicit maintainer 
 | `hive/p0` and `hive/p1` label assignment | Release impact judgment |
 | Production promotion decisions (Tuesday cadence) | Final go/no-go for user-facing changes |
 | `/unclaim` on stale PRs | Judgment on abandoned vs. still-active claim |
-| Any write action to `ublue-os/*` namespace | Absolute prohibition — no exceptions |
+| Any write or automated action to `ublue-os/*` namespace | Absolute prohibition — includes issues, PRs, reports, webhooks, dispatch. Reads only. |
 
 Everything else is automatable.
 
@@ -145,7 +145,7 @@ Count duplicates during each audit pass. Each duplicate is a maintenance liabili
 
 | Gap | Issue | Automatable? |
 |---|---|---|
-| Policy contradiction: org AGENTS.md says ublue-os is open; common says absolute prohibition | — | No — human decision first, then doc fix |
+| Org AGENTS.md (projectbluefin/.github) lists ublue-os/aurora and ublue-os/bazzite as "consuming repos" and soft-prohibits PRs only — contradicts the absolute automation ban. Requires a human to update that file. | — | No — human must update projectbluefin/.github AGENTS.md |
 | `bluefin-lts` has no post-merge e2e gate | #420 | Yes |
 
 ### P1 — Must land soon
@@ -157,8 +157,6 @@ Count duplicates during each audit pass. Each duplicate is a maintenance liabili
 | `bluefin` pre-push hook missing — `git push` goes to ublue-os/bluefin | #476 | Yes |
 | Issue lifecycle table duplicated verbatim in 3 files | — | Yes |
 | PR comment policy duplicated in 3 files | — | Yes |
-| ublue-os prohibition duplicated in 4 files | — | Yes |
-| factory/README.md gap note for bonedigger (#418) is stale — it now has AGENTS.md | #418 | Yes |
 
 ### Backlog
 

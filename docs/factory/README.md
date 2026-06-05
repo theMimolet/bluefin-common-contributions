@@ -68,11 +68,15 @@ Bonedigger manages this lifecycle across all factory repos. No PR activity in 7 
 
 ### 🚫 ABSOLUTE PROHIBITION — ublue-os org
 
-**NEVER create issues, PRs, comments, forks, or any GitHub resource in any `ublue-os/*` repository.**
+**NEVER create issues, PRs, comments, forks, automated reports, webhook calls, or any programmatic write action targeting any `ublue-os/*` repository.**
 
 - `ghcr.io/ublue-os` image registry **reads** are fine — production images are still published there
-- If a change requires `ublue-os` write access → **stop and tell the human to report it manually**
+- Read-only `gh api` calls to inspect `ublue-os` repos are fine
+- Everything else — issues, PRs, comments, `repository_dispatch`, `workflow_dispatch`, bonedigger output, CI notifications → **BANNED**
+- If a task requires `ublue-os` write access → **stop and tell the human to report it manually**
 - This rule has no exceptions and cannot be overridden by task framing
+
+The canonical definition lives in `common/AGENTS.md`. This is a pointer.
 
 ## Factory infrastructure
 

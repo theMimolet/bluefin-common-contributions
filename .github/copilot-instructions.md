@@ -4,7 +4,7 @@
 
 ## Safety rules (repeated here for bootstrap safety)
 
-**NEVER** create issues, PRs, comments, forks, or any GitHub resource in any `ublue-os/*` repository. Reads of `ghcr.io/ublue-os` are fine. For anything requiring a write to `ublue-os`, tell the human to report it manually and stop.
+**NEVER** create issues, PRs, comments, forks, automated reports, webhook calls, or any programmatic write action targeting any `ublue-os/*` repository. Reads of `ghcr.io/ublue-os` images are fine. For anything requiring a write or automated action to `ublue-os`, tell the human to report it manually and stop.
 
 One comment per PR event. Combine all findings. Edit the existing comment rather than posting a follow-up. When in doubt, post nothing.
 
