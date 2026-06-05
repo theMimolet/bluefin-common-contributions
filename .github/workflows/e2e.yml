@@ -37,9 +37,8 @@ jobs:
           - name: Bluefin Stable
             image: ghcr.io/projectbluefin/bluefin:testing
             suites: common
-          - name: Dakota
-            image: ghcr.io/projectbluefin/dakota:latest
-            suites: common
+          # Dakota build machine is currently broken — skipped until fixed
+          # https://github.com/projectbluefin/common/issues/497
     name: "E2E — ${{ matrix.name }}"
     permissions:
       contents: read
