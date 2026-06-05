@@ -2,7 +2,7 @@
 
 [org.gnome.shell]
 favorite-apps = ['org.mozilla.firefox.desktop', 'org.mozilla.Thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'io.github.kolunmi.Bazaar.desktop', 'org.gnome.Software.desktop', 'code.desktop']
-enabled-extensions = ['appindicatorsupport@rgcjonas.gmail.com', 'bazaar-integration@kolunmi.github.io', 'blur-my-shell@aunetx', 'dash-to-dock@micxgx.gmail.com', 'gradia-integration@alexandervanhee.github.io', 'gsconnect@andyholmes.github.io', 'logomenu@aryan_k']
+enabled-extensions = ['appindicatorsupport@rgcjonas.gmail.com', 'bazaar-integration@kolunmi.github.io', 'blur-my-shell@aunetx', 'custom-command-list@storageb.github.com', 'dash-to-dock@micxgx.gmail.com', 'gradia-integration@alexandervanhee.github.io', 'gsconnect@andyholmes.github.io']
 
 [org.gnome.desktop.background]
 picture-uri='file:///usr/share/backgrounds/bluefin/12-bluefin.xml'
@@ -84,20 +84,6 @@ keybindings=''
 new-tab=false
 flatpak='off'
 
-[org.gnome.shell.extensions.Logo-menu]
-symbolic-icon=true
-menu-button-icon-image=30
-menu-button-terminal='xdg-terminal-exec'
-menu-button-system-monitor='/usr/bin/missioncenter-helper'
-menu-button-extensions-app='com.mattjakeman.ExtensionManager.desktop'
-menu-button-software-center='/usr/bin/flatpak run io.github.kolunmi.Bazaar'
-show-activities-button=true
-show-lockscreen=false
-show-power-option=false
-show-gamemode=false
-hide-forcequit=true
-show-distroshelf=true
-
 [org.gnome.shell.extensions.search-light]
 shortcut-search=['<Super>space']
 scale-width=0.10
@@ -130,7 +116,5 @@ restore-window-size=false
 audible-bell=false
 profile-uuids=['2871e8027773ae74d6c87a5f659bbc74']
 default-profile-uuid='2871e8027773ae74d6c87a5f659bbc74'
-
-# LogoMenu extension uses relocatable schemas, so additional settings are in dconf
 
 # SearchLight extension misses gschema XML file, so it's located in dconf
