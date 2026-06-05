@@ -9,7 +9,7 @@ description: "ACMM Level 2 (Assisted) audit — confirms current maturity and de
 **Assessment:** Level 2 (Assisted) is **substantially met** with degraded confidence in promotion/testing reliability.
 **Bridge target:** Level 3 (Instructed)
 **Scope:** `common`, `bluefin`, `bluefin-lts`, `dakota`, `actions`, `testsuite`
-**Date:** 2026-06-05 (second full audit pass)
+**Date:** 2026-06-05 (third pass — all L3 P1 issues filed)
 
 ---
 
@@ -353,26 +353,26 @@ promotion evidence bundle connecting all five pieces. This is a Level 3 requirem
 |---|---|---|---|
 | P0 | Fix nightly LTS e2e (ZFS /var blocking harness) | testsuite | testsuite#373 |
 | P0 | Fix nightly GDX e2e (Homebrew missing, COPR error) | testsuite | testsuite#372 |
-| P1 | Wire installability gate before testing→stable | common | common#423 |
+| P1 | Wire installability gate before testing→stable | common | common#423 ✅ CLOSED |
 | P1 | Wire bonedigger crash/panic into promotion decisions | common | common#424 |
 | P1 | Unblock migration-test schedule (pending zstd:chunked) | testsuite | testsuite#232 |
 | P2 | Add skill-drift.yml to testsuite | testsuite | backlog |
-| P2 | Fix stale workflow-map.md (pr-e2e listed as disabled, #493 closed) | common | new |
+| P2 | Fix stale workflow-map.md (pr-e2e listed as disabled, #493 closed) | common | ✅ Already clean |
 
 ### Level 3 Bridge Work (new capabilities for L3)
 
-| Priority | Action | Repo | Proposed |
+| Priority | Action | Repo | Tracking |
 |---|---|---|---|
-| P1 | CI check for `Assisted-by:` / `Co-authored-by:` on AI commits | all | validate.yml enhancement |
-| P1 | CI regex gate for Conventional Commits PR title | all | reusable action in `actions` |
-| P1 | Branch target enforcement (restrict PR base) | bluefin, dakota | branch protection rules |
-| P1 | Pre-merge e2e for bluefin-lts (compose + common suite) | bluefin-lts | new workflow |
-| P2 | Image-ref namespace guard in all repos (not just common) | all | shared pre-commit hook |
-| P2 | Promotion evidence bundle (common SHA + image SHA + testsuite SHA + run ID + approval) | common | promotion workflow enhancement |
-| P2 | Max 4 open PRs enforcement bot | org-wide | GitHub App or workflow |
-| P2 | Containerfile cache boundary lint (detect ARG movement) | bluefin | custom lint in pr-validation |
-| P3 | Machine-readable constraint rules file (`.ai-constraints.yml`) | all | new standard |
-| P3 | Instruction loading verification (agent proves it read AGENTS.md) | all | skill-drift extension |
+| P1 | CI check for `Assisted-by:` / `Co-authored-by:` on AI commits | all | [common#507](https://github.com/projectbluefin/common/issues/507) |
+| P1 | CI regex gate for Conventional Commits PR title | all | [actions#84](https://github.com/projectbluefin/actions/issues/84) |
+| P1 | Branch target enforcement (restrict PR base) | bluefin, dakota | [bluefin#329](https://github.com/projectbluefin/bluefin/issues/329), [dakota#716](https://github.com/projectbluefin/dakota/issues/716) |
+| P1 | Pre-merge e2e for bluefin-lts (compose + common suite) | bluefin-lts | [bluefin-lts#68](https://github.com/projectbluefin/bluefin-lts/issues/68) |
+| P2 | Image-ref namespace guard in all repos (not just common) | all | backlog |
+| P2 | Promotion evidence bundle (common SHA + image SHA + testsuite SHA + run ID + approval) | common | backlog |
+| P2 | Max 4 open PRs enforcement bot | org-wide | backlog |
+| P2 | Containerfile cache boundary lint (detect ARG movement) | bluefin | backlog |
+| P3 | Machine-readable constraint rules file (`.ai-constraints.yml`) | all | backlog |
+| P3 | Instruction loading verification (agent proves it read AGENTS.md) | all | backlog |
 
 ---
 
