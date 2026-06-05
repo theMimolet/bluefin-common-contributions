@@ -18,6 +18,12 @@ body:
 
         It captures your image, kernel, extensions, hardware, and failed units. Paste the gist URL below.
 
+  - type: markdown
+    attributes:
+      value: |
+        > **How this gets resolved:** `filed` → `triage` → `approved` → `queued` → `claimed` → closed
+        > A maintainer sets kind/area after you file. Then `/approve` queues it. A contributor or agent `/claim`s it and ships a fix.
+
   - type: checkboxes
     id: checks
     attributes:
