@@ -88,25 +88,44 @@ The following are wired across the factory today (not every item applies to ever
 - **5 standard issue templates**
 - **CODEOWNERS** with triage sentinel — synced from `common` to downstream repos via `sync-codeowners.yml`
 - **hive-progress-sync.yml** — hourly org board update
-- **bonedigger lifecycle automation** — issue pipeline active in `common`, `bluefin`, `bluefin-lts`, and `dakota`; `bluefin-lts`/`dakota` intentionally use the documented `projectbluefin/bonedigger@main` managed-tag exemption (see [`../skills/ci-tooling.md`](../skills/ci-tooling.md))
-- **skill-drift.yml** — PR advisory gate for doc/impl parity (`common`, `bluefin`, `bluefin-lts`, `dakota`, `actions`; `testsuite` pending PR #378)
+- **bonedigger lifecycle automation** — issue pipeline active in `common`, `bluefin`, `bluefin-lts`, and `dakota`. `common`/`bluefin` are SHA-pinned; `bluefin-lts`/`dakota` intentionally use `@main` (bonedigger has no versioned releases — see [`../skills/ci-tooling.md`](../skills/ci-tooling.md))
+- **skill-drift.yml** — PR advisory gate for doc/impl parity (`common`, `bluefin`, `bluefin-lts`, `dakota`, `actions`; `testsuite` pending)
 - **pre-commit** — json/yaml/toml hygiene and `no-floating-action-tags` (`common`, `bluefin`, `bluefin-lts`, `dakota`, `actions`)
-- **Renovate** — automated dependency updates (common, bluefin, bluefin-lts, actions, testsuite)
+- **Renovate** — automated dependency updates (`common`, `bluefin`, `bluefin-lts`, `actions`, `testsuite`; `dakota` not yet)
+- **promotion-candidate-e2e.yml** — weekly Tuesday smoke/common on `bluefin:testing` and `bluefin:lts-testing` before downstream promotions
+- **pr-e2e.yml** — pre-merge composed-image common suite gate for `common` PRs (active)
+- **post-merge-e2e.yml** (bluefin-lts) — smoke/common on `:lts-testing` after every main-branch build
+- **2-human production gate** — `factory-operations` environment requires two maintainer approvals before `:stable` tag in `bluefin`, `bluefin-lts`, `dakota`
+- **consumer-validation.yml** (actions) — validates consumer PR/CI evidence before merging actions changes
 
-`common` also has a **promotion-candidate smoke/common gate** (`promotion-candidate-e2e.yml`). It is not a full installer gate, but it gives early signal on `bluefin:testing` and `bluefin:lts-testing` before the downstream Tuesday promotions.
+## Current parity matrix (2026-06-05)
 
-`bluefin-lts` now has a **post-merge e2e gate** (`post-merge-e2e.yml`) running `smoke,common` against `:lts-testing` after every main-branch build.
+| Artifact | common | bluefin | bluefin-lts | dakota | actions | testsuite |
+|---|---|---|---|---|---|---|
+| AGENTS.md | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| pre-commit | ✅ | ✅ | ✅ | ✅ | — | — |
+| skill-drift.yml | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| no-floating-action-tags | ✅ | ✅ | ✅ | ✅ | ✅ | — |
+| bonedigger lifecycle | ✅ | ✅ | ✅ | ✅ | — | — |
+| Renovate config | ✅ | ✅ | ❓ org-inherited | ❌ | ✅ | ✅ |
+| Post-merge e2e | ✅ | ✅ | ✅ | partial | — | — |
+| Pre-merge e2e | ✅ (common suite) | ✅ (pr-smoke) | ❌ | ❌ | — | — |
+| Installability gate | ⚠️ smoke/common only | ❌ | ❌ | ❌ | — | ❌ |
+| 2-human production gate | ✅ | ✅ | ✅ | ✅ | — | — |
+| docs/skills/ populated | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
-`actions` has an **open PR** for a consumer contract pre-commit check (`scripts/check-consumer-contract.py` + `docs/consumer-contract.yml`) so required inputs for out-of-org consumers (`ublue-os/aurora`, `ublue-os/bazzite`) can be machine-validated before merge.
+For the full blindspot / constraint-rule reference, see [`../skills/acmm-audit-level1.md`](../skills/acmm-audit-level1.md).
 
 ## Open gaps
 
-- **bonedigger (the tool)** is not itself factory-onboarded — no AGENTS.md, no hive labels, CI issues pending [#418](https://github.com/projectbluefin/common/issues/418)
-- **Regression contract** across `latest`/`stable`/`gts`/`lts` streams is undefined [#420](https://github.com/projectbluefin/common/issues/420)
-- **bonedigger crash/panic signal** not wired into promotion decisions [#424](https://github.com/projectbluefin/common/issues/424)
-- **Migration upgrade path testing** is not auto-triggered — `testsuite/migration-test.yml` is `workflow_dispatch` only; 3-lane UEFI workflow (issue testsuite#232) is `queue/hold` pending zstd:chunked stability
-- **Nightly e2e for `bluefin:lts`** fails due to `org.gnome.Shell` session bus issue — image-side fix needed (testsuite#373, `queue/agent-ready`)
+- **Nightly LTS/GDX e2e degraded** — testsuite#372 (gdx:stream10) and testsuite#373 (bluefin:lts ZFS) keep suites persistently red; CI signal for these variants is unreliable
 - **Installability gate** — no installer/bootc-install gate before `testing → stable` promotion [#423](https://github.com/projectbluefin/common/issues/423)
+- **bonedigger crash/panic signal** not wired into promotion decisions [#424](https://github.com/projectbluefin/common/issues/424)
+- **Regression contract** across `latest`/`stable`/`gts`/`lts` streams is undefined [#420](https://github.com/projectbluefin/common/issues/420)
+- **Migration upgrade path testing** is not auto-triggered — `testsuite/migration-test.yml` is `workflow_dispatch` only; schedule addition is `queue/hold` pending zstd:chunked stability (testsuite#232)
+- **bonedigger not factory-onboarded** — no AGENTS.md, no hive labels [#418](https://github.com/projectbluefin/common/issues/418)
+- **Lifecycle bot unification** — bonedigger SHA-pin inconsistent across org; `bluefin-lts`/`dakota` use intentional `@main` [#409](https://github.com/projectbluefin/common/issues/409)
+- **consumer contract** for `actions@v1` has no machine verification — `aurora`/`bazzite` compat can silently break
 
 Tracking epics: [#404](https://github.com/projectbluefin/common/issues/404) (infra parity) · [#405](https://github.com/projectbluefin/common/issues/405) (QA model)
 

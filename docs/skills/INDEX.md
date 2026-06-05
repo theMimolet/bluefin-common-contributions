@@ -14,7 +14,16 @@ Agent-specific instruction files (`.github/copilot-instructions.md`, `AGENTS.md`
 
 | File | What it covers |
 |---|---|
-| [../factory/README.md](../factory/README.md) | Org brain landing page — factory structure, data flow, infrastructure state, open gaps |
+| [../factory/README.md](../factory/README.md) | Org brain landing page — factory structure, data flow, infrastructure state, open gaps, parity matrix |
+| [../factory/agentic-model.md](../factory/agentic-model.md) | Label taxonomy, branch targets, sensitive paths, PR policy |
+
+## QA and promotion docs
+
+| File | What it covers |
+|---|---|
+| [../qa/PROMOTION_GATES.md](../qa/PROMOTION_GATES.md) | Current promotion pipeline — what gates exist vs. are still planned; today's real pre-promotion checklist |
+| [../qa/HARDWARE_CANARY.md](../qa/HARDWARE_CANARY.md) | Hardware canary program design intent and current manual process |
+| [../hardware-testing.md](../hardware-testing.md) | Hardware test report format, 7 hardware-only bug categories, promotion policy for hardware blockers |
 
 ## Skill docs
 

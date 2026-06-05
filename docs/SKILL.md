@@ -1,6 +1,6 @@
 # Common Skill Router
 
-Agent entry point for `projectbluefin/common`. Load only the skill that matches your task.
+Agent entry point for `projectbluefin/common`. Load only the skill(s) that match your task.
 
 ## Task → Skill
 
@@ -10,6 +10,26 @@ Agent entry point for `projectbluefin/common`. Load only the skill that matches 
 | Run hive priority review at session start | `docs/skills/hive-review.md` |
 | Check the PR queue or merge ruleset | `docs/skills/queue-dashboard.md` |
 | Debug post-merge E2E CI, MOTD, or brew-setup masking | `docs/skills/e2e-ci.md` |
+| Add, remove, or modify packages (brew, flatpak, RPM) | `docs/skills/bluefin-packages.md` |
+| Change a GNOME setting or dconf key | `docs/skills/dconf-consistency.md` |
+| Touch any image reference or registry path | `docs/skills/image-registry.md` |
+| Work on `ublue-rollback-helper` | `docs/skills/rollback-helper.md` |
+| Change `.github/workflows/` | `docs/skills/ci-tooling.md` + `docs/skills/workflow-map.md` |
+| Understand what each workflow does | `docs/skills/workflow-map.md` |
+| Work on E2E test changes | `docs/skills/e2e-ci.md` |
+| Understand the release process or stream tags | `docs/skills/bluefin-release.md` |
+| Work on the LTS variant | `docs/skills/bluefin-lts.md` |
+| Work on Renovate dependency updates | `docs/skills/bluefin-renovate.md` |
+| Understand the build pipeline or PR workflow | `docs/skills/bluefin-build.md` |
+| Understand the security model (COPR, cosign, secureboot) | `docs/skills/bluefin-security.md` |
+| Understand the promotion pipeline (what gates exist today) | `docs/qa/PROMOTION_GATES.md` |
+| Understand factory open gaps and parity matrix | `docs/factory/README.md` |
+| Understand the skill-drift CI check | `docs/skills/skill-drift.md` |
+| Understand the bonedigger lifecycle bot | `docs/skills/bonedigger.md` |
+| Improve the factory (gap audit, automation coverage) | `docs/skills/factory-improvement.md` |
+| Check on-call / hive state for the whole org | `docs/skills/hive.md` |
+| Submit a hardware test report | `docs/hardware-testing.md` |
+| Work on the ACMM / factory maturity model | `docs/skills/acmm-audit-level1.md` |
 
 ## Improving skill docs
 
