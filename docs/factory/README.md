@@ -80,7 +80,7 @@ The canonical definition lives in `common/AGENTS.md`. This is a pointer.
 
 ## Factory infrastructure
 
-The following are wired across all factory repos (bluefin, bluefin-lts, common, dakota, knuckle):
+The following are wired across the factory today (not every item applies to every repo):
 
 - **AGENTS.md** — per-repo operating contract
 - **Label taxonomy** — `hive/p0`, `hive/p1`, `queue/agent-ready`, `queue/claimed`, `agent/blocked`, `source:*`
@@ -88,16 +88,16 @@ The following are wired across all factory repos (bluefin, bluefin-lts, common, 
 - **5 standard issue templates**
 - **CODEOWNERS** with triage sentinel — synced from `common` to downstream repos via `sync-codeowners.yml`
 - **hive-progress-sync.yml** — hourly org board update
-- **bonedigger lifecycle automation** — issue pipeline active in common, bluefin, bluefin-lts, and dakota (all use `projectbluefin/` managed floating `@main` tag — intentional, exempt from no-floating-action-tags hook)
-- **skill-drift.yml** — PR advisory gate for doc/impl parity (all six repos)
-- **pre-commit** — json/yaml/toml hygiene and no-floating-action-tags (common, bluefin, bluefin-lts, dakota, actions)
+- **bonedigger lifecycle automation** — issue pipeline active in `common`, `bluefin`, `bluefin-lts`, and `dakota`; `bluefin-lts`/`dakota` intentionally use the documented `projectbluefin/bonedigger@main` managed-tag exemption (see [`../skills/ci-tooling.md`](../skills/ci-tooling.md))
+- **skill-drift.yml** — PR advisory gate for doc/impl parity (`common`, `bluefin`, `bluefin-lts`, `dakota`, `actions`; `testsuite` pending PR #378)
+- **pre-commit** — json/yaml/toml hygiene and `no-floating-action-tags` (`common`, `bluefin`, `bluefin-lts`, `dakota`, `actions`)
 - **Renovate** — automated dependency updates (common, bluefin, bluefin-lts, actions, testsuite)
 
 `common` also has a **promotion-candidate smoke/common gate** (`promotion-candidate-e2e.yml`). It is not a full installer gate, but it gives early signal on `bluefin:testing` and `bluefin:lts-testing` before the downstream Tuesday promotions.
 
 `bluefin-lts` now has a **post-merge e2e gate** (`post-merge-e2e.yml`) running `smoke,common` against `:lts-testing` after every main-branch build.
 
-`actions` now has a **consumer contract pre-commit check** (`scripts/check-consumer-contract.py` + `docs/consumer-contract.yml`) that validates required inputs for out-of-org consumers (`ublue-os/aurora`, `ublue-os/bazzite`) are not silently broken.
+`actions` has an **open PR** for a consumer contract pre-commit check (`scripts/check-consumer-contract.py` + `docs/consumer-contract.yml`) so required inputs for out-of-org consumers (`ublue-os/aurora`, `ublue-os/bazzite`) can be machine-validated before merge.
 
 ## Open gaps
 

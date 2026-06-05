@@ -66,6 +66,7 @@ When in doubt, post nothing.
 ### Mandatory gates
 
 - `just check` before every commit
+- `pre-commit run --all-files` before every commit
 - PR title: Conventional Commits format (`feat:`, `fix:`, `chore(deps):`, etc.)
 - Attribution on every AI-authored commit: `Assisted-by: <Model> via <Tool>`
 - Max 4 open PRs at a time per agent
