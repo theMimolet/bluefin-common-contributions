@@ -35,7 +35,20 @@ The full label reference, workflow, and human/agent instructions live in
 [`../skills/label-workflow.md`](../skills/label-workflow.md). That file is the canonical
 source of truth. The summary below is for quick agent lookup.
 
-### Lifecycle labels (ordered)
+### Next-step lookup — who acts based on label
+
+| Label | Actor | Do this |
+|---|---|---|
+| `status/triage` 🟠 | **Human** | Set `kind/` + `area/`, then `/approve` or add `status/discussing` |
+| `status/discussing` 🔵 | **Human** | Drive to consensus, update spec, then `/approve` |
+| `status/queued` 🟣 | **Agent** | Comment `/claim` |
+| `status/claimed` 🟡 | **Agent** | Implement → open PR with `Closes #NNN` |
+| `agent/blocked` 🔴 | **Human** | Read issue comment, unblock, remove label |
+| `status/hold` ⬜ | *nobody* | Off-limits — read comments for reason |
+| `pr/needs-review` 🟠 | **Human** | Review PR → add `lgtm` or request changes |
+| `lgtm` + CI green 🟢 | *automation* | Merges automatically |
+
+### Lifecycle (ordered)
 ```
 status/triage → status/discussing → status/approved → status/queued → status/claimed → done
 ```
@@ -44,37 +57,29 @@ Overlays (can coexist with any stage): `status/hold`, `agent/blocked`
 ### Hive labels (dynamic — reset each release cycle)
 | Label | Meaning |
 |---|---|
-| `hive/p0` 🔴 | Cycle release blocker — fix before next promotion |
-| `hive/p1` 🟠 | Must land this cycle |
-
-### Queue labels
-| Label | Meaning |
-|---|---|
-| `status/queued` | Ready for an agent or contributor to pick up |
-| `status/claimed` | Actively being worked — comment `/unclaim` to return |
-| `status/hold` | Do not touch — intentionally paused by maintainers |
-| `agent/blocked` | Agent is stuck — read the issue comment for what's needed |
+| `hive/p0` 🔴 | Cycle release blocker — fix before next promotion. Drop all other work. |
+| `hive/p1` 🟠 | Must land this cycle. Pick over all `priority/` labels. |
 
 ### Priority labels (static backlog)
 | Label | Meaning |
 |---|---|
-| `priority/p0` | Repo-level blocker |
+| `priority/p0` | Repo-level blocker — fix before other work |
 | `priority/p1` | High priority |
 | `priority/p2` | Normal backlog |
 
 ### Kind labels (set exactly one per issue during triage)
-`kind/bug` · `kind/enhancement` · `kind/improvement` · `kind/tech-debt` · `kind/documentation` · `kind/parity` · `kind/renovate` · `kind/epic` · `kind/wontfix`
+`kind/bug` · `kind/enhancement` · `kind/improvement` · `kind/tech-debt` · `kind/documentation` · `kind/translation` · `kind/epic` · `kind/wontfix`
 
-### Source labels
+### Source labels (set by automation — do not change manually)
 | Label | Meaning |
 |---|---|
 | `source:agent` | Filed by an AI agent |
-| `source:manual` | Filed by a human |
+| `source:manual` | Filed by a human contributor |
 | `source:gha` | Filed by GitHub Actions |
-| `source:ujust-report` | Filed via `ujust report` |
+| `source:ujust-report` | Filed via `ujust report` on a live system |
 
 ### Labels being retired (do not use for new issues)
-`bug`, `type/bug`, `type/feature`, `flow/agent-donation`, `needs-human/agent-ready`, `agent/claimed`, `priority/p0`, `priority/p1`, `size:*`, `copilot-ready`, `hold` — see migration table in `label-workflow.md`.
+`bug`, `type/bug`, `type/feature`, `needs-human/agent-ready`, `agent/claimed`, `size:*`, `copilot-ready`, `hold` — see migration table in `label-workflow.md`.
 
 ## PR policy
 

@@ -48,16 +48,26 @@ testsuite gates `:latest` promotion in all three image repos.
 Full workflow, label reference, and human/agent instructions:
 [`docs/skills/label-workflow.md`](docs/skills/label-workflow.md)
 
-| Stage | How |
-|---|---|
-| `filed` | Issue opened |
-| `triage` | Maintainer sets `kind/`, `area/`, `priority/`; removes `status/triage` |
-| `approved` | Comment `/approve` — adds `status/approved` + `status/queued` |
-| `queued` | Issue has `status/queued`; in the work pool |
-| `claimed` | Comment `/claim` — assigned, `status/claimed` set, leaves pool |
-| `done` | Fix shipped + 3× `ujust verify` or maintainer override |
+| Stage | Label | How |
+|---|---|---|
+| `filed` | — | Issue opened |
+| `triage` | `status/triage` 🟠 | Maintainer sets `kind/` + `area/`, then `/approve` or `status/discussing` |
+| `discussing` | `status/discussing` | Human drives to consensus → `/approve` |
+| `approved` | `status/approved` | Comment `/approve` — bonedigger adds `status/queued` |
+| `queued` | `status/queued` | In work pool — comment `/claim` to take |
+| `claimed` | `status/claimed` | Assigned and in progress — open PR with `Closes #NNN` |
+| `done` | — | Fix shipped + 3× `ujust verify` or maintainer override |
 
-No PR activity in 7 days: comment `/unclaim` to return the issue to the queue.
+No PR activity in 7 days → comment `/unclaim` returns issue to queue.
+
+### PR lifecycle
+
+| Label | Actor | Meaning |
+|---|---|---|
+| `pr/needs-review` 🟠 | Human reviewer | Auto-set on PR open. Review → `lgtm` or request changes. |
+| `lgtm` 🟢 | Human | Approved — merges when CI is green |
+| `do-not-merge` 🔴 | Human | Blocks all automation — remove when issue resolves |
+| `agent-tested` 🟢 | CI | e2e passed — set automatically |
 
 ### PR comment policy
 

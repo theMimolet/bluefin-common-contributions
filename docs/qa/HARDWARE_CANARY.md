@@ -34,7 +34,7 @@ Include:
 - pstore/kdump evidence (linked or pasted inline)
 - severity: `all-clear`, `degraded`, or `blocker`
 
-The template adds `hardware/test-report` and `source:community` automatically.
+The template adds `hardware/test-report` and `source:manual` automatically.
 Maintainers add `hardware/all-clear` or `hardware/blocker` after triage.
 
 **Do not promote while an open `hardware/blocker` issue targets the candidate
