@@ -217,7 +217,7 @@ added without first creating the file.
 
 ## 4. Open Issues — Priority Order
 
-Items resolved since 2026-06-04 are removed. See **Appendix A** for resolved items.
+Items below are open. When an item is fixed, delete it from this list.
 
 | Priority | Issue | Repo | Type | Blocking |
 |---|---|---|---|---|
@@ -235,30 +235,3 @@ Items resolved since 2026-06-04 are removed. See **Appendix A** for resolved ite
 | P2 | actions | consumer contract machine test | aurora/bazzite safety |
 | P2 | [#404](https://github.com/projectbluefin/common/issues/404) | org-wide | infra parity epic | agent reliability |
 | P2 | [#405](https://github.com/projectbluefin/common/issues/405) | org-wide | QA epic | quality gates |
-
----
-
-## Appendix A — Resolved Findings (archived 2026-06-04/05)
-
-These items were identified in the initial and second-pass audits and are now resolved.
-
-| Finding | Resolution |
-|---|---|
-| BS-1.1 · `skill-drift.yml` missing from `common` | ✅ Landed via issue #413 |
-| BS-1.3 · `copr-helpers.sh` enable→disable looks like dead code | ✅ `bluefin/docs/skills/copr-security.md` created |
-| BS-1.4 · `actions` @v1 blast-radius undocumented | ✅ `actions/docs/skills/consumer-validation.md` created |
-| BS-1.7 · dconf lock/override parity — no automated check | ✅ `docs/skills/dconf-consistency.md` created |
-| BS-1.10 · lifecycle bot absent from dakota | ✅ `dakota/bonedigger.yml` now active |
-| BS-1.11 · Dakota missing `no-floating-action-tags` | ✅ `dakota/.pre-commit-config.yaml` updated |
-| BS-1.13 · `pr-e2e.yml` e2e job `if: false` | ✅ Guard removed — pre-merge common suite active |
-| BS-1.14 · `migration-test.yml` no auto-trigger | ⚠️ `queue/hold` (testsuite#232) — blocked, not resolved |
-| BS-1.15 · `common` bonedigger.yml floating `@main` | ✅ SHA-pinned to 743f564 |
-| SO-3.1 · `ublue-rollback-helper` — three-way coord | ✅ `docs/skills/rollback-helper.md` created |
-| SO-3.2 · `system_files/shared/` submodule confusion | ✅ Submodule removed; `shared/` is directly editable |
-| SO-3.7 · CODEOWNERS TRIAGERS sentinel outdated | ✅ Simplified inline, `sync-codeowners.yml` updated |
-| SO-3.9 · Two separate parity matrices out of sync | ✅ `migration-status.md` deleted; single source in `factory/README.md` |
-| R-6 · `bluefin-lts/docs/skills/centos-vs-fedora.md` | ✅ Created |
-| R-7 · `dakota/docs/skills/not-bluefin.md` | ✅ Created |
-| R-8 · `actions/docs/skills/consumer-validation.md` | ✅ Created |
-| R-9 · `bluefin-lts` post-merge e2e | ✅ `post-merge-e2e.yml` now active |
-| common issue #487 · Renovate invalid config | ✅ `common/renovate.json` functional |
