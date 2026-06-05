@@ -36,7 +36,7 @@ For agents with no prior context. Read `AGENTS.md` in the repo root, then follow
 If the user says **"fix bugs"**, **"fix open issues"**, or otherwise signals backlog throughput, do **not** stop after the first local bug you find.
 
 Work from the repo issue backlog in this order:
-1. `needs-human/agent-ready`
+1. `queue/agent-ready`
 2. `kind/bug`
 3. issues explicitly named by the user
 

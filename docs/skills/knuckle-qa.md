@@ -88,7 +88,7 @@ Skip to review-only (no vm-e2e, no queue) if ANY:
 
 | Signal | Threshold |
 |---|---|
-| `size:XL` or `size:XXL` label | present |
+| `size/XL` or `size/XXL` label | present |
 | Domain labels | >4 distinct `domain:*` |
 | Workflow files | any `.github/workflows/*.yml` changed |
 | Architecture boundary | `cmd/knuckle` + `internal/runner` + `internal/ignition` together |
@@ -267,7 +267,7 @@ These rules are baked into the script (PR #336). Needed if extending the script.
 ## Hanthor PR Patterns
 
 - Stale branches accumulate all upstream changes — check `git diff merge-base..pr-HEAD --stat` to isolate the actual change.
-- `size:XXL` PRs trigger complexity gate — do NOT ghost-test them.
+- `size/XXL` PRs trigger complexity gate — do NOT ghost-test them.
 - Verify unique change is not already in main before rebasing.
 
 ---
