@@ -38,6 +38,7 @@ Agent-specific instruction files (`.github/copilot-instructions.md`, `AGENTS.md`
 | [bluefin-renovate.md](bluefin-renovate.md) | Renovate dependency update handling — reviewing/merging Renovate PRs, configuring behavior |
 | [bluefin-security.md](bluefin-security.md) | Security model — COPR repos, cosign verification, secureboot, sensitive package decisions |
 | [bluefin-variants.md](bluefin-variants.md) | Variant and stream matrix — which image/tag/flavor to use, build matrix, explaining variants |
+| [label-workflow.md](label-workflow.md) | Label taxonomy, issue lifecycle, and workflow guidelines for humans and agents across all factory repos |
 | [governance.md](governance.md) | Triagers role, CODEOWNERS sentinel pattern, sync workflow, branch protection matrix |
 | [hive.md](hive.md) | Hive label taxonomy, sync workflow schedule, org board fields, finding work |
 | [qa.md](qa.md) | QA model, test coverage matrix, promotion gates by repo, hardware gap, running tests |

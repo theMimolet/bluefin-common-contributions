@@ -43,17 +43,21 @@ testsuite gates `:latest` promotion in all three image repos.
 
 ### Issue lifecycle
 
-`filed → approved → queued → claimed → done`
+`filed → triage → approved → queued → claimed → done`
+
+Full workflow, label reference, and human/agent instructions:
+[`docs/skills/label-workflow.md`](docs/skills/label-workflow.md)
 
 | Stage | How |
 |---|---|
 | `filed` | Issue opened |
-| `approved` | Maintainer adds `status/approved` or comments `/approve` |
-| `queued` | `queue/agent-ready` auto-added alongside approval |
-| `claimed` | Comment `/claim` — assigned, removed from pool |
+| `triage` | Maintainer sets `kind/`, `area/`, `priority/`; removes `needs-triage` |
+| `approved` | Comment `/approve` — adds `status/approved` + `queue/agent-ready` |
+| `queued` | Issue has `queue/agent-ready`; in the work pool |
+| `claimed` | Comment `/claim` — assigned, `queue/claimed` set, leaves pool |
 | `done` | Fix shipped + 3× `ujust verify` or maintainer override |
 
-No PR activity in 7 days: return the claim manually (`/unclaim`) — automation pending (see issue #432).
+No PR activity in 7 days: comment `/unclaim` to return the issue to the queue.
 
 ### PR comment policy
 
@@ -148,6 +152,7 @@ Load the relevant skill doc before making changes in these areas.
 
 | Task | Load first |
 |---|---|
+| Labels / issue workflow | [`docs/skills/label-workflow.md`](docs/skills/label-workflow.md) |
 | Any `system_files/` edit | [`docs/skills/submodule-boundary.md`](docs/skills/submodule-boundary.md) |
 | GNOME settings / dconf | [`docs/skills/dconf-consistency.md`](docs/skills/dconf-consistency.md) |
 | Image refs / registry paths | [`docs/skills/image-registry.md`](docs/skills/image-registry.md) |

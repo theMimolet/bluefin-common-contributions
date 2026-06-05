@@ -31,33 +31,50 @@ No PR activity in 7 days returns a claimed issue to the queue.
 
 ## Label taxonomy
 
-### Hive labels (dynamic — reset each cycle)
+The full label reference, workflow, and human/agent instructions live in
+[`../skills/label-workflow.md`](../skills/label-workflow.md). That file is the canonical
+source of truth. The summary below is for quick agent lookup.
+
+### Lifecycle labels (ordered)
+```
+needs-triage → status/discussing → status/approved → queue/agent-ready → queue/claimed → done
+```
+Overlays (can coexist with any stage): `queue/hold`, `agent/blocked`
+
+### Hive labels (dynamic — reset each release cycle)
 | Label | Meaning |
 |---|---|
-| `hive/p0` 🔴 | Release blocker — fix before next promotion |
+| `hive/p0` 🔴 | Cycle release blocker — fix before next promotion |
 | `hive/p1` 🟠 | Must land this cycle |
 
 ### Queue labels
 | Label | Meaning |
 |---|---|
-| `queue/agent-ready` | Ready for an agent to pick up |
-| `queue/claimed` | Agent has claimed this issue |
-| `queue/hold` | Do not merge/close yet |
-| `agent/blocked` | Agent blocked — needs human input |
+| `queue/agent-ready` | Ready for an agent or contributor to pick up |
+| `queue/claimed` | Actively being worked — comment `/unclaim` to return |
+| `queue/hold` | Do not touch — intentionally paused by maintainers |
+| `agent/blocked` | Agent is stuck — read the issue comment for what's needed |
 
 ### Priority labels (static backlog)
 | Label | Meaning |
 |---|---|
 | `priority/p0` | Repo-level blocker |
-| `priority/p1` | Must land soon |
-| `priority/p2` | Backlog |
+| `priority/p1` | High priority |
+| `priority/p2` | Normal backlog |
+
+### Kind labels (set exactly one per issue during triage)
+`kind/bug` · `kind/enhancement` · `kind/improvement` · `kind/tech-debt` · `kind/documentation` · `kind/parity` · `kind/renovate` · `kind/epic` · `kind/wontfix`
 
 ### Source labels
 | Label | Meaning |
 |---|---|
-| `source:agent` | Filed or created by an agent |
+| `source:agent` | Filed by an AI agent |
 | `source:manual` | Filed by a human |
 | `source:gha` | Filed by GitHub Actions |
+| `source:ujust-report` | Filed via `ujust report` |
+
+### Labels being retired (do not use for new issues)
+`bug`, `type/bug`, `type/feature`, `kind:agent-donation`, `needs-human/agent-ready`, `agent/claimed`, `priority/critical`, `priority/high`, `size:*`, `copilot-ready`, `hold` — see migration table in `label-workflow.md`.
 
 ## PR policy
 
