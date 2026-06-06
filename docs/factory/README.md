@@ -7,7 +7,7 @@ This directory is the org-level entry point for agents and maintainers working a
 ## Reference read order
 
 1. Target repo `AGENTS.md` — start here
-2. This file — org map, infrastructure state, open gaps
+2. This file — org map, infrastructure topology, parity matrix
 3. [`docs/factory/agentic-model.md`](agentic-model.md) — cross-repo hard rules, branch targets, PR policy, session start
 4. [`docs/factory/IMPROVEMENTS.md`](IMPROVEMENTS.md) — why we rewrote Bluefin; system architecture
 5. Relevant `docs/skills/*` files — lazy-load for the specific task; use [`docs/SKILL.md`](../SKILL.md) as the router
@@ -119,16 +119,23 @@ The following are wired across the factory today (not every item applies to ever
 
 For the full blindspot / constraint-rule reference, see [`../skills/acmm-audit-level2.md`](../skills/acmm-audit-level2.md) (current). The historical Level 1 audit is at [`../skills/acmm-audit-level1.md`](../skills/acmm-audit-level1.md).
 
-## Open gaps
+## Open Gaps
 
-- **Nightly LTS/GDX e2e degraded** — testsuite#372 (gdx:stream10) and testsuite#373 (bluefin:lts ZFS) keep suites persistently red; CI signal for these variants is unreliable
-- **bonedigger crash/panic signal** not wired into promotion decisions [#424](https://github.com/projectbluefin/common/issues/424)
-- **Regression contract** across `latest`/`stable`/`gts`/`lts` streams is undefined [#420](https://github.com/projectbluefin/common/issues/420)
-- **Migration upgrade path testing** is not auto-triggered — `testsuite/migration-test.yml` is `workflow_dispatch` only; schedule addition is `status/hold` pending zstd:chunked stability (testsuite#232)
-- **bonedigger not factory-onboarded** — no AGENTS.md, no hive labels [#418](https://github.com/projectbluefin/common/issues/418)
-- **sync-labels.yml MERGERAPTOR secrets** — not yet configured; label sync to downstream repos is blocked [#511](https://github.com/projectbluefin/common/issues/511)
-- **consumer contract** for `actions@v1` has no machine verification — `aurora`/`bazzite` compat can silently break
+Factory gaps are tracked as GitHub issues — not in this doc. Query GitHub for the live state:
 
+```bash
+# P0 and P1 this cycle (all factory repos)
+gh search issues --label "hive/p0" --owner projectbluefin --state open \
+  --json number,title,repository
+gh search issues --label "hive/p1" --owner projectbluefin --state open \
+  --json number,title,repository
+
+# AI/LLM context blindspots affecting agents
+gh search issues --label "ai-context" --owner projectbluefin --state open \
+  --json number,title,repository
+```
+
+For the gap audit protocol and how to file factory issues, see [`docs/skills/factory-improvement.md`](../skills/factory-improvement.md).
 Tracking epics: [#404](https://github.com/projectbluefin/common/issues/404) (infra parity) · [#405](https://github.com/projectbluefin/common/issues/405) (QA model)
 
 ## Per-repo AGENTS.md entry points

@@ -56,6 +56,18 @@ Changes to these paths require maintainer review before merge:
 - Everything else → **BANNED** without exception
 - If a task requires `ublue-os` write access → **stop and tell the human to report it manually**
 
+## Capturing gaps
+
+When you discover something broken or missing in the factory during a session:
+
+1. File a GitHub issue in `projectbluefin/common`
+2. Required labels: one `kind/*` + at least one `area/*` (lifecycle guard enforces this)
+3. Add `ai-context` if the gap affects how AI agents reason about the factory
+4. **Do not** self-apply `hive/p0`, `hive/p1`, or `status/queued` — priority and queue admission are human decisions
+5. **Do not** add it to a static doc section — docs are operating procedure, not backlogs
+
+See [`docs/skills/label-workflow.md`](../skills/label-workflow.md) for the full label taxonomy and filing workflow.
+
 ## PR comment policy
 
 - One comment per PR event, max. Combine all findings into one comment.

@@ -82,7 +82,7 @@ Changed CI gates?            → e2e-ci.md
 New domain entirely?         → create docs/skills/<area>.md
 ```
 
-When in doubt, update `factory-improvement.md` with the gap you found — that file tracks factory-level discoveries.
+When in doubt, file a GitHub issue in `projectbluefin/common` with `kind/improvement` + `area/agent` labels. Add `ai-context` if it's a context gap affecting agent reliability. Do **not** add it to `factory-improvement.md` as a running list.
 
 ---
 

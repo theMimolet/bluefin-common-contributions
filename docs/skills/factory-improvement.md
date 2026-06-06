@@ -57,20 +57,30 @@ MEASURE → TRIAGE → IMPLEMENT → CAPTURE → VERIFY → LOOP
 ### MEASURE
 
 ```bash
-~/src/hive-status                                           # P0/P1 blockers
-gh issue list --repo projectbluefin/common \
-  --label "hive/p0,hive/p1" --state open                  # tracked gaps
-```
+~/src/hive-status
 
-Cross-reference `docs/factory/README.md` "Open gaps" section.
+# P0 blockers across the factory
+gh search issues --label "hive/p0" --owner projectbluefin --state open \
+  --json number,title,repository
+
+# P1 this cycle
+gh search issues --label "hive/p1" --owner projectbluefin --state open \
+  --json number,title,repository
+
+# All open factory gaps (not yet hive-escalated)
+gh search issues --label "ai-context" --owner projectbluefin --state open \
+  --json number,title,repository
+```
 
 ### TRIAGE
 
 For each open gap:
 - Human gate? → **SKIP** (log it, do not touch)
-- Doc gap? → **IMMEDIATE** (cheapest fix)
-- CI/tooling gap? → **QUEUE** as hive/p1
+- Doc gap? → **IMMEDIATE** (cheapest fix, push directly to main)
+- CI/tooling gap? → file as GitHub issue (`kind/improvement`, `area/ci`); humans set priority
 - Cross-repo gap? → assess blast radius before acting
+
+> ⚠️ Do **not** self-apply `hive/p0`, `hive/p1`, or `status/queued` labels. Priority and queue admission are human decisions; agents file the issue and stop.
 
 ### IMPLEMENT
 
@@ -81,10 +91,21 @@ For each open gap:
 
 ### CAPTURE
 
-- Update this skill with findings
-- Update `acmm-audit-level2.md` with closed gaps
-- Update `docs/factory/README.md` open gaps section
-- File issues for new gaps
+When you discover a gap:
+
+1. File a GitHub issue in `projectbluefin/common`
+2. Required: exactly one `kind/*` label + at least one `area/*` label (lifecycle guard enforces this before any `/approve`)
+3. Add `ai-context` if the gap is an AI/LLM context blindspot that affects agent reliability
+4. Write a clear description — what is broken, what the fix looks like, whether it's automatable
+5. Stop. Do not self-apply `hive/p*` or `status/queued` — priority and queue admission are human decisions
+
+```bash
+# Example: file a factory CI gap
+gh issue create --repo projectbluefin/common \
+  --title "ci: skill-drift not wired in testsuite" \
+  --label "kind/improvement,area/ci" \
+  --body "..."
+```
 
 ### VERIFY
 
@@ -139,39 +160,27 @@ Each rule must exist in exactly ONE location. Other files should have a one-line
 
 ---
 
-## Known Gaps (as of 2026-06-06)
+## Finding Open Gaps
 
-### P0 — Critical
+Factory gaps are tracked as GitHub issues. Do not maintain gap lists in this doc — they drift. Always query GitHub for the current state:
 
-*(No current P0 gaps. Last cleared 2026-06-06.)*
+```bash
+# P0 blockers (fix before next promotion)
+gh search issues --label "hive/p0" --owner projectbluefin --state open \
+  --json number,title,repository
 
-### P1 — Must land soon
+# P1 this cycle
+gh search issues --label "hive/p1" --owner projectbluefin --state open \
+  --json number,title,repository
 
-| Gap | Issue | Automatable? |
-|---|---|---|
-| bonedigger not factory-onboarded — no AGENTS.md, no hive labels | #418 | Partial — needs human to set labels |
-| bonedigger crash/panic signal not wired into promotion decisions | #424 | Yes |
-| MERGERAPTOR secrets not configured — `sync-labels.yml` cannot push to downstream repos | #511 | No — human must configure org secrets |
+# AI/LLM context gaps (affect agent reliability)
+gh search issues --label "ai-context" --owner projectbluefin --state open \
+  --json number,title,repository
 
-### Backlog
-
-| Gap | Automatable? |
-|---|---|
-| `docs-quality.yml` + `skill-drift.yml` could be one workflow with two jobs | Yes |
-| `factory/README.md` + `agentic-model.md` could be fully merged (~50 lines unique content remaining) | Yes |
-| ~30 skills duplicated between workspace and `common/docs/skills/` with no sync mechanism | Partial |
-| Regression contract across `latest`/`stable`/`gts`/`lts` streams undefined (#420) | No — requires human spec |
-
----
-
-## Improvement Priority Order
-
-1. Onboard bonedigger into the factory (AGENTS.md, hive labels) — #418
-2. Wire bonedigger crash/panic signal into promotion decisions — #424
-3. Configure MERGERAPTOR secrets for label sync — #511
-4. Consolidate duplicate docs (cheap, high leverage)
-5. Merge `docs-quality.yml` + `skill-drift.yml` (Backlog)
-6. Merge `factory/README.md` + `agentic-model.md` (Backlog)
+# Ready-to-claim CI improvements
+gh search issues --label "status/queued,area/ci" --owner projectbluefin --state open \
+  --json number,title,repository
+```
 
 ---
 
@@ -190,9 +199,10 @@ Each rule must exist in exactly ONE location. Other files should have a one-line
 
 After each improvement session:
 
-1. Update the "Known Gaps" table above with closed items and new discoveries
-2. Update `docs/factory/README.md` "Open gaps" section
-3. Update `docs/skills/acmm-audit-level2.md` for closed blindspot items
-4. File issues for new gaps (`status/queued` label if automatable)
+1. For each gap discovered: file a GitHub issue (see CAPTURE above)
+2. For ACMM blindspot items resolved: update `docs/skills/acmm-audit-level2.md`
+3. For significant improvements shipped: append to `docs/factory/IMPROVEMENTS.md`
 
-This skill is the memory of the improvement loop. Keep it current.
+Do **not** maintain gap lists in this skill file. GitHub issues are the live backlog.
+
+This skill is the operating procedure for the improvement loop, not the backlog itself.
