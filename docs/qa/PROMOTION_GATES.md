@@ -9,11 +9,13 @@ but not yet wired are marked ❌ with tracking issues.**
 ```
 main branch
     ↓
-[nightly builds]
+[nightly builds → :$sha only, never :testing directly]
     ↓
-:testing / :lts-testing tag
+:testing / :lts-testing tag  ← gated by post-build e2e (❌ not yet wired for bluefin/#518, ❌ lts rebuilds/#517)
     ↓
 [post-merge e2e]              ← Gate 1 (bluefin-lts only) ✅
+    ↓
+[TOCTOU SHA guard]            ← Gate 1b ❌ not yet wired (#524)
     ↓
 [installability gate]         ← Gate 2 ❌ not yet wired (#423)
     ↓
@@ -23,6 +25,10 @@ main branch
     ↓
 general availability
 ```
+
+> **⚠️ LTS tag rename pending:** `bluefin:lts-testing` is being renamed to `bluefin-lts:testing` by `projectbluefin/bluefin-lts` PR #73 (`feat/shared-workflow-migration`). Do not build new tooling targeting the old tag. See `image-registry.md` for the full rename table.
+
+> **Promotion pipeline consistency:** Epic [#516](https://github.com/projectbluefin/common/issues/516) tracks the full set of pipeline gaps across bluefin, bluefin-lts, and dakota. See `release-promotion.md` for the gap table and implementation order.
 
 ---
 

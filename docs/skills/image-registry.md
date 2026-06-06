@@ -20,7 +20,7 @@ sign-off.** This would break OTA updates, E2E CI, and the rollback helper for al
 | `ghcr.io/ublue-os/bluefin*` | ✅ Active production | All Bluefin image variants |
 | `ghcr.io/ublue-os/bluefin:lts` | ✅ Active production | LTS stream |
 | `ghcr.io/projectbluefin/bluefin:testing` | ✅ Active testing | Bluefin testing candidate tag |
-| `ghcr.io/projectbluefin/bluefin:lts-testing` | ✅ Active testing | Bluefin LTS testing candidate tag |
+| `ghcr.io/projectbluefin/bluefin:lts-testing` | ⚠️ Pending rename | Bluefin LTS testing candidate tag — being renamed by bluefin-lts PR #73 (see below) |
 | `ghcr.io/ublue-os/brew` | ✅ Active | Homebrew layer consumed by bluefin |
 | `ghcr.io/ublue-os/akmods-*` | ✅ Active | Kernel modules |
 | `ghcr.io/projectbluefin/common` | ✅ Active | Common shared layer (this repo) |
@@ -60,3 +60,15 @@ The production publishing still goes to `ublue-os` org via the build workflow se
 reference `ghcr.io/projectbluefin/bluefin`, `aurora`, or `bazzite`.
 
 Tracked: #468
+
+## ⚠️ Pending: LTS image rename (bluefin-lts PR #73)
+
+`projectbluefin/bluefin-lts` PR #73 (`feat/shared-workflow-migration`) renames all LTS images from the legacy `bluefin:lts*` scheme to a per-variant scheme. When that PR merges:
+
+| Old tag | New tag |
+|---|---|
+| `ghcr.io/projectbluefin/bluefin:lts-testing` | `ghcr.io/projectbluefin/bluefin-lts:testing` |
+| `ghcr.io/projectbluefin/bluefin:lts-testing-hwe` | `ghcr.io/projectbluefin/bluefin-lts-hwe:testing` |
+| `ghcr.io/projectbluefin/bluefin:lts-testing` (gdx/nvidia) | `ghcr.io/projectbluefin/bluefin-gdx:testing` |
+
+**Do not build new CI steps targeting `bluefin:lts-testing`.** After PR #73 merges, update any doc or workflow that references the old tag. The following files still reference the old tag and will need a follow-up sweep: `promotion-candidate-e2e.yml` (common), `e2e.yml` (common), `acmm-audit-level1.md`, `acmm-audit-level2.md`, `workflow-map.md`, `e2e-ci.md`, `qa.md`, `bluefin-ci.md`, `PROMOTION_GATES.md`.

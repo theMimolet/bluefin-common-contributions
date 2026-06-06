@@ -80,6 +80,27 @@ cosign verify-attestation \
   ghcr.io/projectbluefin/common:latest | jq .payload | base64 -d | jq .
 ```
 
+## Promotion pipeline consistency epic (#516)
+
+The three image repos (bluefin, bluefin-lts, dakota) currently use inconsistent pipeline models. Epic [#516](https://github.com/projectbluefin/common/issues/516) tracks bringing them into alignment on a shared "build once, promote the artifact" model.
+
+**Known gaps being tracked:**
+
+| Issue | Repo | Gap | Blocked on |
+|---|---|---|---|
+| [#518](https://github.com/projectbluefin/common/issues/518) | bluefin | `:testing` tag pushed before e2e — broken images visible to users | Investigate shared build action first |
+| [#517](https://github.com/projectbluefin/common/issues/517) | bluefin-lts | Rebuilds from source for production — `:lts` never tested as shipped | **bluefin-lts PR #73** must merge first |
+| [#519](https://github.com/projectbluefin/common/issues/519) | bluefin-lts | No 7-day promotion floor | **bluefin-lts PR #73** must merge first (same file as #517) |
+| [#520](https://github.com/projectbluefin/common/issues/520) | dakota | Weekly promotion runs Sunday, not Tuesday | Ready |
+| [#521](https://github.com/projectbluefin/common/issues/521) | dakota | No cosign verify before final promotion | Ready (after #520) |
+| [#522](https://github.com/projectbluefin/common/issues/522) | dakota | No full e2e at weekly promotion time | Ready (after #520) |
+| [#523](https://github.com/projectbluefin/common/issues/523) | common | No shared release-pipeline.md spec | **Start here — approve before any workflow PRs** |
+| [#524](https://github.com/projectbluefin/common/issues/524) | all repos | No TOCTOU SHA guard before final skopeo copy | bluefin and dakota ready; LTS after #517 |
+
+**⚠️ bluefin-lts PR #73 (`feat/shared-workflow-migration`)** is pending review and rewrites the LTS build workflows + renames all LTS images. Do not implement #517 or #519 until #73 merges. After #73 merges, the LTS testing tag scheme changes from `bluefin:lts-testing` → `bluefin-lts:testing` / `bluefin-lts-hwe:testing` / `bluefin-gdx:testing`.
+
+Suggested implementation order: `#523 → #520 → #521 #522 #524-bluefin #524-dakota → #518 → (wait for #73) → #517+#519+#524-lts`
+
 ## Related docs
 
 | Topic | Doc |
