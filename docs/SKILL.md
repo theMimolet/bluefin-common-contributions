@@ -33,17 +33,26 @@ Agent entry point for `projectbluefin/common`. Load only the skill(s) that match
 | Improve the factory (gap audit, automation coverage) | `docs/skills/factory-improvement.md` |
 | Check on-call / hive state for the whole org | `docs/skills/hive.md` |
 | Submit a hardware test report | `docs/hardware-testing.md` |
+| Work on the knuckle installer QA or e2e | `docs/skills/knuckle-qa.md` |
+| Release the knuckle installer | `docs/skills/knuckle-release.md` |
+| Test knuckle in a QEMU VM | `docs/skills/knuckle-testlab.md` |
 | Work on the ACMM / factory maturity model | `docs/skills/acmm-audit-level2.md` |
 | Understand cross-repo agent rules, branch targets, or sensitive paths | `docs/factory/agentic-model.md` |
 
 ## Improving skill docs
 
-All files in `docs/skills/` are Claude Code skills maintained with the Trail of Bits skill-improver:
+All files in `docs/skills/` are community-maintained operational knowledge. They live in this repo so any contributor can update them with a direct push to `main` (doc-only exception applies).
+
+**When to update a skill:** any time a session surfaces a workaround, non-obvious pattern, or convention. See [`docs/skills/skill-improvement.md`](skills/skill-improvement.md) for the full mandate and checklist.
+
+**Trail of Bits skill-improver** (optional tooling for structured updates):
 
 ```bash
 npx skills add https://github.com/trailofbits/skills --skill skill-improver
 # Then in your editor: /skill-improver docs/skills/<file>
 ```
+
+For the full catalog of all skill files with descriptions, see [`docs/skills/INDEX.md`](skills/INDEX.md).
 
 ## Scope rules
 

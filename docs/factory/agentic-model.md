@@ -56,15 +56,30 @@ Changes to these paths require maintainer review before merge:
 - Everything else → **BANNED** without exception
 - If a task requires `ublue-os` write access → **stop and tell the human to report it manually**
 
+## PR comment policy
+
+- One comment per PR event, max. Combine all findings into one comment.
+- Never duplicate GitHub UI state (approvals, CI status).
+- Test reports: what ran + pass/fail + blockers only. No diff summaries.
+- `@` mentions only when asking someone to do something specific. Never standalone.
+- When in doubt, post nothing.
+
+## Session start
+
+```bash
+~/src/hive-status
+```
+
+Mandatory before any work. Surfaces P0/P1 blockers and the advisory queue.
+
 ## Finding work
 
 ```bash
-# Session start — run first, every time
-~/src/hive-status
-
 # P0 blockers across org
 gh search issues --label "hive/p0" --owner projectbluefin --state open
 
 # Ready for agent pickup
 gh search issues --label "status/queued" --owner projectbluefin --state open
 ```
+
+See [`docs/skills/hive.md`](../skills/hive.md) for the full hive label taxonomy and org board fields.

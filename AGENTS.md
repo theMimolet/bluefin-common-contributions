@@ -50,93 +50,10 @@ testsuite gates `:latest` promotion in all three image repos.
 
 `filed → triage → queued → claimed → done`
 
-Full workflow, label reference, and human/agent instructions:
+Full workflow, label taxonomy, epics, project board, and PR lifecycle:
 [`docs/skills/label-workflow.md`](docs/skills/label-workflow.md)
 
-| Stage | Label | How |
-|---|---|---|
-| `triage` | `status/triage` 🟣 | Maintainer sets `kind/` + `area/`, then comments `/approve` or adds `status/discussing` |
-| `discussing` | `status/discussing` | Human drives to consensus → comments `/approve` |
-| `queued` | `status/queued` | Lifecycle automation sets this on `/approve` (after kind/+area/ guard passes) |
-| `claimed` | `status/claimed` | Comment `/claim` — assigned and in progress — open PR with `Closes #NNN` |
-| `done` | — | Fix shipped + 3× `ujust verify` or maintainer override |
-
-Every issue body contains a **pipeline widget** (`<!-- factory-pipeline-start/end -->`) that shows the current stage, area, priority, and role-specific next steps for both the maintainer and the reporter. The lifecycle workflow updates it automatically on each transition. Widget format:
-
-```
-**<repo> · issue pipeline**
-
-  ▶  discussing —
-  ...
-
-**area:** area/gnome   **priority:** —
-**maintainer:** reach consensus, then comment /approve
-**reporter:** add spec, context, or requirements to the issue body
-```
-
-To backfill the widget onto pre-existing issues, run the `Backfill pipeline widget` workflow (`workflow_dispatch`) in this repo.
-
-Automation: lifecycle runs from `projectbluefin/common/.github/workflows/lifecycle.yml` and is deployed to all core factory repos via `lifecycle-caller.yml`. Daily stale sweep returns inactive claims after 7 days.
-
-Key lifecycle automation triggers:
-
-| Trigger | Action |
-|---|---|
-| Issue opened | Adds `status/triage`, inserts pipeline widget |
-| Issue labeled with `kind/enhancement` + `size/L` or `size/XL` | Posts one-time epic-check comment if `kind/epic` not present — see below |
-| `/approve` comment | Guards for `kind/` + `area/`, then moves to `status/queued` |
-| `/claim` comment | Moves to `status/claimed`, assigns commenter |
-| Daily schedule | Returns stale `status/claimed` issues (7 days inactive) to `status/queued` |
-
-### Epics
-
-A `kind/epic` issue is a multi-issue tracker — **never implement directly**, file child issues instead.
-
-**When the lifecycle posts an epic-check comment:** any `kind/enhancement` issue that receives `size/L` or `size/XL` gets a one-time comment asking the author to either convert to `kind/epic` or add `Part of #EPIC_NUMBER` to the body before `/approve`. This is advisory — it does not block the pipeline.
-
-**Filing an epic:**
-1. Create an issue with `kind/epic`
-2. List child issues as checkboxes: `- [ ] Part of #NNN — description`
-3. On each child issue body, add `Part of #EPIC_NUMBER`
-
-All open epics and their sub-issues are tracked on the factory project board (see below).
-
-### Project board — todo.projectbluefin.io
-
-**URL:** https://github.com/orgs/projectbluefin/projects/2
-
-The board mirrors the factory pipeline. Status column options map 1:1 to lifecycle stages:
-
-| Status | Lifecycle label | Meaning |
-|---|---|---|
-| Triage 🟣 | `status/triage` | New — needs kind/ + area/ + /approve |
-| Discussing 🔵 | `status/discussing` | Under discussion — needs consensus + /approve |
-| Queued 🟡 | `status/queued` | Ready to claim |
-| Claimed 🟠 | `status/claimed` | Actively being worked |
-| Done 🟢 | closed | Shipped |
-
-**Scope:** common, bluefin, bluefin-lts, dakota, testsuite, knuckle — all factory repos.
-
-**Epic field:** free-text field on each card. Link a card to its parent epic by title or issue number.
-
-**Epic sync:** all open `kind/epic` issues and their sub-issues are manually synced to the board. When filing a new epic, add it to the board. When filing child issues, add them too.
-
-### PR lifecycle
-
-| Label | Actor | Meaning |
-|---|---|---|
-| `pr/needs-review` 🟠 | Human reviewer | Auto-set on PR open. Review → `lgtm` or request changes. |
-| `lgtm` 🟢 | Human | Approved — merges when CI is green |
-| `do-not-merge` 🔴 | Human | Blocks all automation — remove when issue resolves |
-| `agent-tested` 🟢 | CI | e2e passed — set automatically |
-
-### PR comment policy
-
-One comment per PR event, max. Combine all findings. Never post a follow-up — edit the existing comment.
-Never duplicate GitHub UI state (approvals, CI status).
-Test reports: what ran + pass/fail + blockers only. No diff summaries.
-@ mentions only when asking someone to do something specific. Never standalone.
-When in doubt, post nothing.
+Lifecycle automation source of truth: `.github/workflows/lifecycle.yml`
 
 ### Mandatory gates
 
@@ -227,36 +144,6 @@ Changes here flow into ALL downstream Bluefin variants at next build. A broken `
 
 ## Skill routing
 
-Load the relevant skill doc before making changes in these areas.
-
-| Task | Load first |
-|---|---|
-| Labels / issue workflow | [`docs/skills/label-workflow.md`](docs/skills/label-workflow.md) |
-| Project board / epic tracking | [`docs/skills/queue-dashboard.md`](docs/skills/queue-dashboard.md) |
-| Any `system_files/` edit | [`docs/skills/submodule-boundary.md`](docs/skills/submodule-boundary.md) |
-| GNOME settings / dconf | [`docs/skills/dconf-consistency.md`](docs/skills/dconf-consistency.md) |
-| Image refs / registry paths | [`docs/skills/image-registry.md`](docs/skills/image-registry.md) |
-| `ublue-rollback-helper` changes | [`docs/skills/rollback-helper.md`](docs/skills/rollback-helper.md) |
-| CI / GitHub Actions | [`docs/skills/ci-tooling.md`](docs/skills/ci-tooling.md) |
-| What a `common` workflow is for | [`docs/skills/workflow-map.md`](docs/skills/workflow-map.md) |
-| Release, promotion criteria, artifact verification | [`docs/skills/release-promotion.md`](docs/skills/release-promotion.md) |
-| E2E test changes | [`docs/skills/e2e-ci.md`](docs/skills/e2e-ci.md) |
-| Governance / CODEOWNERS | [`docs/skills/governance.md`](docs/skills/governance.md) |
-| PR queue / merge decisions | [`docs/skills/queue-dashboard.md`](docs/skills/queue-dashboard.md) |
-| Hive monitoring | [`docs/skills/hive-review.md`](docs/skills/hive-review.md) |
-| Improving the factory (gap audit, automation coverage, pipeline parity) | [`docs/skills/factory-improvement.md`](docs/skills/factory-improvement.md) |
-| Onboarding / dev setup | [`docs/skills/onboarding.md`](docs/skills/onboarding.md) |
-| Renovate PRs (major bump review) | [`docs/skills/bluefin-renovate.md`](docs/skills/bluefin-renovate.md) |
-| Skill-drift check fails on a PR | [`docs/skills/skill-drift.md`](docs/skills/skill-drift.md) |
-| QA model / what is tested where | [`docs/skills/qa.md`](docs/skills/qa.md) |
-| ujust report filing / priority escalation | [`docs/skills/bonedigger.md`](docs/skills/bonedigger.md) |
-| When to stop and ask a human | [`docs/skills/human-gates.md`](docs/skills/human-gates.md) |
-| Skill update mandate + what counts as a learning | [`docs/skills/skill-improvement.md`](docs/skills/skill-improvement.md) |
-| Why Bluefin was rewritten / factory improvement history | [`docs/factory/IMPROVEMENTS.md`](docs/factory/IMPROVEMENTS.md) |
-| Hive system architecture + kubestellar-bot loop | [`docs/skills/hive.md`](docs/skills/hive.md) |
-| ACMM / factory maturity model | [`docs/skills/acmm-audit-level2.md`](docs/skills/acmm-audit-level2.md) |
-| Hardware test reports | [`docs/hardware-testing.md`](docs/hardware-testing.md) |
-| Agent operating rules + branch targets (cross-repo) | [`docs/factory/agentic-model.md`](docs/factory/agentic-model.md) |
-
-For the quick task→skill lookup, see [`docs/SKILL.md`](docs/SKILL.md).
+For task→skill routing, see [`docs/SKILL.md`](docs/SKILL.md).
 For the full factory operating model, see [`docs/factory/README.md`](docs/factory/README.md).
+For cross-repo agent rules, branch targets, and PR comment policy, see [`docs/factory/agentic-model.md`](docs/factory/agentic-model.md).

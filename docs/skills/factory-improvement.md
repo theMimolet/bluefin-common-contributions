@@ -131,11 +131,11 @@ Each rule must exist in exactly ONE location. Other files should have a one-line
 | Rule | Canonical location |
 |---|---|
 | ublue-os prohibition | `common/AGENTS.md` |
-| Issue lifecycle table | `docs/factory/agentic-model.md` |
+| Issue lifecycle table | `docs/skills/label-workflow.md` |
 | PR comment policy | `docs/factory/agentic-model.md` |
 | Branch targets by repo | `docs/factory/agentic-model.md` |
-
-Count duplicates during each audit pass. Each duplicate is a maintenance liability.
+| Session start ritual | `common/AGENTS.md` (+ pointer in agentic-model.md) |
+| Task→skill routing | `docs/SKILL.md` |
 
 ---
 
@@ -154,15 +154,13 @@ Count duplicates during each audit pass. Each duplicate is a maintenance liabili
 |---|---|---|
 | Renovate paused — invalid packageRules in base config | #487 | Yes |
 | `bluefin` pre-push hook missing — `git push` goes to ublue-os/bluefin | #476 | Yes |
-| Issue lifecycle table duplicated verbatim in 3 files | — | Yes |
-| PR comment policy duplicated in 3 files | — | Yes |
 
 ### Backlog
 
 | Gap | Automatable? |
 |---|---|
 | `docs-quality.yml` + `skill-drift.yml` could be one workflow with two jobs | Yes |
-| `factory/README.md` + `agentic-model.md` could be merged (~50 lines unique content) | Yes |
+| `factory/README.md` + `agentic-model.md` could be fully merged (~50 lines unique content remaining) | Yes |
 | ~30 skills duplicated between workspace and `common/docs/skills/` with no sync mechanism | Partial |
 | Regression contract across `latest`/`stable`/`gts`/`lts` streams undefined (#420) | No — requires human spec |
 

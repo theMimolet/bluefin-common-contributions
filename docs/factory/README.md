@@ -2,7 +2,15 @@
 
 **This is an OS factory. The product is bootc OCI images.**
 
-This directory is the org-level entry point for agents and maintainers working across the Project Bluefin factory. Read this first, then load the target repo's `AGENTS.md` and any relevant `docs/skills/*` files.
+This directory is the org-level entry point for agents and maintainers working across the Project Bluefin factory.
+
+## Reference read order
+
+1. Target repo `AGENTS.md` — start here
+2. This file — org map, infrastructure state, open gaps
+3. [`docs/factory/agentic-model.md`](agentic-model.md) — cross-repo hard rules, branch targets, PR policy, session start
+4. [`docs/factory/IMPROVEMENTS.md`](IMPROVEMENTS.md) — why we rewrote Bluefin; system architecture
+5. Relevant `docs/skills/*` files — lazy-load for the specific task; use [`docs/SKILL.md`](../SKILL.md) as the router
 
 ## Mission and product boundary
 
@@ -31,8 +39,7 @@ dakota      ─┘                  │
 - `iso`: installation media fed by validated image outputs
 - `actions`: shared GitHub Actions used across the org
 
-For the workflow-by-workflow purpose map inside `common`, see
-[`../skills/workflow-map.md`](../skills/workflow-map.md).
+For the workflow-by-workflow purpose map inside `common`, see [`../skills/workflow-map.md`](../skills/workflow-map.md).
 
 ## Factory repos
 
@@ -45,21 +52,11 @@ For the workflow-by-workflow purpose map inside `common`, see
 
 ## Agentic operating model
 
-Lifecycle: `filed → triage → queued → claimed → done`
+`filed → triage → queued → claimed → done`
 
-| Stage | Meaning |
-|---|---|
-| `filed` | Issue opened — automation adds `status/triage` and the pipeline widget |
-| `triage` | Maintainer sets `kind/` + `area/`, then comments `/approve` |
-| `queued` | `/approve` passes the label guard and sets `status/queued` |
-| `claimed` | Contributor comments `/claim`; issue is assigned and leaves the pool |
-| `done` | Fix is shipped and verified; standard target is 3× `ujust verify`, or maintainer override |
-
-The lifecycle automation runs from `projectbluefin/common/.github/workflows/lifecycle.yml`
-and is deployed to every factory repo. The issue body always shows a pipeline widget with
-the current stage and exact next action. No PR activity in 7 days returns the claim automatically.
-
-bonedigger handles only: `ujust report` issue filing and priority auto-escalation from confirm counts.
+Lifecycle automation source: `.github/workflows/lifecycle.yml` (deployed to all factory repos via `lifecycle-caller.yml`).
+Full lifecycle, epics, project board, and PR labels: [`docs/skills/label-workflow.md`](../skills/label-workflow.md)
+Hard rules, branch targets, PR comment policy, session start: [`docs/factory/agentic-model.md`](agentic-model.md)
 
 ## Agent rules of engagement
 
@@ -143,28 +140,10 @@ Tracking epics: [#404](https://github.com/projectbluefin/common/issues/404) (inf
 - `actions` — https://github.com/projectbluefin/actions/blob/main/AGENTS.md
 - `testsuite` — https://github.com/projectbluefin/testsuite/blob/main/AGENTS.md
 
-## Branch targets
-
-| Repo | PR target | Notes |
-|---|---|---|
-| bluefin | `testing` | Never `main` |
-| bluefin-lts | `main` | `main→lts` is the promotion path |
-| common | `main` | No testing branch |
-| dakota | `testing` | Never `main` |
-| knuckle | `main` | Installer, no testing branch |
-
 ## Sensitive paths (require maintainer review)
 
 All repos: `.github/workflows/`, `Justfile`, `build_files/`
 dakota only: `elements/`
-
-## PR comment policy
-
-- One comment per PR event, max. Combine all findings into one comment.
-- Never duplicate GitHub UI state (approvals, CI status).
-- Test reports: what ran + pass/fail + blockers only. No diff summaries.
-- `@` mentions only when asking someone to do something specific.
-- When in doubt, post nothing.
 
 ## Finding work
 
@@ -180,10 +159,3 @@ just hive   # from ~/src
 ```
 
 Full label taxonomy and next-step lookup: [`docs/skills/label-workflow.md`](../skills/label-workflow.md)
-
-## Reference read order for agents
-
-1. Target repo `AGENTS.md` — start here
-2. This file — org map, infrastructure state, open gaps, branch targets, sensitive paths
-3. [`docs/factory/IMPROVEMENTS.md`](IMPROVEMENTS.md) — why we rewrote Bluefin; system architecture
-4. Relevant `docs/skills/*` files — lazy-load for the specific task
