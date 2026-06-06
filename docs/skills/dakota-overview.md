@@ -36,6 +36,11 @@ Load with: `cat ~/src/skills/dakota-overview/SKILL.md`
 - After chunkah rechunking (`chunkah build → podman load`), blobs in containers-storage are fresh and uncompressed — plain `podman push` is the correct and upstream-recommended path.
 - Do not reintroduce skopeo, `--compression-format=zstd:chunked`, or any oci-dir workaround for post-chunkah pushes. Read issue #119 before asserting anything about push compression.
 
+**`rechunker-group-fix` is intentionally absent from dakota.**
+- `common/system_files/shared/` ships `rechunker-group-fix` (script + service + preset) to fix gshadow corruption for users migrating from legacy ublue-os/rechunk images to chunkah-based images.
+- Dakota users are never on legacy-rechunk images. `elements/bluefin/common.bst` explicitly strips these three files after copying from common.
+- Do not add them back. Do not add a "disable" preset. The files must not exist in the dakota image.
+
 **No upstream PR before NUC hardware confirms.**
 - The validation gate is: `bootc upgrade` on NUC (192.168.1.247) succeeds + reboot + GDM active.
 - "Tests pass on ghost" or "CI is green in castrojo fork" is NOT sufficient. Only NUC confirmation is.

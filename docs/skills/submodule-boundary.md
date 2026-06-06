@@ -31,3 +31,19 @@ Only `bluefin-branding` remains as a submodule:
 ```
 bluefin-branding → projectbluefin/branding (wallpapers, logos)
 ```
+
+## Dakota exclusion pattern
+
+`system_files/shared/` flows into **bluefin, bluefin-lts, and dakota** via the common OCI context. Dakota's `elements/bluefin/common.bst` does a plain `cp -r system_files/shared/usr/` — it receives everything.
+
+If you add a file to `system_files/shared/` that should **not** appear in dakota (e.g., a migration aid that only applies to users rebasing from legacy-rechunk images), add explicit `rm -f` lines to `dakota/elements/bluefin/common.bst` immediately after the copy block:
+
+```yaml
+# Dakota is a fresh BuildStream image — strip files that only apply to
+# users migrating from legacy ublue-os/rechunk-based images.
+rm -f "%{install-root}%{prefix}/bin/rechunker-group-fix"
+rm -f "%{install-root}%{prefix}/lib/systemd/system/rechunker-group-fix.service"
+rm -f "%{install-root}%{prefix}/lib/systemd/system-preset/00-rechunker-group-fix.preset"
+```
+
+**Current exclusions in `common.bst`:** `rechunker-group-fix` (script + service + preset) — chunka migration aid for ublue-os → projectbluefin rebases; not needed on a fresh dakota install.
