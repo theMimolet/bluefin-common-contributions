@@ -98,11 +98,34 @@ As of 2026-06-06, all three image repos fire releases on **Tuesday at 06:00 UTC*
 
 | Repo | Workflow | Gate |
 |---|---|---|
-| **bluefin** | `scheduled-stable-release.yml` (new) | `production` environment — `@projectbluefin/maintainers` |
+| **bluefin** | `scheduled-stable-release.yml` | `production` environment — `@projectbluefin/maintainers` |
 | **bluefin-lts** | `scheduled-lts-release.yml` | `production` environment — `@projectbluefin/maintainers` |
-| **dakota** | `release.yml` | `production` environment — `@projectbluefin/maintainers` |
+| **dakota** | `weekly-testing-promotion.yml` (calls `release.yml` as sub-workflow) | `production` environment — `@projectbluefin/maintainers` |
 
-### How the gate works
+### Verifying the environment gate is real
+
+`environment: production` in a workflow YAML is only effective if the GitHub environment has `required_reviewers` configured. To verify:
+
+```bash
+gh api repos/projectbluefin/{repo}/environments/production \
+  --jq '.protection_rules[] | select(.type=="required_reviewers") | .reviewers[].reviewer.slug'
+```
+
+Expected output: `maintainers`. All three repos confirmed: `required_reviewers: maintainers` + `prevent_self_review: true` (verified 2026-06-07).
+
+### Repo architecture differences (intentional)
+
+The three image repos use different promotion models by design — these are NOT inconsistencies:
+
+| Repo | Testing buffer | Renovate target | Branch model |
+|---|---|---|---|
+| bluefin | `testing` git branch (PRs must target it) | `testing` | testing → main → :stable |
+| bluefin-lts | No `testing` branch — main IS the integration branch | `main` | main → lts (promotion branch) → :lts |
+| dakota | No testing branch — BST tracks sources via `track-bst-sources.yml` | `main` (GHA only) | main builds → :testing tag → weekly promote to :stable |
+
+Bluefin-lts's `lts` branch is a promotion branch (like `stable`), not an equivalent of bluefin's `testing` buffer.
+
+
 
 1. Schedule fires Tuesday 06:00 UTC → GitHub notifies `@projectbluefin/maintainers`
 2. Any maintainer clicks **Review deployments** in the Actions UI and approves
@@ -127,20 +150,23 @@ The three image repos (bluefin, bluefin-lts, dakota) currently use inconsistent 
 
 **Known gaps being tracked:**
 
-| Issue | Repo | Gap | Blocked on |
+| Issue | Repo | Gap | Status |
 |---|---|---|---|
-| [#518](https://github.com/projectbluefin/common/issues/518) | bluefin | `:testing` tag pushed before e2e — broken images visible to users | Investigate shared build action first |
-| [#517](https://github.com/projectbluefin/common/issues/517) | bluefin-lts | Rebuilds from source for production — `:lts` never tested as shipped | **bluefin-lts PR #73** must merge first |
-| [#519](https://github.com/projectbluefin/common/issues/519) | bluefin-lts | No 7-day promotion floor | **bluefin-lts PR #73** must merge first (same file as #517) |
-| [#520](https://github.com/projectbluefin/common/issues/520) | dakota | Weekly promotion runs Sunday, not Tuesday | ✅ Fixed — dakota and bluefin now Tuesday 06:00 UTC, gated behind `production` env |
-| [#521](https://github.com/projectbluefin/common/issues/521) | dakota | No cosign verify before final promotion | Ready (after #520) |
-| [#522](https://github.com/projectbluefin/common/issues/522) | dakota | No full e2e at weekly promotion time | Ready (after #520) |
-| [#523](https://github.com/projectbluefin/common/issues/523) | common | No shared release-pipeline.md spec | **Start here — approve before any workflow PRs** |
-| [#524](https://github.com/projectbluefin/common/issues/524) | all repos | No TOCTOU SHA guard before final skopeo copy | bluefin and dakota ready; LTS after #517 |
+| [#517](https://github.com/projectbluefin/common/issues/517) | bluefin-lts | Rebuilds from source for production — `:lts` never tested as shipped | Open — blocked on bluefin-lts PR #73 |
+| [#518](https://github.com/projectbluefin/common/issues/518) | bluefin | `:testing` tag pushed before e2e | ✅ Closed |
+| [#519](https://github.com/projectbluefin/common/issues/519) | bluefin-lts | No 7-day promotion floor | ✅ Implemented (7-day floor present in `scheduled-lts-release.yml`) |
+| [#520](https://github.com/projectbluefin/common/issues/520) | dakota | Weekly promotion ran Sunday, not Tuesday | ✅ Closed |
+| [#521](https://github.com/projectbluefin/common/issues/521) | dakota | No cosign verify before final promotion | ✅ Closed |
+| [#522](https://github.com/projectbluefin/common/issues/522) | dakota | No full e2e at weekly promotion time | ✅ Closed |
+| [#523](https://github.com/projectbluefin/common/issues/523) | common | No shared release-pipeline.md spec | Open |
+| [#524](https://github.com/projectbluefin/common/issues/524) | all repos | No TOCTOU SHA guard before final skopeo copy | ✅ Closed |
+| — | bluefin | No `environment: production` on weekly stable promotion | ✅ Fixed 2026-06-07 (bluefin PR #432) |
+| — | bluefin-lts | TODO(#94): missing `environment: production` on promote job | ✅ Fixed 2026-06-07 (bluefin-lts PR #114) |
+| — | bluefin-lts | `renovate-automerge.yml` missing `--base main` filter | ✅ Fixed 2026-06-07 (bluefin-lts PR #114) |
+| — | bluefin-lts | `pr-e2e-smoke.yml` ran on all PRs including CI-only changes | ✅ Fixed 2026-06-07 (bluefin-lts PR #115) |
+| — | dakota | `weekly-testing-promotion.yml` used inline `curl` cosign install | ✅ Fixed 2026-06-07 (dakota PR #730) |
 
-**⚠️ bluefin-lts PR #73 (`feat/shared-workflow-migration`)** is pending review and rewrites the LTS build workflows + renames all LTS images. Do not implement #517 or #519 until #73 merges. After #73 merges, the LTS testing tag scheme changes from `bluefin:lts-testing` → `bluefin-lts:testing` / `bluefin-lts-hwe:testing` / `bluefin-gdx:testing`.
-
-Suggested implementation order: `#523 → #520 → #521 #522 #524-bluefin #524-dakota → #518 → (wait for #73) → #517+#519+#524-lts`
+**⚠️ bluefin-lts PR #73 (`feat/shared-workflow-migration`)** is pending review and rewrites the LTS build workflows + renames all LTS images. Do not implement #517 until #73 merges.
 
 ## Related docs
 

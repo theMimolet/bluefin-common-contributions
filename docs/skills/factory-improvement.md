@@ -152,8 +152,8 @@ Missing any row = a gap to close.
 |---|---|---|---|
 | common | `pr-e2e.yml` (composed + common suite) | `e2e.yml` | `promotion-candidate-e2e.yml` |
 | bluefin | PR smoke gate | post-merge common suite | Tuesday 06:00 UTC, N=7 floor, broad e2e suite |
-| bluefin-lts | PR validation | post-merge e2e (PR #70) | promotion smoke + failure issue reporting (PR #70) |
-| dakota | PR CI | post-merge gate | — |
+| bluefin-lts | PR validation (`pr-testsuite.yml`) + advisory e2e (`pr-e2e.yml`) | post-merge e2e | upgrade-test + failure issue reporting |
+| dakota | BST graph validation (`bst show`) | post-merge publish gate | Tuesday 06:00 UTC, N=7 floor, smoke+common e2e suite |
 
 Gaps in this matrix = testing blind spots. File issues for missing gates.
 
