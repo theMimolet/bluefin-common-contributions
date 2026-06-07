@@ -226,6 +226,31 @@ Agent works on task
                  └─ next agent starts smarter → loop
 ```
 
+### What counts as a learning worth writing back
+
+**Write it:**
+
+| Category | Example |
+|---|---|
+| Upstream bug workaround | "GNOME 47 broke this dconf key — use `x-gnome-47/` prefix instead" |
+| Non-obvious correctness requirement | "Must edit both the override file AND the lock file — editing only one silently has no effect" |
+| Convention not obvious from code | "Renovate automerges digest/patch/minor PRs. Only major bumps need agent review." |
+| Trial-and-error discovery | "SHA pinning for internal `projectbluefin/` refs uses a different policy than third-party" |
+
+**Don't write it:** one-off task notes, obvious developer knowledge, ephemeral state, or anything that contradicts an existing skill (update the skill instead).
+
+### Where learnings live
+
+| Working in... | Write to |
+|---|---|
+| `projectbluefin/common` | `docs/skills/` in this repo |
+| `projectbluefin/bluefin` | `docs/skills/` in that repo |
+| `projectbluefin/bluefin-lts` | `docs/skills/` in that repo |
+| `projectbluefin/dakota` | `docs/skills/` in that repo |
+| `projectbluefin/actions` | `docs/skills/` (Copilot CLI) **and** `.github/skills/` (Cloud Agent) — both |
+| Cross-cutting (affects 2+ repos) | Local first, then open a propagation issue in `projectbluefin/actions` |
+| `ublue-os/*` | **NEVER.** Tell the human to report manually. |
+
 ### Before marking work complete — checklist
 
 - [ ] Did I discover any workaround, non-obvious pattern, or convention?
@@ -234,7 +259,7 @@ Agent works on task
 - [ ] If no — did I create one in `docs/skills/`?
 - [ ] Is the skill file committed in **this same PR**?
 
-See [`docs/skills/skill-improvement.md`](docs/skills/skill-improvement.md) for the full mandate and what counts as a learning worth writing.
+See [`docs/skills/skill-improvement.md`](docs/skills/skill-improvement.md) for the full mandate.
 
 ## Human Decision Gates
 
