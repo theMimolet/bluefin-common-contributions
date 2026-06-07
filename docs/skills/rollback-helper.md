@@ -1,6 +1,6 @@
 ---
 name: rollback-helper
-description: "ublue-rollback-helper TUI state machine — three-way coordinated arrays, LTS branches, and registry path derivation."
+description: "ublue-rollback-helper TUI state machine — three-way coordinated arrays, LTS branches, and registry path derivation. Use when working on ublue-rollback-helper, debugging the TUI state machine, or modifying LTS branch or registry path logic."
 ---
 
 # rollback-helper

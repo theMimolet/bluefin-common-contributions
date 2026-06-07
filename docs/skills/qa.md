@@ -1,6 +1,6 @@
 ---
 name: qa
-description: "QA model, test coverage matrix, promotion gates by repo, hardware gap, and how to run the test suite for projectbluefin factory repos."
+description: "QA model, test coverage matrix, promotion gates by repo, hardware gap, and how to run the test suite for projectbluefin factory repos. Use when understanding QA coverage, running tests, or checking promotion gate status."
 ---
 
 # QA Model — projectbluefin Factory

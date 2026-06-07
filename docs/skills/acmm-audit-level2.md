@@ -1,6 +1,6 @@
 ---
 name: acmm-audit-level2
-description: "ACMM Level 2→3 bridge audit (historical). Factory has reached Level 3 (Instructed) as of 2026-06-06. This doc records the L2 baseline and L3 bridge requirements that were implemented."
+description: "ACMM Level 2→3 bridge audit (historical archive). Factory reached Level 3 (Instructed) as of 2026-06-06. Use when reviewing the factory audit history or understanding the L2→L3 bridge requirements that were implemented."
 ---
 
 # ACMM Level 2 Audit — Project Bluefin Factory

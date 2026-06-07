@@ -1,6 +1,6 @@
 ---
 name: e2e-ci
-description: "Pre/post-merge E2E CI for common — composed PR gate, testing-stream checks, masked brew setup, quarantined scenarios."
+description: "Pre/post-merge E2E CI for common — composed PR gate, testing-stream checks, masked brew setup, and quarantined scenarios. Use when debugging E2E CI failures, understanding the PR gate composition flow, or diagnosing masked brew-setup failures."
 ---
 
 # E2E CI

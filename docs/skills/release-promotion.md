@@ -1,6 +1,6 @@
 ---
 name: release-promotion
-description: "Promotion criteria, monthly release cadence, hotfix procedure, and artifact verification for projectbluefin/common."
+description: "Promotion criteria, monthly release cadence, hotfix procedure, and artifact verification for projectbluefin/common. Use when cutting a release, understanding the promotion pipeline, or verifying release artifacts."
 ---
 
 # Release and promotion — common

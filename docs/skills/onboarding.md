@@ -1,6 +1,6 @@
 ---
 name: onboarding
-description: "Verified setup commands, correct pip/npm flags, and PR branch targets for all projectbluefin repos."
+description: "Verified setup commands, correct pip/npm flags, and PR branch targets for all projectbluefin repos. Use when setting up a new development environment or writing contributor documentation."
 ---
 
 # Onboarding — Correct Setup Commands per Repo

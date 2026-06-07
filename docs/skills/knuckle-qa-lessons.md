@@ -1,6 +1,6 @@
 ---
 name: knuckle-qa-lessons
-description: "Historical lessons learned from knuckle QA sessions (May 2026). Archived from knuckle-qa.md to keep the main skill doc under the 500-line limit."
+description: "Historical lessons learned from knuckle QA sessions (May 2026) — archived from knuckle-qa.md to stay under the 500-line limit. Use when researching past QA patterns or debugging issues with historical context."
 ---
 
 # knuckle-qa — Lessons Learned Archive (May 2026)

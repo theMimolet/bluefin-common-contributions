@@ -1,6 +1,6 @@
 ---
 name: ci-tooling
-description: "Pre-commit floating-tag guard, SHA pinning policy, skill-drift workflow, consumer-contract validation, and Renovate OCI digest tracking for projectbluefin repos."
+description: "Pre-commit floating-tag guard, SHA pinning policy, skill-drift workflow, consumer-contract validation, and Renovate OCI digest tracking for projectbluefin repos. Use when editing .github/workflows/ files, enforcing SHA pinning, or understanding pre-commit policy guards."
 ---
 
 # CI tooling

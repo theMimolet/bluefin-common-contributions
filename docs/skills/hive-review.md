@@ -1,6 +1,6 @@
 ---
 name: hive-review
-description: "Session start ritual — run ~/src/hive-status, interpret P0/P1 output, triage advisory items, and find agent-ready issues."
+description: "Session start ritual — run ~/src/hive-status, interpret P0/P1 output, triage advisory items, and find agent-ready issues. Use at the start of every agent session to surface blockers and the advisory queue."
 ---
 
 # Hive-Status — P0/P1 Triage Tool

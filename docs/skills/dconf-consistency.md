@@ -1,6 +1,6 @@
 ---
 name: dconf-consistency
-description: "GSettings override and dconf lock file parity rules — must edit both files together for locked settings."
+description: "GSettings override and dconf lock file parity rules — must edit both files together for locked settings. Use when changing any GSettings key, dconf override, or lock file in system_files/."
 ---
 
 # dconf Consistency

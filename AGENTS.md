@@ -109,6 +109,39 @@ Lifecycle automation source of truth: `.github/workflows/lifecycle.yml`
 - **Doc-only exception:** `docs/` edits and `AGENTS.md` changes in `common` may be pushed directly to `main` without a PR.
 - **To add information to an issue or PR you authored, edit the body — do not add a new comment.** Use `gh api repos/projectbluefin/common/issues/<n> -X PATCH --field body=@file`. A new comment is only appropriate as a reply to someone else or for a distinct event.
 
+## Development Standards
+
+### Commit format
+
+[Conventional Commits](https://www.conventionalcommits.org/): `<type>(<scope>): <description>`
+
+Common types: `feat` `fix` `docs` `ci` `refactor` `chore` `build` `perf` `test` `revert`
+
+### AI attribution
+
+Every AI-authored commit **must** include both trailers (enforced by `validate.yml`):
+
+```
+feat(ci): add retry logic to testsuite dispatch
+
+Retry up to 3 times on transient runner errors before failing the job.
+
+Assisted-by: Claude Sonnet 4.6 via GitHub Copilot
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+```
+
+Both trailers must appear together. One without the other is a CI violation.
+
+## Build Tools
+
+| Tool | Purpose |
+|---|---|
+| **Just** | Command runner — `just check`, `just build`, `just validate` |
+| **Podman/Buildah** | Container building (required for `just build`) |
+| **GitHub Actions** | CI/CD — all workflows in `.github/workflows/` |
+| **pre-commit** | Hygiene checks — json/yaml/toml/actionlint/SHA pinning |
+| **Renovate** | Automated dependency updates (config: [projectbluefin/renovate-config](https://github.com/projectbluefin/renovate-config)) |
+
 ## Analysis vs. implementation
 
 When asked an analysis question ("what's the fix?", "how should we handle X?", "is there a better approach?"), **answer the question — do not implement**. Only write or change code when explicitly asked to make the change. Discussing a solution and implementing it are separate steps; wait for the user to cross that line.
@@ -231,3 +264,7 @@ Do not request PR review without evidence:
 For task→skill routing, see [`docs/SKILL.md`](docs/SKILL.md).
 For the full factory operating model, see [`docs/factory/README.md`](docs/factory/README.md).
 For cross-repo agent rules, branch targets, and PR comment policy, see [`docs/factory/agentic-model.md`](docs/factory/agentic-model.md).
+
+---
+
+*Hive dashboard: [kubestellar.io/live/hive/bluefin](https://kubestellar.io/live/hive/bluefin/)*

@@ -1,6 +1,6 @@
 ---
 name: bonedigger
-description: "bonedigger + kubestellar-bot — the full self-improvement loop. ujust report filing, priority escalation, and how fixes ship back to the image."
+description: "bonedigger + kubestellar-bot lifecycle automation — ujust report issue filing, priority escalation, and how fixes ship back to the image. Use when understanding how ujust report works, investigating bonedigger behavior, or diagnosing issue lifecycle automation."
 ---
 
 # bonedigger & kubestellar-bot

@@ -1,6 +1,6 @@
 ---
 name: skill-improvement
-description: "The skill-improvement mandate — every agent session must produce a skill file update alongside the work. Checklist, what counts as a learning, and where to write it."
+description: "The skill-improvement mandate — every agent session must produce a skill file update alongside the work. Use when completing a task and deciding whether to write a skill update, or when creating or updating a skill file."
 ---
 
 # Skill Improvement Mandate
