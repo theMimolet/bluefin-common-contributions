@@ -125,6 +125,8 @@ Lifecycle automation source of truth: `.github/workflows/lifecycle.yml`
 - **SHA pinning:** All `uses:` references to external GitHub Actions must be pinned to a full commit SHA with a version comment — never use floating tags (`@main`, `@latest`, `@v*`). Pre-commit enforces this. See [`docs/skills/ci-tooling.md`](docs/skills/ci-tooling.md).
 - Max 4 open PRs at a time per agent
 - No WIP PRs
+- **One PR per feature.** Never batch unrelated changes into a single PR. Each logical fix or feature gets its own branch and PR.
+- **Ask before opening PRs.** Do not open PRs autonomously. Prepare the branch and diff, get explicit human approval, then open. Exception: Renovate bot PRs are pre-approved.
 - **Never push directly to a protected branch.** Always open a PR. PRs enter the human review queue (`pr/needs-review`) and require `lgtm` from a human before merging. This applies to `common/main` too — branch protection bypass is not agent-permitted.
 - **Doc-only exception:** `docs/` edits and `AGENTS.md` changes in `common` may be pushed directly to `main` without a PR.
 - **To add information to an issue or PR you authored, edit the body — do not add a new comment.** Use `gh api repos/projectbluefin/common/issues/<n> -X PATCH --field body=@file`. A new comment is only appropriate as a reply to someone else or for a distinct event.

@@ -7,7 +7,7 @@ metadata:
 
 # Human Decision Gates
 
-Agents implement autonomously **except** at these four gates. At each gate, stop work, open a draft PR, and request human input explicitly. Never guess past a gate.
+Agents implement autonomously **except** at these four gates. At each gate, stop work and request human input explicitly. Never guess past a gate.
 
 ## Contents
 - [The Four Gates](#the-four-gates)
@@ -29,7 +29,7 @@ Examples:
 - Changing defaults that affect what users see or can do
 - Restructuring the repo layout or CI model
 
-**Action:** Open a draft PR with your proposed design. Write a clear description of what you're proposing and why. Tag with `pr/needs-review` and explicitly state you are at a design gate.
+**Action:** Describe your proposed design clearly: what you're proposing, why, and what you're uncertain about. Ask for human approval before writing code or opening a PR.
 
 ---
 
@@ -44,7 +44,7 @@ Examples:
 - Changing how packages are verified or pinned
 - Any change to the signing or attestation pipeline
 
-**Action:** Open a draft PR. State exactly which security property is affected and what your proposed approach preserves or changes. Security changes require maintainer review regardless of how minor they appear.
+**Action:** Describe exactly which security property is affected and what your proposed approach preserves or changes. Ask for explicit human approval before opening any PR. Security changes require maintainer review regardless of how minor they appear.
 
 ---
 
@@ -78,18 +78,18 @@ Agents never self-merge, never bypass branch protection, and never force-push to
 
 When you hit a gate:
 
-1. Open a draft PR (or convert existing PR to draft)
-2. Add a comment stating which gate you've hit and what decision is needed:
+1. Stop. Present what you've done (branch, diff) and what decision is needed — do NOT open a PR yet.
+2. Describe the gate clearly:
    ```
-   Hitting the Security Gate — need human review before proceeding.
+   Hitting the Security Gate — need human approval before opening a PR.
 
    Proposed change: [describe it]
    Security property affected: [what it is]
    My approach: [what you're proposing]
    Alternative approaches: [if any]
    ```
-3. Add the `agent/blocked` label
-4. Stop. Do not implement past the gate waiting for a response.
+3. Add the `agent/blocked` label to the related issue (not a new PR comment).
+4. Wait for explicit human approval before opening a PR.
 
 ---
 
@@ -113,4 +113,4 @@ Do not request review until all five are checked. A PR without evidence is not r
 
 ## When in Doubt
 
-If you are uncertain whether something hits a gate — it does. Open a draft PR, describe what you're doing and what you're uncertain about, and ask. A short human answer costs less than a wrong implementation.
+If you are uncertain whether something hits a gate — it does. Describe what you're doing and what you're uncertain about, and ask. A short human answer costs less than a wrong implementation. Do not open a PR speculatively.
