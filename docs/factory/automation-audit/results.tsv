@@ -17,3 +17,4 @@ iteration	metric	action	result	notes
 15	18	drift verification + cleanup	keep	Counts reconciled (97→116, 700→875 LoC); per-repo gates clarified (2/1/0 reviews); follow-up issues #583-586 linked; CODEOWNERS/renovate gaps surfaced
 16	19	CODEOWNERS issue filed (#589) + renovate-pattern clarified	keep	Filed #589 for iso/bonedigger CODEOWNERS gap; downgraded renovate finding from "drift risk" to "intentional org pattern"
 17	23	execution batch (4 PRs)	keep	C2 #585 → bluefin#484, C2 #586 → bluefin-lts#159, #589 → bonedigger#22 + iso#59. All 4 PRs mergeable; awaiting CI + maintainer review per branch-protection floor.
+18	27	merge batch + CODEOWNERS team-handle fix	keep	All 4 PRs merged: bluefin#484 (→testing), bluefin-lts#159 (→main, live), bonedigger#22 (live), iso#60 (live, replaces closed #59 after maintainer feedback to use @projectbluefin/maintainers team handle). #585/#586/#589 closed.

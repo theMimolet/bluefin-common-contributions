@@ -86,9 +86,9 @@ Follow-up work is tracked in `projectbluefin/common`:
 |---|---|---|
 | [#583](https://github.com/projectbluefin/common/issues/583) | `[automation-audit]` 2026-06-10 supplement landed — track follow-up batches | Open (parent tracker) |
 | [#584](https://github.com/projectbluefin/common/issues/584) | `[consistency C1]` Land `reusable-promote.yml` in `projectbluefin/actions` | Open (1-day refactor, separate session) |
-| [#585](https://github.com/projectbluefin/common/issues/585) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin` | **PR open: [bluefin#484](https://github.com/projectbluefin/bluefin/pull/484)** |
-| [#586](https://github.com/projectbluefin/common/issues/586) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin-lts` | **PR open: [bluefin-lts#159](https://github.com/projectbluefin/bluefin-lts/pull/159)** |
-| [#589](https://github.com/projectbluefin/common/issues/589) | `[automation-audit]` Add `CODEOWNERS` to `iso` and `bonedigger` (drift-refresh finding) | **PRs open: [bonedigger#22](https://github.com/projectbluefin/bonedigger/pull/22), [iso#59](https://github.com/projectbluefin/iso/pull/59)** |
+| [#585](https://github.com/projectbluefin/common/issues/585) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin` | ✅ Merged: [bluefin#484](https://github.com/projectbluefin/bluefin/pull/484) (→ `testing`; reaches `main` on next promotion) |
+| [#586](https://github.com/projectbluefin/common/issues/586) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin-lts` | ✅ Merged: [bluefin-lts#159](https://github.com/projectbluefin/bluefin-lts/pull/159) (live on `main`) |
+| [#589](https://github.com/projectbluefin/common/issues/589) | `[automation-audit]` Add `CODEOWNERS` to `iso` and `bonedigger` (drift-refresh finding) | ✅ Merged: [bonedigger#22](https://github.com/projectbluefin/bonedigger/pull/22), [iso#60](https://github.com/projectbluefin/iso/pull/60) (using `@projectbluefin/maintainers` team handle so membership changes auto-propagate) |
 
 *Open a tracking issue for any new finding from drift verification before adding it to the consistency or roadmap docs.*
 
