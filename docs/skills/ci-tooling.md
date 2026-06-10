@@ -245,7 +245,90 @@ Common survivors: `devmode.md` advisories, `image-registry.md` section headers, 
 
 ## Shell Script Testability Patterns
 
-### BASH_SOURCE guard for interactive scripts
+### pytest-cov: `--cov=tests` measures the wrong thing
+
+`--cov=tests` reports coverage of the test files themselves — always ~100% trivially.
+It does **not** measure the source code under test.
+
+For `hooks.py` loaded via `importlib.util.spec_from_file_location`, use the source directory:
+
+```yaml
+# WRONG — measures tests/test_hooks.py, not hooks.py
+python3 -m pytest tests/test_hooks.py --cov=tests --cov-fail-under=80
+
+# CORRECT — measures system_files/bluefin/etc/bazaar/hooks.py
+python3 -m pytest tests/test_hooks.py --cov=system_files/bluefin/etc/bazaar --cov-fail-under=80
+```
+
+---
+
+### flock FD ordering — mkdir-p must precede the subshell
+
+`(...) 200>"${lock_file}"` opens the FD **before** the subshell body executes.
+On first boot when the parent directory doesn't exist, the redirect fails before
+flock runs — every caller exits non-zero and silently skips.
+
+```bash
+# WRONG — mkdir runs too late; redirect fails if dir missing
+(
+    flock -x 200
+    mkdir -p "$(dirname "${FILE}")"
+    ...
+) 200>"${lock_file}"
+
+# CORRECT — directory exists before the FD is opened
+mkdir -p "$(dirname "${FILE}")"
+(
+    flock -x 200
+    ...
+) 200>"${lock_file}"
+```
+
+**General rule:** any `>`/`>>` redirect must have its parent directory created before
+the redirect expression, not inside the command body.
+
+---
+
+### stdin redirect testability — never hardcode the path
+
+Scripts using `< /usr/share/ublue-os/image-info.json` fail in CI because the
+file doesn't exist on runners. The shell fails the redirect **before** jq runs.
+A jq PATH-stub mock won't help — jq never gets called.
+
+```bash
+# WRONG — fails in CI; variable is always empty
+TAG="$(jq -r '."image-tag"' < /usr/share/ublue-os/image-info.json)"
+
+# CORRECT — env-var override allows test isolation
+IMAGE_INFO_FILE="${IMAGE_INFO_FILE:-/usr/share/ublue-os/image-info.json}"
+TAG="$(jq -r '."image-tag"' < "${IMAGE_INFO_FILE}")"
+```
+
+In bats `setup()`: create `${WORKDIR}/image-info.json` and `export IMAGE_INFO_FILE`.
+Apply to any script reading system files via stdin redirect.
+
+---
+
+### Assert env-var export against the subshell consumer, not exec
+
+`exec` inherits all shell variables whether exported or not — asserting `DEFAULT_THEME`
+in the exec'd process always passes even with `export` removed.
+
+`$(ublue-bling-fastfetch)` runs in a **subshell** — subshells inherit only **exported**
+variables. This is the consumer to instrument.
+
+```bash
+# WRONG — passes even without export keyword
+printf '#!/bin/bash\necho "VAR=${VAR}"\n' > mock-fastfetch
+
+# CORRECT — fails if export is removed (subshell can't see unexported vars)
+printf '#!/bin/bash\necho "VAR=${VAR}"\necho "blue"\n' > mock-ublue-bling-fastfetch
+```
+
+**Rule:** identify the actual consumer (the `$(...)` call) and instrument that mock.
+
+---
+
 
 Wrap the main flow so sourcing the script in bats only loads functions:
 ```bash
