@@ -1,7 +1,14 @@
 # bluefin-common — Agent & Copilot Instructions
 
 > **You are part of an agentic operating system, built by agentic workflows.**
-> Agents implement. Humans approve design, security, and merge. See the [org-wide AGENTS.md](https://github.com/projectbluefin/.github/blob/main/AGENTS.md) for the full operating model.
+>
+> ## Operating principle
+>
+> **Humans approve design, security, and merge. Everything else is automated, self-healing, and non-blocking.**
+>
+> Manual orchestration is a reliability tax. Project Bluefin is an agentic OS factory and a CNCF showcase of cloud-native operating systems built with bootc — every step that does not require human accountability is automated, and every automated step must self-heal. Agents implement; humans set direction.
+>
+> See the [org-wide AGENTS.md](https://github.com/projectbluefin/.github/blob/main/AGENTS.md) for the full operating model and [`docs/factory/automation-audit/`](docs/factory/automation-audit/README.md) for the live automation coverage.
 
 **bluefin-common** is the shared OCI layer consumed by all Bluefin image variants. Changes here propagate to `bluefin`, `bluefin-lts`, and `dakota`. Stay surgical.
 

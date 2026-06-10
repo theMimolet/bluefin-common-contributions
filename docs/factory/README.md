@@ -4,6 +4,14 @@
 
 This directory is the org-level entry point for agents and maintainers working across the Project Bluefin factory.
 
+## Operating principle
+
+> **Humans approve design, security, and merge. Everything else is automated, self-healing, and non-blocking.**
+
+Project Bluefin aims to be the most sophisticated CNCF showcase of cloud-native operating systems built with bootc. The factory is an **agentic CI/CD organism**: agents implement, humans set direction. Manual orchestration is treated as a reliability tax — every manual step that *can* be automated *will* be, every automated step must self-heal, and every remaining human gate is intentional and named in [`docs/skills/human-gates.md`](../skills/human-gates.md).
+
+The full automation audit, current coverage, and ready-to-deploy artifacts live in [`automation-audit/`](automation-audit/README.md). New workflows must demonstrate self-healing against the catalogued [failure modes](automation-audit/failure-modes.md) before they ship.
+
 ## Reference read order
 
 1. Target repo `AGENTS.md` — start here
@@ -65,12 +73,13 @@ Hard rules, branch targets, PR comment policy, session start: [`docs/factory/age
 
 ## Automation coverage
 
-Factory automation audit (2026-06-09): [`docs/factory/automation-audit/`](automation-audit/README.md)
+Factory automation audit (2026-06-09, supplemented 2026-06-10): [`docs/factory/automation-audit/`](automation-audit/README.md)
 
 - **91% automated** (88/97 workflows fully autonomous)
-- **4 intentional human gates** (promotion review, actions merge, priority assignment, stale PR unclaim)
-- **9 ready-to-deploy artifacts** to reach 97% automation
-- ISO is the weakest link (25% — manual dispatch only); fix artifacts provided
+- **4 intentional human gates** (promotion review, actions merge, priority assignment, stale PR unclaim) — see [`docs/skills/human-gates.md`](../skills/human-gates.md)
+- **11 ready-to-deploy artifacts** to reach ≥97% automation, including a reusable promotion workflow that collapses ~700 lines of triplicated YAML
+- **L0–L5 publish-loop test plan** ([`publish-loop-test-plan.md`](automation-audit/publish-loop-test-plan.md)) — chaos suite, dry-run with idempotency probe, artifact verification
+- ISO is the weakest link (25% — manual dispatch only); fix artifacts provided as proposals
 
 ## Agent rules of engagement
 
