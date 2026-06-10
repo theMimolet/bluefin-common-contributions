@@ -160,8 +160,11 @@
 
 ## Automation Impact
 
-- **Currently automated:** 88/97 workflows (91%)
+- **Currently automated:** ~106/116 workflows (~91%)
+- **Touchpoints automatable:** 6 (T2, T3, T6, T8, T9, plus dispatch wiring for T4)
+- **Touchpoints intentional:** 4 (T1, T5, T10, T11)
+- **Touchpoints blocked:** 2 (T4 hardware, T7 secret provisioning)
+- **Target after implementation:** ~110/116 workflows automated; intentional human gates: image-repo promotion review, `actions` repo merge, P0/P1 priority assignment, `/unclaim` on stale PRs
 - **Automatable with artifacts in this audit:** +3 touchpoints → 94%
 - **Blocked (requires external action):** 2 touchpoints
 - **Intentional human gates (keep):** 4 touchpoints
-- **Target after implementation:** 93/97 workflows automated, 4 intentional human gates

@@ -1,6 +1,6 @@
 # Automation Audit — Project Bluefin Factory
 
-> Generated: 2026-06-09 (initial), supplemented 2026-06-10 (consistency + test plan + mantra).
+> Generated: 2026-06-09 (initial), supplemented 2026-06-10 (consistency + test plan + mantra), refreshed 2026-06-10 (drift verification — counts and gates reconciled to live state).
 >
 > **Mantra:** *Humans approve design, security, and merge. Everything else is automated, self-healing, and non-blocking.*
 
@@ -14,15 +14,16 @@ When this principle conflicts with convenience, the principle wins. New workflow
 
 ## Executive Summary
 
-The projectbluefin factory is **91% automated** across 97 workflows in 6 repos. This audit identifies the remaining gaps and provides ready-to-deploy artifacts to reach **≥97% automation** with only 4 intentional human gates remaining.
+The projectbluefin factory is **91% automated** across **116 workflows in 7 in-scope repos** (common 11, bluefin 26, bluefin-lts 16, dakota 22, actions 22, testsuite 10, iso 9; bonedigger 2 and housekeeping 0 are out of audit scope). This audit identifies the remaining gaps and provides ready-to-deploy artifacts to reach **≥97% automation** with only the documented intentional human gates remaining.
 
 **Key findings:**
 - ISO builds are the weakest link (25% automation — fully manual dispatch); fix artifacts retained as **proposals only** (the `iso` repo is currently out of scope for this rollout)
 - Supply chain tooling (SBOM, SLSA, keyless signing) is designed but not deployed
 - Self-healing patterns (retry, token health) don't exist yet
 - 4 of 7 non-deterministic steps are already mitigated
-- ~700 lines of `promote-testing-to-main.yml` are triplicated across image repos and should consolidate into `projectbluefin/actions`
-- 4 reusable workflows are still referenced as `@main` (no SHA pin) — silent behavior changes downstream
+- **875 lines** of `promote-testing-to-main.yml` are triplicated across image repos (bluefin 343 + bluefin-lts 349 + dakota 183) and should consolidate into `projectbluefin/actions`
+- **12 `@main` reusable-workflow refs** remain across image repos: 4 reusable workflows (`reusable-execute-release`, `reusable-release-gate`, `reusable-release-reminder`, `reusable-release`) × 3 consumers (bluefin, bluefin-lts, dakota) — silent behavior changes downstream
+- `iso` and `bonedigger` ship without `CODEOWNERS`; `bluefin-lts`, `dakota`, `actions`, `iso`, `bonedigger` have no in-repo `renovate.json` (rely on org-level `projectbluefin/renovate-config`) — drift risk if org config diverges from repo intent
 
 **Total effort to implement all recommendations:** 9 working days (original 7 phases + 1 day consistency consolidation + 1 day test plan)
 
@@ -32,7 +33,7 @@ The projectbluefin factory is **91% automated** across 97 workflows in 6 repos. 
 
 | # | File | Purpose |
 |---|---|---|
-| 1 | [`pipeline-map.md`](pipeline-map.md) | Complete mapping of 97 workflows across 6 repos |
+| 1 | [`pipeline-map.md`](pipeline-map.md) | Complete mapping of 116 workflows across 7 in-scope repos |
 | 2 | [`manual-touchpoints.md`](manual-touchpoints.md) | 11 manual touchpoints classified and prioritized |
 | 3 | [`non-deterministic-steps.md`](non-deterministic-steps.md) | 7 ND steps audited, 3 actionable fixes |
 | 4 | [`failure-modes.md`](failure-modes.md) | 7 failure modes with YAML hardening patterns |
@@ -54,21 +55,40 @@ The projectbluefin factory is **91% automated** across 97 workflows in 6 repos. 
 | 15 | [`retry-action.yml`](retry-action.yml) | `actions/actions/retry/` | FM1, FM2: No retry |
 | 16 | [`check-token-health-action.yml`](check-token-health-action.yml) | `actions/actions/check-token-health/` | FM3: Token expiry |
 | 17 | [`dakota-cache-warm.yml`](dakota-cache-warm.yml) | `dakota/.github/workflows/` | ND1: Cold-start timeout |
-| 18 | [`reusable-promote.yml`](reusable-promote.yml) | `actions/.github/workflows/` | C1: ~700 lines of triplicated `promote-testing-to-main.yml` |
+| 18 | [`reusable-promote.yml`](reusable-promote.yml) | `actions/.github/workflows/` | C1: 875 lines of triplicated `promote-testing-to-main.yml` |
 | 19 | [`dry-run-publish-loop.sh`](dry-run-publish-loop.sh) | `actions/scripts/chaos/` (or run locally) | L4: Idempotency probe + artifact verification |
 
 ---
 
 ## Remaining Human Gates (Intentional — Do Not Automate)
 
-| Gate | Rationale |
-|---|---|
-| 2 maintainer reviews on promotion PR | Accountability for production changes |
-| Human merge on `actions` repo | Supply chain security (reusable actions = high blast radius) |
-| P0/P1 priority assignment | Release impact requires judgment |
-| `/unclaim` on stale PRs | Context on abandoned vs. in-progress work |
+Review-count requirements differ per repo by branch protection (verified 2026-06-10):
+
+| Gate | Where | Rationale |
+|---|---|---|
+| 2 maintainer reviews on promotion PR | `bluefin`, `bluefin-lts` | Accountability for production user-facing images |
+| 1 maintainer review | `dakota`, `actions` | Lower-blast-radius repos — single reviewer is the policy floor |
+| 0 required reviews (convention only) | `common` | Doc-only changes push direct to main; non-doc still convention-gated by PR |
+| Human merge on `actions` repo | `actions` | Supply chain security (reusable actions = high blast radius) |
+| P0/P1 priority assignment | all repos | Release impact requires judgment |
+| `/unclaim` on stale PRs | all repos | Context on abandoned vs. in-progress work |
+
+> **Note:** The audit's earlier blanket "2 maintainer reviews" claim applied only to image repos. `dakota` and `actions` enforce a 1-reviewer floor; `common` enforces zero (relies on the org's PR convention, not branch protection).
 
 ---
+
+## Tracking Issues
+
+Follow-up work is tracked in `projectbluefin/common`:
+
+| Issue | Item |
+|---|---|
+| [#583](https://github.com/projectbluefin/common/issues/583) | `[automation-audit]` 2026-06-10 supplement landed — track follow-up batches |
+| [#584](https://github.com/projectbluefin/common/issues/584) | `[consistency C1]` Land `reusable-promote.yml` in `projectbluefin/actions` |
+| [#585](https://github.com/projectbluefin/common/issues/585) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin` |
+| [#586](https://github.com/projectbluefin/common/issues/586) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin-lts` |
+
+*Open a tracking issue for any new finding from drift verification before adding it to the consistency or roadmap docs.*
 
 ## How to Use This Audit
 

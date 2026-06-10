@@ -1,6 +1,8 @@
 # Automation Audit — Pipeline Map
 
-> Generated: 2026-06-09 | Scope: projectbluefin org (common, bluefin, bluefin-lts, dakota, actions, testsuite, iso)
+> Generated: 2026-06-09 | Refreshed: 2026-06-10 (counts verified live) | Scope: projectbluefin org (common, bluefin, bluefin-lts, dakota, actions, testsuite, iso)
+>
+> Out-of-scope siblings (not part of the publish loop): `bonedigger` (2 workflows), `housekeeping` (0 workflows).
 
 ## End-to-End Publishing Pipeline
 
@@ -52,7 +54,7 @@
 
 ## Per-Repo Workflow Inventory
 
-### common (15 workflows)
+### common (11 workflows)
 
 | Workflow | Trigger | Automation Level | Notes |
 |---|---|---|---|
@@ -100,7 +102,7 @@
 | `validate-renovate.yml` | PR | ✅ Full | Renovate config lint |
 | `consumer-validate-generate-release-notes.yml` | dispatch | ✅ Full | Release note validation |
 
-### bluefin-lts (similar pattern to bluefin)
+### bluefin-lts (16 workflows — mirrors bluefin)
 
 Uses shared reusable workflows. Key difference: 7-day promotion floor. `scheduled-lts-release.yml` added the time floor.
 
@@ -117,7 +119,7 @@ Uses shared reusable workflows. Key difference: 7-day promotion floor. `schedule
 | `track-next-junctions.yml` | schedule | ✅ Full | Upstream junction monitoring |
 | `update-filemap.yml` | push | ✅ Full | File map generation |
 
-### actions (19 workflows — reusable hub)
+### actions (22 workflows — reusable hub)
 
 | Workflow | Purpose | Status |
 |---|---|---|

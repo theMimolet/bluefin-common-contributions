@@ -14,3 +14,4 @@ iteration	metric	action	result	notes
 12	15	check-token-health-action.yml	keep	Token validation composite action
 13	16	implementation-roadmap.md	keep	7-phase prioritized roadmap
 14	17	README.md + results.tsv update	keep	Index and final summary
+15	18	drift verification + cleanup	keep	Counts reconciled (97→116, 700→875 LoC); per-repo gates clarified (2/1/0 reviews); follow-up issues #583-586 linked; CODEOWNERS/renovate gaps surfaced

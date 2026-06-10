@@ -38,7 +38,7 @@ This document supplements [`pipeline-map.md`](pipeline-map.md) and [`manual-touc
 | Lives in | `bluefin/.github/workflows/promote-testing-to-main.yml` (~14 KB), `bluefin-lts/.github/workflows/promote-testing-to-main.yml` (~14 KB), `dakota/.github/workflows/promote-testing-to-main.yml` (~6 KB) |
 | What it does | Resolves `:testing` digests, writes `.github/release-state.yaml`, opens/updates the always-open squash PR against `main` |
 | Per-image variation | List of variants (image streams) and the e2e suite name |
-| Total LoC duplicated | ~700 lines triplicated |
+| Total LoC duplicated | **875 lines** triplicated (verified 2026-06-10: bluefin 343 + bluefin-lts 349 + dakota 183) |
 | Consolidation target | `projectbluefin/actions/.github/workflows/reusable-promote.yml` taking `variants` (array) + `e2e_suite` (string) + `lts_floor_days` (int, default 0) as inputs |
 | Effort | 1 day |
 | Risk | LOW — this workflow runs daily; regression is caught within 24h |
@@ -171,7 +171,7 @@ Order by automation gain × inverse effort:
 
 After C1–C5:
 
-- ~700 lines of triplicated YAML reduced to one reusable workflow + 3 thin callers (≈30 LoC each)
+- **875 lines** of triplicated YAML reduced to one reusable workflow + 3 thin callers (≈30 LoC each)
 - Zero `@main` refs — full SHA pinning across all consumers
 - Single source of truth for: build, sign, release, promote, ISO rebuild, renovate-automerge, sync-branches, skill-drift, release-state schema
 - Shared composite library for: token health, retry, sign-and-publish, scan-image, detect-changes, validate-pr, setup-runner, chunka, ghcr-cleanup, generate-release-notes
