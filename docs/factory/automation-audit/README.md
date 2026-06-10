@@ -82,13 +82,13 @@ Review-count requirements differ per repo by branch protection (verified 2026-06
 
 Follow-up work is tracked in `projectbluefin/common`:
 
-| Issue | Item |
-|---|---|
-| [#583](https://github.com/projectbluefin/common/issues/583) | `[automation-audit]` 2026-06-10 supplement landed — track follow-up batches |
-| [#584](https://github.com/projectbluefin/common/issues/584) | `[consistency C1]` Land `reusable-promote.yml` in `projectbluefin/actions` |
-| [#585](https://github.com/projectbluefin/common/issues/585) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin` |
-| [#586](https://github.com/projectbluefin/common/issues/586) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin-lts` |
-| [#589](https://github.com/projectbluefin/common/issues/589) | `[automation-audit]` Add `CODEOWNERS` to `iso` and `bonedigger` (drift-refresh finding) |
+| Issue | Item | Status |
+|---|---|---|
+| [#583](https://github.com/projectbluefin/common/issues/583) | `[automation-audit]` 2026-06-10 supplement landed — track follow-up batches | Open (parent tracker) |
+| [#584](https://github.com/projectbluefin/common/issues/584) | `[consistency C1]` Land `reusable-promote.yml` in `projectbluefin/actions` | Open (1-day refactor, separate session) |
+| [#585](https://github.com/projectbluefin/common/issues/585) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin` | **PR open: [bluefin#484](https://github.com/projectbluefin/bluefin/pull/484)** |
+| [#586](https://github.com/projectbluefin/common/issues/586) | `[consistency C2]` Pin `@main` reusable-workflow refs to SHA in `bluefin-lts` | **PR open: [bluefin-lts#159](https://github.com/projectbluefin/bluefin-lts/pull/159)** |
+| [#589](https://github.com/projectbluefin/common/issues/589) | `[automation-audit]` Add `CODEOWNERS` to `iso` and `bonedigger` (drift-refresh finding) | **PRs open: [bonedigger#22](https://github.com/projectbluefin/bonedigger/pull/22), [iso#59](https://github.com/projectbluefin/iso/pull/59)** |
 
 *Open a tracking issue for any new finding from drift verification before adding it to the consistency or roadmap docs.*
 
