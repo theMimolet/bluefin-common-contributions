@@ -92,3 +92,23 @@ just bats               # BATS integration tests
 ## bonedigger integration
 
 bonedigger crash/panic detection should gate promotions — currently it is disconnected from the promotion workflow. See [#424](https://github.com/projectbluefin/common/issues/424) and [docs/skills/bonedigger.md](bonedigger.md).
+
+## libsetup.sh — setup versioning
+
+`version-script` in `system_files/shared/usr/lib/ublue/setup-services/libsetup.sh` is the idempotency guard for all first-boot setup scripts.
+
+**Pattern for callers:**
+```bash
+source /usr/lib/ublue/setup-services/libsetup.sh
+version-script my-service user 1 || exit 0
+# ... setup steps here, run exactly once per version bump ...
+```
+
+**Protections built into `version-script`:**
+- **Concurrent execution safe:** uses `flock -x` (fd 200 on a `.lock` file adjacent to the state file) so that user-setup and privileged-setup starting simultaneously on first boot cannot both read before either writes — each call is serialised.
+- **Malformed state file safe:** validates JSON with `jq` before reading. If `setup_versioning.json` is corrupted, resets to `{}` with a warning rather than silently skipping setup.
+- **Temp file cleanup:** uses `trap 'rm -f "${tmp}"' EXIT` inside the subshell so no orphaned temp files remain on error.
+
+**State file:** `~/.local/share/ublue/setup_versioning.json` (user-scoped, not global).
+
+**Test coverage:** `tests/test_libsetup.bats` — 9 tests. Run `just test` to verify.

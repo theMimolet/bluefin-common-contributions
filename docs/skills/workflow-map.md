@@ -18,17 +18,21 @@ Load this when you need to understand **what each GitHub workflow in `projectblu
 | `backfill-pipeline.yml` | Manual workflow — injects the pipeline widget into existing issues that are missing it. Accepts optional comma-separated issue numbers; auto-discovers all missing-widget issues if left blank. | Backfilling the widget after lifecycle automation is wired to a repo |
 | `validate.yml` | Main PR gate: submodule drift, `just check`, shellcheck, image-registry guard, dconf parity, pre-commit | Tightening repo-local validation or policy guards |
 | `validate-brewfiles.yaml` | Validates Brewfile correctness | Changing Brewfile structure or Brewfile validation rules |
-| `docs-quality.yml` | PR gate: skill frontmatter presence and Trail of Bits CI integration | Keeping skill docs complete and well-formed |
 | `build.yml` | Builds and publishes the `common` OCI layer on merge. **Supply chain gap:** currently uses key-based cosign signing inline — migration to shared `sign-and-publish` + `scan-image` tracked in [common#513](https://github.com/projectbluefin/common/issues/513) / [actions#86](https://github.com/projectbluefin/actions/issues/86). | Changing how the shared layer is built or pushed |
 | `pr-e2e.yml` | Pre-merge composed-image gate for the PR's common layer (composes + runs common suite via `run-testsuite.yml`) | Changing how PR-time downstream composition is tested |
 | `e2e.yml` | Post-merge common-suite validation against Bluefin stable and Bluefin LTS. Dakota matrix entry is currently skipped ([issue #497](https://github.com/projectbluefin/common/issues/497) — build machine broken). | Changing shipped-layer validation after merge |
 | `run-testsuite.yml` | Local wrapper that centralizes the pinned `projectbluefin/testsuite` SHA | Updating the shared testsuite pin or common-side testsuite wiring |
 | `promotion-candidate-e2e.yml` | Weekly smoke/common check against `bluefin:testing` and `bluefin:lts-testing` | Adjusting common-side signal before downstream Tuesday promotions |
 | `skill-drift.yml` | Warns when implementation changes land without matching docs/skills updates | Adjusting doc-drift coverage or path mapping |
-| `sync-codeowners.yml` | Keeps CODEOWNERS/policy state in sync | Governance / CODEOWNERS automation work |
+| `sync-codeowners.yml` | Keeps CODEOWNERS/policy state in sync. Has a `dry_run` boolean `workflow_dispatch` input — always run with `dry_run: true` first to preview changes before applying. Workflow makes irreversible `PUT/DELETE /collaborators` API calls across 4 downstream repos. | Governance / CODEOWNERS automation work |
 | `sync-labels.yml` | Syncs `labels.json` (67 labels) to all factory repos — requires `MERGERAPTOR_APP_ID` + `MERGERAPTOR_PRIVATE_KEY` secrets (see issue #511) | Adding/retiring labels or debugging label drift |
 | `release.yml` | Monthly/versioned OCI release flow. **Planned improvements:** git-cliff changelog + e2e prerequisite gate — see [`automation-audit/release-with-cliff.yml`](../factory/automation-audit/release-with-cliff.yml) for the ready-to-deploy replacement. Tracked in [common#513](https://github.com/projectbluefin/common/issues/513). | Changing versioned layer release behavior |
-| `lifecycle-caller.yml` | Issue/PR lifecycle — slash commands, widget, label guard, stale sweep. Calls common `lifecycle.yml`. | Changing factory lifecycle automation |
+| `lifecycle-caller.yml` | Issue/PR lifecycle — slash commands, widget, label guard, stale sweep. Calls common `lifecycle.yml`. **`lifecycle.yml` (747 lines) belongs in `projectbluefin/actions` — tracked in [common#570](https://github.com/projectbluefin/common/issues/570). Do not add more logic inline here.** | Changing factory lifecycle automation |
+
+> **Workflows that do not exist in `common` and must not be re-added:**
+> - `backfill-pipeline.yml` — issue widget backfill. If needed, run as a local script; do not add CI plumbing for a one-shot task.
+> - `skill-drift.yml` — process convention as CI gate; violates AGENTS.md policy. See `ci-tooling.md` § Skill drift detection.
+> - `docs-quality.yml` — skill frontmatter enforcement belongs in agent review, not CI.
 
 ## Mental model
 

@@ -117,9 +117,13 @@ Use both. The hook enforces that refs are pinned at commit time. Renovate keeps 
 
 ## Skill drift detection
 
-**Workflow:** `.github/workflows/skill-drift.yml`
+**`common` does not run `skill-drift.yml`.** Do not add it.
 
-`skill-drift.yml` is a PR gate used across projectbluefin repos. In `common`, it calls the reusable workflow `projectbluefin/actions/.github/workflows/skill-drift-check.yml` at a pinned commit SHA (so the local floating-tag guard does not reject the caller).
+Reason: AGENTS.md policy — *"Process conventions are self-enforced by agents. Never implement a process convention as a CI gate."* Skill update discipline lives in the agentic review loop, not in CI exit codes. A PR that ships a valid OCI improvement without a skill-doc update should not be blocked.
+
+Other projectbluefin repos (bluefin, dakota, knuckle) run their own `skill-drift.yml` — that is their choice. The rule above applies only to `common`.
+
+**Workflow (other repos):** `skill-drift.yml` calls the reusable workflow `projectbluefin/actions/.github/workflows/skill-drift-check.yml` at a pinned commit SHA (so the local floating-tag guard does not reject the caller).
 
 ### Repo path mapping
 
@@ -239,7 +243,7 @@ grep -rn "<script-name>" docs/ specs/ --include="*.md" --include="*.json"
 ```
 Common survivors: `devmode.md` advisories, `image-registry.md` section headers, `acmm-audit-level2.md` risk statements, `specs/` JSON chunks.
 
-## Shell Script Testability Patterns (added 2026-06-10)
+## Shell Script Testability Patterns
 
 ### BASH_SOURCE guard for interactive scripts
 
