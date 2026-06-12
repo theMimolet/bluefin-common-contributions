@@ -159,7 +159,7 @@ The daily heartbeat ensures the promotion PR stays fresh and gate checks are re-
 
 ### Dakota E2E
 
-Dakota E2E was restored as of [common#598](https://github.com/projectbluefin/common/pull/598) (2026-06-11). The promotion gate runs with `run_e2e: true`. If it is ever disabled again, re-enable by setting `run_e2e: true` in `dakota/.github/workflows/promote-testing-to-main.yml` and verify the dakotad build machine is healthy.
+Dakota's promotion gate runs with `run_e2e: true`. If it gets disabled, re-enable by setting `run_e2e: true` in `dakota/.github/workflows/promote-testing-to-main.yml` and verify the dakota build machine is healthy.
 
 ### Approval
 
