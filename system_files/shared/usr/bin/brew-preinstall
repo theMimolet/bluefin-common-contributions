@@ -73,12 +73,14 @@ if [[ -n "${previous_packages}" ]]; then
     done
 fi
 
-# Persist new state: hash + full managed package list for next diff
+# Persist new state: hash + full managed package list for next diff.
+# Write atomically via temp file + rename to avoid corrupt state on SIGKILL.
 mkdir -p "$(dirname "${STATE_FILE}")"
 packages_json=$(echo "${current_packages}" | jq -R . | jq -s .)
 jq -n \
     --arg hash "${current_hash}" \
     --argjson packages "${packages_json}" \
-    '{"hash": $hash, "packages": $packages}' > "${STATE_FILE}"
+    '{"hash": $hash, "packages": $packages}' > "${STATE_FILE}.tmp"
+mv -f "${STATE_FILE}.tmp" "${STATE_FILE}"
 
 echo "brew-preinstall: complete"
