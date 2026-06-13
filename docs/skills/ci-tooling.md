@@ -716,3 +716,41 @@ on:
 - `Out-of-org consumer impact`: explain whether aurora/bazzite are affected, or state `N/A` explicitly
 
 Leaving these lines blank or using placeholder text (`TODO`, `TBD`, `<!-- ...-->`) fails the check. The CI error is: `Consumer validation evidence is required for action or reusable workflow changes. See docs/skills/consumer-validation.md.`
+
+## merge_group + upload-sarif ref failure
+
+`github/codeql-action/upload-sarif` fails for merge queue builds with:
+
+```
+##[error]ref 'refs/heads/gh-readonly-queue/main/pr-NNN-...' not found in this repository
+```
+
+The ephemeral `gh-readonly-queue/...` refs are not resolvable by `upload-sarif`. The PR Build already ran the scan; the merge queue build is redundant for CVE checking — its purpose is only to verify the combined commit builds cleanly.
+
+**Fix:** Add `if: github.event_name != 'merge_group'` to both the export and scan steps:
+
+```yaml
+- name: Export image for scanning
+  if: github.event_name != 'merge_group'
+  ...
+
+- name: Scan image for CVEs
+  if: github.event_name != 'merge_group'
+  ...
+```
+
+*Observed: blocked every PR in the merge queue until fixed in common #660.*
+
+---
+
+## renovate-automerge.yml — secrets and trigger requirements
+
+The `renovate-automerge.yml` workflow uses the `mergeraptor` GitHub App to bypass the required-review branch protection for Renovate/mergeraptor PRs.
+
+**Secrets required:** `MERGERAPTOR_APP_ID` and `MERGERAPTOR_PRIVATE_KEY` must be available to the repo. Set these at the **org level** (projectbluefin → Settings → Secrets → Actions) with "All repositories" access — never per-repo, or every new repo needs manual setup.
+
+**Trigger:** The workflow fires via `workflow_run` when the "Build" workflow completes. It only works correctly when Build runs as a `pull_request` event (Renovate opens a PR → Build runs → `workflow_run` fires → automerge merges). 
+
+**Do not trigger via `workflow_dispatch`** on Renovate branches — `workflow_dispatch` causes Build to attempt push/sign (non-`pull_request` path), which fails on Renovate branches and causes the automerge to skip (conclusion != 'success').
+
+For stuck Renovate PRs where CI already passed before the workflow existed on main: merge directly with `gh pr merge <N> --squash --admin`.
