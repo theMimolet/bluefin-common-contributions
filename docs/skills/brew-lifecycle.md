@@ -94,6 +94,31 @@ without sacrificing simplicity.
 
 ---
 
+## Rule: no rpm-ostree layering — ever
+
+`rpm-ostree install` (layering) is **not supported in Bluefin under any circumstances**
+and must never be suggested as a workaround for missing packages.
+
+**Why it does not work:**
+- bootc's atomic upgrade model tracks a single OCI image digest. A layered commit
+  is a divergence from that digest that the factory cannot reason about, test, or roll back cleanly.
+- Layering breaks zstd:chunked delta pulls — the rechunker produces layer-level
+  deltas against the published image; a locally layered image has no matching
+  published chunks and must pull the full image on the next upgrade.
+- PAM/NSS/system-daemon packages installed via `rpm-ostree install` on a running
+  system interact with the live OS in ways that differ from the build-time
+  installation path, producing unreproducible system state.
+
+**If a use case requires a package with system integration (PAM modules,
+NSS modules, system daemons, udev rules):**
+- Bake it into the image via `FEDORA_PACKAGES` in `build_files/base/03-packages.sh` — or
+- Accept that the use case is not supported on stock Bluefin and direct the user
+  to a downstream custom image.
+
+Do not suggest `rpm-ostree install` as a solution in issues, docs, or ujust recipes.
+
+---
+
 ## Rule: what can move to brew
 
 Only move a package if it is a self-contained CLI tool with **none** of:
