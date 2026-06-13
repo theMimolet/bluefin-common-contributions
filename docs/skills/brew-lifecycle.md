@@ -57,6 +57,13 @@ tracked together.
 Never bump a version counter to propagate a Brewfile change — just edit the
 Brewfile. The hash change triggers the re-run automatically.
 
+**State write is atomic:** the script writes to `${STATE_FILE}.tmp` then
+`mv -f` renames it into place. This ensures the state file is never
+partially written if the process is killed mid-run. Do not revert to a
+direct `> "${STATE_FILE}"` write — corrupt state causes a full re-run on
+next login (slow but safe), and that is the only failure mode worth avoiding
+without sacrificing simplicity.
+
 ---
 
 ## Rule: what can move to brew
