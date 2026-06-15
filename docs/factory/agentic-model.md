@@ -38,7 +38,7 @@ Per-repo specifics live in that repo's `AGENTS.md` — start there, then load th
 |---|---|---|
 | `common` | `main` | No testing branch — direct to main |
 | `bluefin` | `testing` | Never `main` |
-| `bluefin-lts` | `main` | `main→lts` is the promotion path |
+| `bluefin-lts` | `main` | `main→lts` is the promotion path; migration to `testing` model in progress (see bluefin-lts AGENTS.md) |
 | `dakota` | `testing` | Never `main` |
 | `knuckle` | `main` | Installer — no testing branch |
 | `bootc-installer` | `dev` | Active work branch; `prod` triggers Flatpak release CI — never target `prod` directly |
