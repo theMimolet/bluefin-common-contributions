@@ -272,6 +272,25 @@ Every agent session produces two outputs:
 
 Output 1 without Output 2 leaves the factory no smarter. **The loop only compounds if agents write back.**
 
+### Project-internal facts must come from source code, not training data
+
+Source-Driven Development applies to **all project-internal facts**, not just library APIs. This includes:
+- OCI image names and published tags (read `execute-release.yml`, `build-image-testing.yml`)
+- Workflow matrix values, flavors, stream names (read the workflow file)
+- Registry paths, org names, service URLs (read the code that produces them)
+
+**Before writing any image name, tag, or registry path into any document:**
+```bash
+# Read the actual workflow that publishes the image
+gh api 'repos/projectbluefin/<repo>/contents/.github/workflows/execute-release.yml' \
+  --jq '.content' | base64 -d | grep -A3 'variants\|image\|tag'
+```
+
+Never copy from another doc. Never use training memory. The source is the truth.
+[`image-registry.md`](docs/skills/image-registry.md) has the canonical verification commands and an incident log of past misfires.
+
+**If you catch a document with wrong image names or tags:** fix it, add/update the Verification section, add a row to the incident log, commit in the same PR.
+
 ```
 Agent works on task
   └─ discovers pattern / workaround / convention

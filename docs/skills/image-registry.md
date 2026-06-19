@@ -9,6 +9,9 @@ metadata:
 
 All Bluefin images are published to `ghcr.io/projectbluefin/`. The org migration from `ublue-os` is complete — `projectbluefin` is fully standalone.
 
+> **Do not write image names or tags from memory.** This file is derived from source.
+> Re-derive any time you suspect drift — see [Verification](#verification) below.
+
 ## Registry paths
 
 > **There is no `:latest` tag on any projectbluefin image.** Source: `execute-release.yml` in each repo.
@@ -81,3 +84,35 @@ IMAGE_REGISTRY="ghcr.io/${IMAGE_VENDOR}"
 ## Build-time ublue-os source (wallpapers only)
 
 The Containerfile pulls wallpaper artwork from `ghcr.io/ublue-os/bluefin-wallpapers-gnome` as a **build-time COPY source**. This is a read-only upstream artwork dependency and does not violate the ublue-os prohibition. The production image tree and all runtime registries are fully under `ghcr.io/projectbluefin/`. See [`containerfile.md`](containerfile.md) for details.
+
+## Verification
+
+**Before editing this file or writing any image name or tag anywhere in the factory,
+re-derive from the actual workflow files.** Do not use training data or copy from
+other docs — they may be stale.
+
+```bash
+# bluefin: what images and tags does execute-release.yml publish?
+gh api 'repos/projectbluefin/bluefin/contents/.github/workflows/execute-release.yml' \
+  --jq '.content' | base64 -d | grep -A2 '"image"'
+
+# bluefin-lts: what images and tags?
+gh api 'repos/projectbluefin/bluefin-lts/contents/.github/workflows/execute-release.yml' \
+  --jq '.content' | base64 -d | grep -A2 '"image"'
+
+# bluefin: what flavors does the build matrix use?
+gh api 'repos/projectbluefin/bluefin/contents/.github/workflows/build-image-testing.yml' \
+  --jq '.content' | base64 -d | grep 'image_flavors'
+
+# live tags in GHCR (cross-check):
+gh api 'orgs/projectbluefin/packages/container/bluefin/versions' \
+  --jq '.[].metadata.container.tags[]' | grep -v '^[0-9a-f]\{64\}$' | sort -u
+```
+
+This is how the current table was derived. Run it, compare, update if anything differs.
+
+### Incident log
+
+| Date | What was wrong | Root cause | Fix |
+|---|---|---|---|
+| 2026-06-19 | `bluefin:latest`, `bluefin-nvidia:latest`, `ublue-os/` refs in this file | Agent wrote from training data without reading workflow files | Read `execute-release.yml` and `build-image-testing.yml`; removed non-existent tags |
