@@ -85,8 +85,7 @@ SHA-pinning internal `projectbluefin/` workflow refs causes a factory cascade: e
 |---|---|---|---|
 | `lifecycle-caller.yml` | common | `projectbluefin/actions/.github/workflows/lifecycle.yml` | `@main` |
 | `bonedigger.yml` | bluefin, bluefin-lts, dakota | `projectbluefin/bonedigger/.github/workflows/lifecycle.yml` | `@v1` |
-| `run-testsuite.yml` | bluefin, bluefin-lts | `projectbluefin/testsuite/.github/workflows/e2e.yml` | SHA-pinned (Renovate) |
-| `run-testsuite.yml` | dakota | `projectbluefin/testsuite/.github/workflows/e2e.yml` | SHA-pinned (Renovate) |
+| `run-testsuite.yml` | bluefin, bluefin-lts, dakota | `projectbluefin/testsuite/.github/workflows/e2e.yml` | `@main` |
 
 **Anti-pattern to avoid:** SHA-pinning `projectbluefin/actions` or `projectbluefin/bonedigger` workflow refs. When a SHA predates the file's existence in the repo, GitHub emits `startup_failure: This run likely failed because of a workflow file issue` with no further diagnosis. See [bonedigger#27](https://github.com/projectbluefin/bonedigger/issues/27).
 
@@ -110,7 +109,7 @@ Third-party actions must be pinned to a full commit SHA with a human-readable ve
 uses: actions/checkout@v4
 uses: actions/checkout@main
 uses: taiki-e/install-action@latest
-uses: projectbluefin/testsuite/.github/workflows/e2e.yml@main  # also rejected
+uses: projectbluefin/testsuite/.github/workflows/e2e.yml@main  # CORRECT — internal ref, exempt from the hook
 ```
 
 ### Repos with managed tags (exempt)
@@ -118,7 +117,7 @@ uses: projectbluefin/testsuite/.github/workflows/e2e.yml@main  # also rejected
 All `projectbluefin/` internal refs are exempt from the hook. Current usage:
 - `projectbluefin/actions` — `@v1` (common, bluefin, bluefin-lts, dakota build workflows) or `@main` (lifecycle-caller)
 - `projectbluefin/bonedigger` — `@v1` maintained by bonedigger release process
-- `projectbluefin/testsuite` — SHA-pinned (tracked by Renovate) — exempt from the hook but pinned by convention
+- `projectbluefin/testsuite` — `@main` (managed floating tag, same policy as all internal refs)
 
 External actions (everything outside `projectbluefin/`) must use full SHA pins.
 
