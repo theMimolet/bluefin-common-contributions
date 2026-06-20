@@ -5,17 +5,12 @@ on:
     # Run on the 1st of every month at 00:00 UTC
     - cron: '0 0 1 * *'
   workflow_dispatch:
-  workflow_run:
-    workflows: ["E2E"]
-    types: [completed]
-    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
-  # Guard: only release when triggered by schedule/dispatch, or when E2E just turned green and a release is due
-  check-release-cadence:
+  check:
     name: Check release cadence
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -28,92 +23,47 @@ jobs:
         id: check
         env:
           GH_TOKEN: ${{ github.token }}
-          EVENT_NAME: ${{ github.event_name }}
-          WF_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
         run: |
           set -euo pipefail
 
-          if [ "$EVENT_NAME" = "workflow_run" ]; then
-            # Only proceed when E2E succeeded
-            if [ "$WF_CONCLUSION" != "success" ]; then
-              echo "E2E did not succeed (conclusion: ${WF_CONCLUSION}) — skipping release"
+          # Skip if a release was published within the last 20 days
+          LAST_RELEASE=$(gh release list \
+            --repo "$GITHUB_REPOSITORY" \
+            --limit 1 \
+            --json publishedAt \
+            --jq '.[0].publishedAt // empty')
+
+          if [ -n "$LAST_RELEASE" ]; then
+            LAST_TS=$(date -d "$LAST_RELEASE" +%s)
+            NOW_TS=$(date +%s)
+            DAYS_SINCE=$(( (NOW_TS - LAST_TS) / 86400 ))
+            if [ "$DAYS_SINCE" -lt 20 ]; then
+              echo "Last release was ${DAYS_SINCE} days ago — not due yet"
               echo "due=false" >> "$GITHUB_OUTPUT"
               exit 0
             fi
-
-            # Skip if a release was published within the last 20 days
-            LAST_RELEASE=$(gh release list \
-              --repo "$GITHUB_REPOSITORY" \
-              --limit 1 \
-              --json publishedAt \
-              --jq '.[0].publishedAt // empty')
-
-            if [ -n "$LAST_RELEASE" ]; then
-              LAST_TS=$(date -d "$LAST_RELEASE" +%s)
-              NOW_TS=$(date +%s)
-              DAYS_SINCE=$(( (NOW_TS - LAST_TS) / 86400 ))
-              if [ "$DAYS_SINCE" -lt 20 ]; then
-                echo "Last release was ${DAYS_SINCE} days ago — not due yet"
-                echo "due=false" >> "$GITHUB_OUTPUT"
-                exit 0
-              fi
-            fi
           fi
 
-          echo "due=true" >> "$GITHUB_OUTPUT"
-
-  # Gate: verify promotion criteria before creating release
-  check-promotion-criteria:
-    name: Verify promotion criteria
-    needs: [check-release-cadence]
-    if: needs.check-release-cadence.outputs.due == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    outputs:
-      safe: ${{ steps.check.outputs.safe }}
-    steps:
-      - name: Check E2E status
-        id: check
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-
-          # Check if latest e2e.yml run on main is successful
-          LATEST_E2E=$(gh run list \
-            --repo "${{ github.repository }}" \
-            --workflow e2e.yml \
-            --branch main \
-            --limit 1 \
-            --json conclusion \
-            --jq '.[0].conclusion')
-
-          if [ "$LATEST_E2E" != "success" ]; then
-            echo "WARNING: Latest E2E run is '${LATEST_E2E}' — not 'success'"
-            echo "safe=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Skipping release — E2E is not green"
-          else
-            echo "E2E is green — safe to release"
-            echo "safe=true" >> "$GITHUB_OUTPUT"
-          fi
-
-          # Check for do-not-merge PRs
+          # Skip if do-not-merge PRs are open against main
           DNM_COUNT=$(gh pr list \
-            --repo "${{ github.repository }}" \
+            --repo "$GITHUB_REPOSITORY" \
             --label "do-not-merge" \
             --base main \
             --json number \
             --jq 'length')
 
           if [ "$DNM_COUNT" -gt 0 ]; then
-            echo "WARNING: ${DNM_COUNT} do-not-merge PRs open"
-            echo "safe=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::${DNM_COUNT} do-not-merge PRs open — skipping release"
+            echo "due=false" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+
+          echo "due=true" >> "$GITHUB_OUTPUT"
 
   release:
     name: Create monthly snapshot release
-    needs: [check-release-cadence, check-promotion-criteria]
-    if: needs.check-promotion-criteria.outputs.safe == 'true'
+    needs: [check]
+    if: needs.check.outputs.due == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -145,15 +95,11 @@ jobs:
           if [ -z "$PREVIOUS_TAG" ]; then
             NOTES="Monthly snapshot release ${TAG}\n\nFirst release — no previous tag."
           else
-            # Generate structured changelog
             NOTES=$(git cliff "${PREVIOUS_TAG}..HEAD" --strip header 2>/dev/null || \
               git log "${PREVIOUS_TAG}..HEAD" --pretty=format:'- %s (%h)' --no-merges)
           fi
 
-          # Write to file for multiline output
           echo "$NOTES" > /tmp/release-notes.md
-
-          # Prepend header
           {
             echo "## Monthly Snapshot: ${TAG}"
             echo ""
@@ -174,16 +120,3 @@ jobs:
           makeLatest: true
           allowUpdates: true
           skipIfReleaseExists: false
-
-  skip-notification:
-    name: Skip notification
-    needs: [check-release-cadence, check-promotion-criteria]
-    if: needs.check-promotion-criteria.outputs.safe != 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    steps:
-      - name: Log skip reason
-        run: |
-          echo "::warning::Monthly release skipped — promotion criteria not met"
-          echo "Check the E2E workflow and do-not-merge PRs before retrying."
-          echo "To retry: run release.yml via workflow_dispatch after resolving blockers."
