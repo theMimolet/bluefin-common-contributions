@@ -50,8 +50,8 @@ Do not report the factory as broken because a promotion PR is open and waiting. 
 |---|---|---|
 | `common` | `main` | No testing branch — direct to main |
 | `bluefin` | `testing` | Never `main` |
-| `bluefin-lts` | `main` | `main→lts` is the promotion path; migration to `testing` model in progress (see bluefin-lts AGENTS.md) — automated tracking workflows (track-common.yml) already target `testing` |
-| `dakota` | `main` | Human PRs target `main`; automated `track-bst-sources.yml` uses `testing` as CI-gate staging for `common.bst` updates only |
+| `bluefin-lts` | `main` | `main→lts` is the promotion path; migration to `testing` model in progress (issue bluefin-lts/issues/346) |
+| `dakota` | `testing` | Never `main` — testing-first model, same as bluefin (PR 1004) |
 | `knuckle` | `main` | Installer — no testing branch |
 | `bootc-installer` | `dev` | Active work branch; `prod` triggers Flatpak release CI — never target `prod` directly |
 | `testsuite` | `main` | Test repo — no testing branch |
