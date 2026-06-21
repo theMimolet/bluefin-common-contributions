@@ -121,5 +121,4 @@ The skill-drift CI gate will warn if you forget. Treat the warning as a hard req
 ## See Also
 
 - [`docs/skills/skill-drift.md`](./skill-drift.md) — how the CI enforcement works
-- [`docs/factory/IMPROVEMENTS.md`](../factory/IMPROVEMENTS.md) — the running record of factory improvements (append here too when shipping something significant)
 - [Canonical skill file format](https://github.com/projectbluefin/actions/blob/main/.github/skills/skill-improvement/SKILL.md) — required frontmatter, body structure, progressive disclosure pattern

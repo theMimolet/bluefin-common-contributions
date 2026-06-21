@@ -17,8 +17,7 @@ New workflows must self-heal: retry on transient failures, fast-fail on bad toke
 1. Target repo `AGENTS.md` — start here
 2. This file — org map, infrastructure topology, parity matrix
 3. [`docs/factory/agentic-model.md`](agentic-model.md) — cross-repo hard rules, branch targets, PR policy, session start
-4. [`docs/factory/IMPROVEMENTS.md`](IMPROVEMENTS.md) — why we rewrote Bluefin; system architecture
-5. Relevant `docs/skills/*` files — lazy-load for the specific task; use [`docs/SKILL.md`](../SKILL.md) as the router
+4. Relevant `docs/skills/*` files — lazy-load for the specific task; use [`docs/SKILL.md`](../SKILL.md) as the router
 
 ## Mission and product boundary
 

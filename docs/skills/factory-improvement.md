@@ -265,8 +265,8 @@ Never use `secrets.GITHUB_TOKEN` for cross-repo dispatch — it will silently fa
 After each improvement session:
 
 1. For each gap discovered: file a GitHub issue (see CAPTURE above)
-2. For significant improvements shipped: append to `docs/factory/IMPROVEMENTS.md`
+2. For significant improvements shipped: update the relevant skill file in `docs/skills/`
 
-Do **not** maintain gap lists in this skill file. GitHub issues are the live backlog.
+Do **not** maintain gap lists or changelogs in this skill file or anywhere in the repo. GitHub issues are the live backlog; `docs/skills/` is the knowledge base.
 
 This skill is the operating procedure for the improvement loop, not the backlog itself.

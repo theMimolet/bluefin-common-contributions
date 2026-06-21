@@ -15,7 +15,6 @@ Agent-specific instruction files (`.github/copilot-instructions.md`, `AGENTS.md`
 | File | What it covers |
 |---|---|
 | [../factory/README.md](../factory/README.md) | Org brain landing page — factory structure, data flow, infrastructure state, open gaps, branch targets, sensitive paths, parity matrix |
-| [../factory/IMPROVEMENTS.md](../factory/IMPROVEMENTS.md) | **Why we rewrote Bluefin** — narrative by area (build, CI, lifecycle, agentic model, QA, security). Living doc; agents append as improvements land. |
 | [../factory/agentic-model.md](../factory/agentic-model.md) | Cross-repo agent rules — hard rules, smallest-change principle, branch targets, sensitive paths, doc-only push exception, ublue-os prohibition |
 
 ## QA and promotion docs
