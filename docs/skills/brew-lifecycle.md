@@ -375,3 +375,13 @@ After any change to `preinstall.d/` or `brew-preinstall`:
 - [ ] `just test` passes (bats tests in `tests/test_brew_preinstall.bats`)
 - [ ] If removing a package: confirmed it was in the previous managed state — it will be auto-uninstalled for existing users on next login
 - [ ] Merging order followed if the change spans repos: common → bluefin → bluefin-lts → dakota
+
+## Brewfile scope: shared/ vs bluefin/ for all-variant packages
+
+**Rule:** Any package that should install on ALL variants (bluefin, bluefin-lts, dakota) must live in `system_files/shared/preinstall.d/`, not `system_files/bluefin/preinstall.d/`.
+
+`system_files/bluefin/` is included by bluefin and bluefin-lts. Dakota also includes it via its `common.bst` element. However, the semantic intent of `bluefin/` is bluefin-family only. When a package is placed there with a comment like "bluefin + bluefin-lts only", it creates ambiguity about whether Dakota gets it.
+
+**Resolution:** `shared/preinstall.d/` is the unambiguous home for any package that is factory-wide. `bluefin/preinstall.d/` should only contain packages that are intentionally absent from Dakota.
+
+**Concrete example:** `bluefinctl.Brewfile` was in `bluefin/preinstall.d/` — Dakota appeared to get it incidentally but the intent was ambiguous. Moving it to `shared/preinstall.d/` made the intent explicit and confirmed coverage for all variants (common PR 750, 2026-06-21).
