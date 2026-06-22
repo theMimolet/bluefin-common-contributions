@@ -37,6 +37,26 @@ Per-repo specifics live in that repo's `AGENTS.md` — start there, then load th
   ```
   Include both trailers. Do not implement attribution checking as a blocking CI step.
 
+## Secrets and tokens — absolute prohibition
+
+**Agents must never create, propose, or add new secrets, PATs, tokens, or credentials of any kind.**
+
+- No new repository secrets, environment secrets, or organization secrets
+- No PATs (personal access tokens) under any name
+- No new GitHub App registrations or new app credential pairs
+- No `secrets.NEW_THING` references in workflows that don't already exist
+
+**When a workflow needs a permission it doesn't have, the correct fix is always:**
+```yaml
+permissions:
+  contents: write
+  workflows: write  # example — use the exact permission GitHub requires
+```
+
+`GITHUB_TOKEN` with the correct `permissions:` block covers every factory use case. If it doesn't, stop and ask a human — do not invent a credential.
+
+Humans decide when a new secret is needed. This is a security gate, not a convention.
+
 ## Smallest-change principle
 
 **Prefer the smallest change that fully satisfies the requirement.** Only add indirection or generalization when a concrete requirement demands it. Resist scope creep — if it was not asked for, don't add it.
