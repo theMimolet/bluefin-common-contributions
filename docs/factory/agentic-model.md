@@ -66,22 +66,22 @@ Do not report the factory as broken because a promotion PR is open and waiting. 
 | `testsuite` | `main` | Test repo — no testing branch |
 | `actions` | `main` | Shared actions — no testing branch |
 
-**Branch creation rule:** Always cut feature branches from the PR target, not from whatever is currently checked out.
+**Git workflow — three rules, no exceptions:**
 
 ```bash
-# Before creating a branch, always fetch and branch from the target:
+# 1. Always branch from the current target, never from whatever is checked out
 git fetch projectbluefin <target>
 git checkout -b feat/my-change projectbluefin/<target>
-# Example for bluefin (target = testing):
-git fetch projectbluefin testing
-git checkout -b feat/my-change projectbluefin/testing
+
+# 2. Always rebase onto the target before pushing or opening a PR
+git fetch projectbluefin <target>
+git rebase projectbluefin/<target>
+
+# 3. Verify your branch contains only your commits before pushing
+git log HEAD ^projectbluefin/<target> --oneline  # must show ONLY your commits
 ```
 
-Branching from the wrong base (e.g. `testing` when target is `main`, or vice versa) will cause the PR to show every diverged commit as new, polluting the diff and making review impossible. Verify before pushing:
-
-```bash
-git log feat/my-change ^projectbluefin/<target> --oneline  # must show ONLY your commits
-```
+After a PR merges: `git worktree remove <path> --force && git branch -D <branch>`. Clean up immediately, not later.
 
 ## Testing-first model
 
