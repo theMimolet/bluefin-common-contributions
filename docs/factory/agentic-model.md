@@ -83,6 +83,45 @@ Branching from the wrong base (e.g. `testing` when target is `main`, or vice ver
 git log feat/my-change ^projectbluefin/<target> --oneline  # must show ONLY your commits
 ```
 
+## Pre-PR checklist — mandatory before every `gh pr create`
+
+A PR with conflicts or a dirty diff wastes reviewer time and breaks CI. Run this in full before opening any PR:
+
+```bash
+# 1. Sync with target
+git fetch projectbluefin <target>
+
+# 2. Rebase onto current target — resolve all conflicts before proceeding
+git rebase projectbluefin/<target>
+
+# 3. Verify diff is clean — must show ONLY your intended commits, nothing from target history
+git log HEAD ^projectbluefin/<target> --oneline
+
+# 4. Run gates
+just check                    # Justfile lint (repos with Justfile)
+pre-commit run --all-files    # JSON/YAML/TOML/SHA hygiene
+
+# 5. Verify staged diff matches intent — no stray files
+git diff HEAD~1 --name-only
+```
+
+**Do not open a PR if step 2 has conflicts or step 3 shows unexpected commits.** Fix first.
+
+## Worktree hygiene
+
+Worktrees are temporary workspaces. Left behind, they accumulate, go stale, and block branch reuse.
+
+**Rules:**
+- Remove the worktree immediately after the PR is merged or the branch is abandoned.
+- Never leave more than 3 active worktrees. Before creating a new one, list and prune:
+  ```bash
+  git worktree list          # audit what exists
+  git worktree remove <path> # remove when done; use --force if branch is merged
+  git worktree prune         # clean up stale refs
+  ```
+- Worktrees live under `.worktrees/` in this repo. Confirm `.gitignore` covers that path before adding one.
+- Stale worktrees whose branches are already merged to main must be removed before starting new work. No exceptions.
+
 ## Testing-first model
 
 **The standard for all image-producing repos** (`bluefin`, `bluefin-lts`, `dakota`).
