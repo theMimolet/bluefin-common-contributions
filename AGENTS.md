@@ -47,18 +47,6 @@ You are an agent in this loop. Your work compounds. See [`docs/skills/hive.md`](
 4. just check && pre-commit run --all-files  # before every commit
 ```
 
-**Start of every session:**
-```bash
-just worktree-clean   # remove worktrees whose branch is already in main
-just worktree-status  # verify remaining worktrees are intentional
-```
-
-**Opening a PR:**
-```bash
-just pr               # fetches main, rebases, runs gates, then gh pr create
-                      # do not use gh pr create directly — it skips the rebase
-```
-
 **Doc-only changes** (docs/ and AGENTS.md) → push directly to `main`, no PR needed. Before using this exception, verify all staged changes are docs-only:
 ```bash
 git diff --cached --name-only  # must show only docs/* or AGENTS.md
@@ -161,9 +149,6 @@ Lifecycle automation source of truth: `.github/workflows/lifecycle.yml`
 - **Never push directly to a protected branch.** Always open a PR. PRs enter the human review queue (`pr/needs-review`) and require `lgtm` from a human before merging. This applies to `common/main` too — branch protection bypass is not agent-permitted.
 - **Doc-only exception:** `docs/` edits and `AGENTS.md` changes in `common` may be pushed directly to `main` without a PR.
 - **To add information to an issue or PR you authored, edit the body — do not add a new comment.** Use `gh api repos/projectbluefin/common/issues/<n> -X PATCH --field body=@file`. A new comment is only appropriate as a reply to someone else or for a distinct event.
-- **Rebase before every PR.** `git fetch projectbluefin main && git rebase projectbluefin/main`. A PR with conflicts must not be opened. Resolve them first, always.
-- **Verify your diff before opening a PR.** `git log HEAD ^projectbluefin/main --oneline` must show only your commits. If it shows commits from main history, you branched from the wrong base — fix it.
-- **Clean up worktrees immediately after a branch is merged or abandoned.** `git worktree remove <path>` then `git worktree prune`. Never leave stale worktrees. See `docs/factory/agentic-model.md` for the full worktree hygiene rules.
 
 ## Development Standards
 
