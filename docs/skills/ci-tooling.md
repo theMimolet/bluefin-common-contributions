@@ -5,6 +5,15 @@ metadata:
   type: procedure
   context7-sources:
     - /pre-commit/pre-commit.com
+    - /sigstore/cosign
+    - /containers/skopeo
+    - /containers/buildah
+    - /oras-project/oras
+    - /anchore/syft
+    - /anchore/grype
+    - /aquasecurity/trivy
+    - /renovatebot/renovate
+    - /rhysd/actionlint
 ---
 
 # CI tooling
