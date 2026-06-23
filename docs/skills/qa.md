@@ -1,5 +1,8 @@
 ---
 name: qa
+version: "1.0"
+last_updated: 2026-06-23
+tags: [qa, testing, issues]
 description: "QA model, test coverage matrix, promotion gates by repo, hardware gap, and how to run the test suite for projectbluefin factory repos. Use when understanding QA coverage, running tests, or checking promotion gate status."
 metadata:
   type: reference

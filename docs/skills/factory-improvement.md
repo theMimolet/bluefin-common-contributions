@@ -1,5 +1,8 @@
 ---
 name: factory-improvement
+version: "1.0"
+last_updated: 2026-06-23
+tags: [factory, automation, improvement]
 description: "Self-improving factory loop for projectbluefin — systematically closes gaps between design and implementation until every automatable step is automated. Use when identifying automation gaps, proposing factory workflows, or auditing ACMM maturity level."
 metadata:
   type: procedure

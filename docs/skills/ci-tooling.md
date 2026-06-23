@@ -1,5 +1,8 @@
 ---
 name: ci-tooling
+version: "1.0"
+last_updated: 2026-06-23
+tags: [ci, workflows, github-actions]
 description: "Pre-commit floating-tag guard, SHA pinning policy, skill-drift workflow, and Renovate OCI digest tracking for projectbluefin repos. Use when editing .github/workflows/ files, enforcing SHA pinning, or understanding pre-commit policy guards."
 metadata:
   type: procedure

@@ -1,5 +1,8 @@
 ---
 name: bonedigger
+version: "1.0"
+last_updated: 2026-06-23
+tags: [bonedigger, triage, automation]
 description: "bonedigger + kubestellar-bot lifecycle automation - ujust report issue filing, priority escalation, and how fixes ship back to the image. Use when understanding how ujust report works, investigating bonedigger behavior, or diagnosing issue lifecycle automation."
 metadata:
   type: reference

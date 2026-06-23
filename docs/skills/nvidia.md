@@ -1,3 +1,15 @@
+---
+name: common-nvidia
+version: "1.0"
+last_updated: 2026-06-23
+tags: [nvidia, gpu, drivers, akmods]
+description: >-
+  NVIDIA GPU support across the factory image lineages. Use when adding GPU drivers,
+  debugging akmod build failures, or understanding the bluefin/bluefin-lts/dakota NVIDIA split.
+metadata:
+  type: reference
+---
+
 # NVIDIA GPU Support — Agent Skill
 
 ## What this covers

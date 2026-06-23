@@ -1,5 +1,8 @@
 ---
 name: onboarding
+version: "1.0"
+last_updated: 2026-06-23
+tags: [onboarding, setup, getting-started]
 description: "Verified setup commands, correct pip/npm flags, and PR branch targets for all projectbluefin repos. Use when setting up a new development environment or writing contributor documentation."
 metadata:
   type: procedure

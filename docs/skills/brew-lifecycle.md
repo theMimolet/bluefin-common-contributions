@@ -1,5 +1,8 @@
 ---
 name: brew-lifecycle
+version: "1.0"
+last_updated: 2026-06-23
+tags: [brew, homebrew, packages]
 description: "Manage OS-managed Homebrew packages via brew-preinstall, preinstall.d, tap trust, and image-vs-brew placement rules. Use when adding/removing default brew packages, moving a tool from the RPM image to brew, changing brew-preinstall behaviour, or auditing what belongs on the image vs in brew."
 metadata:
   context7-sources:

@@ -1,5 +1,8 @@
 ---
 name: hive
+version: "1.0"
+last_updated: 2026-06-23
+tags: [hive, multi-repo, coordination]
 description: "The Hive system — bonedigger/kubestellar-bot self-improvement loop, hive label taxonomy, sync schedule, and how to find agent-ready work. Use when understanding the KubeStellar Hive system or how the self-improvement loop operates."
 metadata:
   type: reference

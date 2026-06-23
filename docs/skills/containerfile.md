@@ -1,5 +1,8 @@
 ---
 name: containerfile
+version: "1.0"
+last_updated: 2026-06-23
+tags: [containerfile, build, oci]
 description: >-
   Documents the projectbluefin/common Containerfile build structure, multi-stage
   pattern, non-obvious build-time sources, SHA verification conventions, and the
