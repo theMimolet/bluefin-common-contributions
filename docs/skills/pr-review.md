@@ -400,6 +400,62 @@ gh pr view <N> --repo projectbluefin/common --json mergedAt
 
 If the containerdisk predates the PR, the lab baseline is stale. Wait for a rebuild (nightly at 02:00 UTC) or note it clearly in the report.
 
+### Testing the PR's own changes — composed image pattern
+
+The `pr-e2e.yml` workflow automatically builds and pushes a composed PR image to GHCR
+at every commit. **This is a full bootable image** (`bluefin:testing` + PR's common
+layer applied on top) that can be booted directly in the lab:
+
+```
+ghcr.io/projectbluefin/common:e2e-pr-<N>-<sha>
+```
+
+**Find the tag from CI:**
+
+```bash
+# Get the latest passing compose run for a PR branch
+gh run list --repo projectbluefin/common \
+  --workflow pr-e2e.yml \
+  --event pull_request \
+  --json headBranch,conclusion,headSha,createdAt \
+  --limit 5
+
+# Then compute: sha_short = headSha[0:7]
+# tag = e2e-pr-<PR_NUMBER>-<sha_short>
+```
+
+**Submit a lab workflow against the PR-specific image** (same pattern as baseline,
+just swap the image tag):
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: pr-<N>-actual-
+  namespace: argo
+spec:
+  workflowTemplateRef:
+    name: bluefin-qa-pipeline
+  arguments:
+    parameters:
+    - name: image
+      value: ghcr.io/projectbluefin/common
+    - name: image-tag
+      value: e2e-pr-<N>-<sha>
+    - name: suites
+      value: smoke
+    - name: namespace
+      value: bluefin-test
+```
+
+The BIB disk-build step will rebuild the disk for this new image tag (~20 min).
+Once booted, the VM contains exactly what the PR would ship. Verify the new files
+are present and the system is clean (`systemctl --failed` empty, no new journal warnings).
+
+**Why this matters:** Testing against `bluefin:testing` baseline only tells you the
+current production image is clean. Testing against `e2e-pr-N-sha` tells you the
+PR's *own changes* land correctly and don't break boot. This closes the loop.
+
 ---
 
 ## CI gate interpretation
