@@ -121,7 +121,7 @@ See [`lab-testing.md`](lab-testing.md) for the full runbook. Summary for PR revi
 |---|---|
 | `system_files/shared/` — systemd units | Yes — all 3 variants |
 | `system_files/shared/` — scripts / hooks | Yes if behavior-changing |
-| `system_files/nvidia/` | Yes — nvidia variant only |
+| `system_files/nvidia/` | Yes — **nvidia image variant only** (non-nvidia baseline only confirms service is absent; use bluefin-dx or equivalent to verify actual changes) |
 | `tests/` only | No — `just test` locally |
 | `docs/` only | No |
 | `Containerfile` | Yes — image must compose |
@@ -216,6 +216,36 @@ systemctl cat uupd-on-ac.service
 # 5. Timer still enabled, uupd.service still static
 systemctl is-enabled uupd.timer       # enabled
 systemctl cat uupd.service | grep '\[Install\]'  # should be absent (timer-driven)
+```
+
+#### Worked example — PR #769 (NVIDIA flatpak runtime sync)
+
+**Baseline state** (bluefin:testing non-nvidia, workflow `pr769-nvidia-check-thx78`):
+
+| Artifact | Baseline state |
+|---|---|
+| `ublue-nvidia-flatpak-runtime-sync.service` | **ABSENT** — nvidia overlay not applied to non-nvidia image |
+| `/sys/module/nvidia/version` | **NOT FOUND** — correct for QEMU |
+| nvidia units in `systemctl --failed` | None |
+
+**Verdict:** Green baseline. The service's `ConditionPathExists=/sys/module/nvidia/version` means PR changes (`TimeoutStartSec` 600→900, added `flatpak update`) are completely inert on non-nvidia images. Zero regression risk to non-nvidia users.
+
+> ⚠️ **NVIDIA post-merge testing requires an nvidia image variant.** The non-nvidia baseline only confirms the service is absent as expected. To verify the actual changes landed, use a bluefin-dx or other nvidia-enabled image — see the nvidia section below.
+
+**Post-merge verification checklist for PR #769** (must run on a **nvidia image build**, not baseline non-nvidia):
+
+```bash
+# 1. TimeoutStartSec bumped to 900
+systemctl cat ublue-nvidia-flatpak-runtime-sync.service | grep TimeoutStartSec
+# expected: TimeoutStartSec=900
+
+# 2. flatpak update step present in the sync script
+grep "flatpak update" /usr/libexec/ublue-nvidia-flatpak-runtime-sync
+# expected: at least one match
+
+# 3. Service not in failed state on first boot with nvidia
+systemctl --failed | grep nvidia
+# expected: no output
 ```
 
 ---
