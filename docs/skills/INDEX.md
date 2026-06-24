@@ -55,6 +55,7 @@ Agent-specific instruction files (`.github/copilot-instructions.md`, `AGENTS.md`
 | [discord-chatops.md](discord-chatops.md) | Discord ChatOps — Botkube on ghost k3s, mcp-discord MCP server, #factory/#releases channel layout, release thread format, RBAC model, secrets policy, implementation task order |
 | [factory-onboarding.md](factory-onboarding.md) | How to onboard a repo into the factory model — two-output rule, banned anti-patterns (no changelog files), skill-drift CI wiring, AGENTS.md mandate |
 | [nvidia.md](nvidia.md) | NVIDIA GPU support — CDI architecture, per-repo nvidia stacks, NGC container ecosystem, driver/toolkit update procedures, known constraints |
+| [pr-review.md](pr-review.md) | PR reviewer's guide — PR type taxonomy, per-type review checklists, lab testing guide, CI gate interpretation, ghost-lab requeue, OEM hook review pattern, test quality checklist |
 
 ## Agent instruction files (not skills — loaded separately by tool)
 
