@@ -1,7 +1,7 @@
 ---
 name: image-registry
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: 2026-06-29
 tags: [registry, ghcr, images]
 description: "projectbluefin OCI image registry reference — all production images published at ghcr.io/projectbluefin/. Use when looking up image paths, tags, or registry structure."
 metadata:
@@ -87,6 +87,24 @@ IMAGE_REGISTRY="ghcr.io/${IMAGE_VENDOR}"
 ## Build-time ublue-os source (wallpapers only)
 
 The Containerfile pulls wallpaper artwork from `ghcr.io/ublue-os/bluefin-wallpapers-gnome` as a **build-time COPY source**. This is a read-only upstream artwork dependency and does not violate the ublue-os prohibition. The production image tree and all runtime registries are fully under `ghcr.io/projectbluefin/`. See [`containerfile.md`](containerfile.md) for details.
+
+## CountMe telemetry reporting
+
+Our images participate in Fedora's weekly CountMe telemetry to track installation statistics anonymously:
+- **Bluefin & Bluefin LTS:** Handled by standard repository configuration, and since CentOS-based bootc images are broken with legacy rpm-ostree countme, they use a dnf5-based helper service.
+- **Dakota:** Since it is based on GNOME OS and has no standard rpm-ostree/dnf packages, it utilizes a custom weekly systemd service/timer (`bluefin-countme.timer` triggering `/usr/libexec/dakota-countme`).
+  - It generates and maintains an installation epoch cookie in `/var/lib/dakota-countme-epoch` to mimic Fedora's week-based age buckets.
+  - It performs a weekly query to Fedora's metalink using a `libdnf5`-format User Agent with `os_name="Dakota"` (e.g. `libdnf5/5.2.9 (Dakota;${VERSION_ID};${ARCH}) hawkey`).
+
+### Dashboard processing dependency
+
+The results of Fedora's public CountMe dataset are parsed and processed by the pipeline inside the **`ublue-os/countme`** repository.
+
+To make Dakota show up on the public active users count badges and charts:
+1. **`data_processing.py`** in `ublue-os/countme` must have `"Dakota"` added to the `os_groups["universal_blue"]` list.
+2. **`generate_badge_data.py`** in `ublue-os/countme` must have `"dakota"` defined in `project_mappings`.
+
+Because of the **Absolute Prohibition** against write operations on `ublue-os/*` repositories, these updates cannot be automated or programmatically committed by agents, and must be submitted manually as a PR by a human maintainer.
 
 ## Verification
 
