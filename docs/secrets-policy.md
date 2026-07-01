@@ -26,8 +26,6 @@ Additions require a **security review issue** in `projectbluefin/common` before 
 | `GITHUB_TOKEN` | Built-in (automatic) | All repos | Default — use this first |
 | `MERGERAPTOR_APP_ID` | GitHub App ID | common, dakota, bonedigger | MERGERAPTOR bot identity |
 | `MERGERAPTOR_PRIVATE_KEY` | GitHub App private key | common, dakota, bonedigger | MERGERAPTOR bot auth |
-| `BLUEFINBOT_APP_ID` | GitHub App ID | bluefin, bluefin-lts | BLUEFINBOT identity |
-| `BLUEFINBOT_PRIVATE_KEY` | GitHub App private key | bluefin, bluefin-lts | BLUEFINBOT auth |
 | `CASD_CLIENT_KEY` | TLS client certificate key | dakota | BuildStream remote CAS auth |
 | `SIGNING_SECRET` | cosign private key | common | Legacy key-based image signing — pending keyless migration (#513) |
 
