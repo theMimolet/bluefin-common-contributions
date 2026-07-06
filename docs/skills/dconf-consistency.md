@@ -10,6 +10,15 @@ metadata:
 
 # dconf Consistency
 
+## Default location for desktop and GNOME settings
+
+When changing a desktop or GNOME default in this repo, start here:
+
+- `system_files/bluefin/usr/share/glib-2.0/schemas/zz0-bluefin-modifications.gschema.override` for GSettings defaults
+- `system_files/bluefin/etc/dconf/db/distro.d/locks/01-bluefin-locked-settings` for keys that must be locked against user changes
+
+This is the canonical place for Bluefin desktop defaults. If a setting is not a one-off runtime tweak and it should ship as part of the image, put it in the override file first. Do not invent a new file for a single setting when an existing override already exists.
+
 ## The two-file rule
 
 GSettings defaults live in two coordinated files:
@@ -30,6 +39,13 @@ These two files must be edited together. Editing one without the other produces:
 1. Add the key + value to `zz0-bluefin-modifications.gschema.override`
 2. Add the key path to `locks/01-bluefin-locked-settings`
 3. Verify locally: `gschema.override` format requires `[schema]` section header, key = value
+
+## Default rule for future agents
+
+- For image-default desktop settings: edit `system_files/bluefin/usr/share/glib-2.0/schemas/zz0-bluefin-modifications.gschema.override`
+- For settings that must be immutable by users: edit both the override and `system_files/bluefin/etc/dconf/db/distro.d/locks/01-bluefin-locked-settings`
+- For first-boot user-session behavior: use the existing hooks in `system_files/shared/usr/share/ublue-os/user-setup.hooks.d/` rather than adding new config files ad hoc
+- Do not create a new schema override file for a single setting when the existing Bluefin override already exists
 
 ## Removing a locked setting
 

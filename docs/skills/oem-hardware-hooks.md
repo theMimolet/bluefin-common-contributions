@@ -22,6 +22,13 @@ contract, shellcheck requirements, and what belongs here vs upstream.
 
 Two directories are scanned automatically at first boot — no registration needed:
 
+### Rule of thumb for where to place desktop or session settings
+
+- If the setting should be the image default for all users, place it in `system_files/bluefin/usr/share/glib-2.0/schemas/zz0-bluefin-modifications.gschema.override`.
+- If the setting must be locked so users cannot override it, update both the override and `system_files/bluefin/etc/dconf/db/distro.d/locks/01-bluefin-locked-settings`.
+- If the setting is a one-time first-boot action for the current user, place it in `system_files/shared/usr/share/ublue-os/user-setup.hooks.d/` and keep the existing `version-script` contract.
+- Do not create a new GNOME schema override file for a single setting when the existing Bluefin override already exists.
+
 | Directory | Runner | Runs as |
 |---|---|---|
 | `system_files/shared/usr/share/ublue-os/system-setup.hooks.d/` | `ublue-system-setup` (systemd system service) | root |
