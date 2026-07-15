@@ -18,6 +18,9 @@
       "desc": "cli_pkg"
     }
   ],
+  "greeting": {
+    "prefix": "󱍢 "
+  },
   "links": [
     {
       "name": "issues",
@@ -36,6 +39,5 @@
     "commands": [
       "umotd"
     ]
-  },
-  "prefix": "󱍢 "
+  }
 }
