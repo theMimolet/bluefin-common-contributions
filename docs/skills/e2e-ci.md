@@ -30,7 +30,7 @@ metadata:
 - Validates the common layer against three downstream images:
   - `ghcr.io/projectbluefin/bluefin:latest`
   - `ghcr.io/projectbluefin/bluefin:lts`
-  - `ghcr.io/projectbluefin/dakota:latest`
+  - `ghcr.io/projectbluefin/dakota:testing`
 - Uses SSH-mode tests from the runner, so the common suite does not require a full GNOME session
 
 ## Pre-merge gate
