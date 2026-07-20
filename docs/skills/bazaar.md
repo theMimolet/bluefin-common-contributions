@@ -1,11 +1,14 @@
 ---
 name: bazaar
 version: "1.1"
-last_updated: 2026-07-01
+last_updated: "2026-07-01"
 tags: [bazaar, curated, flatpak, apps]
-description: "Use when editing Bazaar config or hooks in common. Covers curated schema migration, JXL→PNG banner conversion, Bluefin-owned files, and local preview workflow."
+description: >-
+  Use when editing Bazaar config or hooks in common. Covers curated schema
+  migration, JXL→PNG banner conversion, Bluefin-owned files, and local
+  preview workflow." type: procedure
 metadata:
-  type: procedure
+  type: reference
   context7-sources:
     - /flatpak/flatpak-docs
 ---

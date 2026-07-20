@@ -1,3 +1,16 @@
+---
+name: hardware-testing
+version: "1.0"
+last_updated: "2026-07-20"
+tags: [hardware, testing, promotion]
+description: >-
+  Hardware test report format and promotion policy. Use when filing a hardware
+  test report, triaging hardware blockers, or deciding whether a candidate is
+  safe to promote.
+metadata:
+  type: runbook
+---
+
 # Hardware testing in the factory loop
 
 VM gates are necessary, but they cannot validate several bug classes that only show up on physical devices. The factory loop now treats community hardware reports as promotion input, not anecdote.
@@ -55,8 +68,8 @@ A short pstore snippet, kdump backtrace, or gist link is enough to connect a rep
 
 Hardware test reports enter the factory lifecycle queue and become promotion input once triaged.
 
-- Lifecycle: [`docs/skills/label-workflow.md`](./skills/label-workflow.md)
+- Lifecycle: [`docs/skills/label-workflow.md`](./label-workflow.md)
 - Lifecycle workflow: [`.github/workflows/lifecycle.yml`](../.github/workflows/lifecycle.yml)
-- Lifecycle background: [`docs/skills/governance.md`](./skills/governance.md)
+- Lifecycle background: [`docs/skills/governance.md`](./governance.md)
 
 Real hardware testing does not replace CI. It closes the visibility gap for bug classes that CI running in VMs cannot see.

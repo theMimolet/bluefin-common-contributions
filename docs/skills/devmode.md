@@ -1,9 +1,13 @@
 ---
 name: devmode
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [devmode, development, debugging]
-description: Use when working on Bluefin Developer Mode docs or UX. In-place developer setup via ujust devmode — developer experience (DX) is a product feature, not a separate image. Covers tool selection, progress bar, group config, marker file, and canonical user-facing commands.
+description: >-
+  Bluefin Developer Mode setup wizard. Use when working on devmode docs, UX,
+  tool selection, or the canonical ujust devmode command.
+metadata:
+  type: procedure
 ---
 
 # devmode — Turn on Developer Mode

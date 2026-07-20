@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# Validate front-matter and size budget for docs/skills/*.md
+set -euo pipefail
+
+MAX_DESC=256
+MAX_SOFT=200
+MAX_HARD=500
+rc=0
+
+# Grandfathered oversized skills; per-skill directory migration will retire these.
+GRANDFATHERED=(
+    lab-testing.md
+    label-workflow.md
+    pr-review.md
+    release-promotion.md
+    ci-tooling.md
+    ci-pitfalls.md
+    shell-scripts.md
+    oem-hardware-hooks.md
+    bazaar.md
+    e2e-ci.md
+    factory-improvement.md
+    hive-review.md
+    nvidia.md
+    brew-lifecycle.md
+)
+
+is_grandfathered() {
+    local base="$1"
+    for g in "${GRANDFATHERED[@]}"; do
+        [ "$base" = "$g" ] && return 0
+    done
+    return 1
+}
+
+for f in docs/skills/*.md; do
+    # Extract front-matter between the first two '---' lines
+    fm=$(awk '
+        BEGIN { in_fm=0 }
+        /^---/ {
+            if (in_fm) { exit }
+            in_fm=1
+            next
+        }
+        in_fm { print }
+    ' "$f")
+
+    if [ -z "$fm" ]; then
+        echo "error: $f has no front-matter"
+        rc=1
+        continue
+    fi
+
+    for key in name version last_updated tags description; do
+        if ! printf '%s\n' "$fm" | grep -qE "^${key}:"; then
+            echo "error: $f missing required key '$key'"
+            rc=1
+        fi
+    done
+
+    if ! printf '%s\n' "$fm" | grep -qE "^metadata:" || \
+       ! printf '%s\n' "$fm" | grep -qE "^  type:"; then
+        echo "error: $f missing metadata.type"
+        rc=1
+    fi
+
+    # Description length (handle inline and folded styles)
+    desc=$(awk '
+        /^description:/ {
+            desc=$0
+            if ($0 ~ /: *[|>][+-]?$/) {
+                getline
+                while ($0 ~ /^ /) {
+                    gsub(/^[[:space:]]+/, "")
+                    desc=desc " " $0
+                    getline
+                }
+            }
+            print desc
+            exit
+        }
+    ' "$f")
+
+    desc_clean=$(printf '%s' "$desc" | sed -E \
+        -e 's/^description:[[:space:]]*//' \
+        -e 's/[[:space:]]*([|>][+-]?)[[:space:]]*$//' \
+        -e 's/^["'\''"]|["'\''"]$//g' \
+        -e 's/[[:space:]]+/ /g')
+
+    len=${#desc_clean}
+    if [ "$len" -gt "$MAX_DESC" ]; then
+        echo "error: $f description is $len chars (max $MAX_DESC)"
+        rc=1
+    fi
+
+    # Size budget
+    lines=$(wc -l < "$f")
+    base=$(basename "$f")
+    if [ "$lines" -gt "$MAX_HARD" ] && ! is_grandfathered "$base"; then
+        echo "error: $f is $lines lines (hard max $MAX_HARD)"
+        rc=1
+    elif [ "$lines" -gt "$MAX_SOFT" ]; then
+        echo "warning: $f is $lines lines (soft max $MAX_SOFT)"
+    fi
+done
+
+exit $rc

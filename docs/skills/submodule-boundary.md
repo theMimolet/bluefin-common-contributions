@@ -1,9 +1,11 @@
 ---
 name: submodule-boundary
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [submodules, git, architecture]
-description: "system_files/shared/ is now directly editable in this repo — the aurorafin-shared submodule has been removed. Use when editing system_files/shared/, system_files/bluefin/, or system_files/nvidia/, or deciding where to make a system file change."
+description: >-
+  system_files scope boundary. Use when editing system_files/shared/,
+  bluefin/, nvidia/, or deciding where a system file change belongs.
 metadata:
   type: reference
 ---

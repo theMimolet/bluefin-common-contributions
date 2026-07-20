@@ -1,11 +1,14 @@
 ---
 name: factory-onboarding
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [factory, onboarding, setup]
-description: "How to onboard a repo into the Project Bluefin factory model. The self-improvement mandate, what agents must do, and what is banned. Load when setting up a new repo or auditing factory compliance."
+description: >-
+  How to onboard a repo into the Project Bluefin factory model. The
+  self-improvement mandate, what agents must do, and what is banned. Load
+  when setting up a new repo or auditing factory compliance." type: procedure
 metadata:
-  type: procedure
+  type: reference
 ---
 
 # Factory Onboarding
@@ -52,7 +55,7 @@ Every repo needs a `docs/skills/` directory. This is the knowledge base. Agents 
 
 Minimum files:
 - `skill-improvement.md` — the two-output rule adapted for this repo
-- `INDEX.md` — what each skill file covers
+- `docs/SKILL.md` — task→skill router and index
 
 Reference: [`projectbluefin/common/docs/skills/`](https://github.com/projectbluefin/common/blob/main/docs/skills/)
 
@@ -108,7 +111,7 @@ Before marking work done:
 
 ## Done When
 
-- [ ] `docs/skills/` exists with `skill-improvement.md` and `INDEX.md`
+- [ ] `docs/skills/` exists with `skill-improvement.md` and `docs/SKILL.md` task router
 - [ ] `skill-drift.yml` wired and passing
 - [ ] `AGENTS.md` includes self-improvement mandate and banned list
 - [ ] No changelog files in the repo

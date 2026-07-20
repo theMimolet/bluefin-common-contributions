@@ -1,11 +1,15 @@
 ---
 name: hive-review
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [hive, review, code-review]
-description: "Session start ritual — run ~/src/hive-status, interpret P0/P1 output, triage advisory items, and find agent-ready issues. Use at the start of every agent session to surface blockers and the advisory queue."
+description: >-
+  Session start ritual — run ~/src/hive-status, interpret P0/P1 output,
+  triage advisory items, and find agent-ready issues. Use at the start of
+  every agent session to surface blockers and the advisory queue." type:
+  runbook
 metadata:
-  type: runbook
+  type: reference
 ---
 
 # Hive-Status — P0/P1 Triage Tool

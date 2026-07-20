@@ -1,9 +1,12 @@
 ---
 name: image-registry
 version: "1.0"
-last_updated: 2026-06-29
+last_updated: "2026-06-29"
 tags: [registry, ghcr, images]
-description: "projectbluefin OCI image registry reference — all production images published at ghcr.io/projectbluefin/. Use when looking up image paths, tags, or registry structure."
+description: >-
+  projectbluefin OCI image registry reference — all production images
+  published at ghcr.io/projectbluefin/. Use when looking up image paths,
+  tags, or registry structure." type: reference
 metadata:
   type: reference
 ---

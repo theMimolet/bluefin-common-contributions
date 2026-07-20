@@ -1,13 +1,14 @@
 ---
-name: common-oem-hardware-hooks
+name: oem-hardware-hooks
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [hardware, oem, first-boot, hooks, shellcheck]
 description: >-
-  OEM hardware first-boot setup hooks in projectbluefin/common. Use when adding hardware-specific
-  setup, understanding hook directories and versioning contract, or applying shellcheck requirements.
+  >- OEM hardware first-boot setup hooks in projectbluefin/common. Use when
+  adding hardware-specific setup, understanding hook directories and
+  versioning contract, or applying shellcheck requirements. type: runbook
 metadata:
-  type: runbook
+  type: reference
 ---
 
 # oem-hardware-hooks — OEM Hardware First-Boot Setup in common

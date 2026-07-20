@@ -1,13 +1,11 @@
 ---
 name: bootc
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [bootc, containers, ostree]
 description: >-
-  bootc is the foundational tool for this entire project. Every OCI image built
-  here is a bootc image. Use this skill when working on Containerfiles, image
-  build workflows, update mechanics, image switching, or anything touching how
-  the OS image is structured or delivered.
+  bootc — foundational OS image tool. Use when working on Containerfiles,
+  image build workflows, update mechanics, or OS image structure.
 metadata:
   type: reference
   context7-sources:

@@ -1,16 +1,14 @@
 ---
 name: containerfile
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [containerfile, build, oci]
 description: >-
-  Documents the projectbluefin/common Containerfile build structure, multi-stage
-  pattern, non-obvious build-time sources, SHA verification conventions, and the
-  just overlay recipe for local systemd-sysext testing. Use when modifying the
-  Containerfile, adding external binaries, updating wallpaper sources, or testing
-  common layer changes locally without a full container build.
+  Containerfile build structure and local testing. Use when modifying the
+  Containerfile, adding binaries, updating wallpaper sources, or using just
+  overlay.
 metadata:
-  type: procedure
+  type: reference
 ---
 
 # Containerfile — common OCI layer build
@@ -31,7 +29,7 @@ metadata:
 The Containerfile uses three named stages:
 
 ```
-FROM golang:alpine@sha256:3ad57304ad93bbec8548a0437ad9e06a455660655d9af011d58b993f6f615648 AS motd-build
+FROM golang:alpine@sha256:9097beb5536220f7857bdcb65c1b4b340630dd7a70b85f03d5af29640b06693d AS motd-build
   └─ git clone projectbluefin/motd@v0.2.1
   └─ go build -ldflags="-s -w" -o /umotd
 
@@ -56,7 +54,7 @@ The final `ctx` stage is a scratch image — it contains only the file tree that
 Do NOT download a pre-built binary — use the builder stage pattern:
 
 ```dockerfile
-FROM docker.io/library/golang:alpine@sha256:3ad57304ad93bbec8548a0437ad9e06a455660655d9af011d58b993f6f615648 AS motd-build
+FROM docker.io/library/golang:alpine@sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2 AS motd-build
 RUN apk add git && git clone https://github.com/projectbluefin/motd /src && \
     git -C /src checkout <COMMIT_SHA>
 WORKDIR /src

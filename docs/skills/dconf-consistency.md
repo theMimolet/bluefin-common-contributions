@@ -1,11 +1,14 @@
 ---
 name: dconf-consistency
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [dconf, gnome, configuration]
-description: "GSettings override and dconf lock file parity rules — must edit both files together for locked settings. Use when changing any GSettings key, dconf override, or lock file in system_files/."
+description: >-
+  GSettings override and dconf lock file parity rules — must edit both files
+  together for locked settings. Use when changing any GSettings key, dconf
+  override, or lock file in system_files/." type: procedure
 metadata:
-  type: procedure
+  type: reference
 ---
 
 # dconf Consistency

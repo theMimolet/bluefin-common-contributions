@@ -1,9 +1,11 @@
 ---
 name: nvidia
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [nvidia, gpu, drivers, akmods]
-description: "NVIDIA GPU support architecture, CDI-first container model, per-repo responsibilities, driver/toolkit version updates, and flatpak runtime sync. Use when editing any nvidia-related file in system_files/nvidia/, bluefin build scripts, bluefin-lts nvidia overlay, or dakota nvidia elements."
+description: >-
+  NVIDIA GPU support architecture and update procedures. Use when editing
+  nvidia files in system_files/nvidia/, bluefin scripts, or dakota elements.
 metadata:
   type: reference
 ---

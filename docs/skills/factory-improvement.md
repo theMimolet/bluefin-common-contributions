@@ -1,11 +1,13 @@
 ---
 name: factory-improvement
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [factory, automation, improvement]
-description: "Self-improving factory loop for projectbluefin — systematically closes gaps between design and implementation until every automatable step is automated. Use when identifying automation gaps, proposing factory workflows, or auditing ACMM maturity level."
+description: >-
+  Self-improving factory loop for projectbluefin. Use when identifying
+  automation gaps, proposing workflows, or auditing ACMM maturity.
 metadata:
-  type: procedure
+  type: reference
 ---
 
 # Factory Improvement — Self-Improving Loop
@@ -230,7 +232,7 @@ All 7 automation phases deployed. The audit directory has been removed. Key outc
 
 ## Known CI Pitfalls (2026-06-11)
 
-Three patterns that have caused silent CI failures or `startup_failure` across factory repos. See [`docs/skills/ci-tooling.md`](ci-tooling.md) for full detail and code examples.
+Three patterns that have caused silent CI failures or `startup_failure` across factory repos. See [`docs/skills/ci-pitfalls.md`](ci-pitfalls.md) for full detail and code examples.
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

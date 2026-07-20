@@ -1,9 +1,13 @@
 ---
 name: governance
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [governance, issues, lifecycle]
-description: "Triagers role, CODEOWNERS sentinel pattern, cross-repo sync workflow, and branch protection matrix for projectbluefin repos. Use when managing CODEOWNERS, adding/removing triager permissions, or syncing governance policy across repos."
+description: >-
+  Triagers role, CODEOWNERS sentinel pattern, cross-repo sync workflow, and
+  branch protection matrix for projectbluefin repos. Use when managing
+  CODEOWNERS, adding/removing triager permissions, or syncing governance
+  policy across repos." type: reference
 metadata:
   type: reference
 ---
@@ -117,7 +121,7 @@ git commit -m "docs: ..."
 git push origin main
 ```
 
-This includes skill updates, INDEX.md, and any other `docs/` content. Do not open a PR for docs-only work in `projectbluefin/common`.
+This includes skill updates, `docs/SKILL.md` changes, and any other `docs/` content. Do not open a PR for docs-only work in `projectbluefin/common`.
 
 ## Lifecycle automation
 
