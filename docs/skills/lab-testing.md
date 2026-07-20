@@ -354,13 +354,13 @@ spec:
 
 ### Log collection pattern
 
-Poll and collect logs immediately — log pods are recycled after workflow completion:
+Poll and collect logs immediately — log pods are recycled after workflow completion, **including Failed workflows**. If you wait until after the workflow object is archived, the failure diagnostics are gone.
 
 ```bash
 # Poll until Succeeded/Failed
 argo_get_workflow name=<workflow-name> namespace=argo
 
-# Collect WHILE Running or immediately after Succeeded
+# Collect WHILE Running or immediately after Succeeded/Failed
 argo_logs_workflow name=<workflow-name> namespace=argo
 
 # Key commands to run inside the VM (via workflow steps or virsh guest-exec):
