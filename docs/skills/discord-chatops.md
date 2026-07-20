@@ -1,3 +1,16 @@
+---
+name: discord-chatops
+version: "1.0"
+last_updated: "2026-07-20"
+tags: [discord, chatops, botkube]
+description: >-
+  Documents Discord ChatOps integration for the Bluefin factory, including
+  Botkube lifecycle commands and release notifications. Use when configuring
+  Discord webhooks, Botkube, or Discord-driven factory commands." type:
+  procedure
+metadata:
+  type: procedure
+---
 # Discord ChatOps — Skill File
 
 ## What this covers

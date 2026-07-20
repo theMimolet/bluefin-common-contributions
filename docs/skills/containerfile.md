@@ -1,16 +1,14 @@
 ---
 name: containerfile
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [containerfile, build, oci]
 description: >-
-  Documents the projectbluefin/common Containerfile build structure, multi-stage
-  pattern, non-obvious build-time sources, SHA verification conventions, and the
-  just overlay recipe for local systemd-sysext testing. Use when modifying the
-  Containerfile, adding external binaries, updating wallpaper sources, or testing
-  common layer changes locally without a full container build.
+  Containerfile build structure and local testing. Use when modifying the
+  Containerfile, adding binaries, updating wallpaper sources, or using just
+  overlay.
 metadata:
-  type: procedure
+  type: reference
 ---
 
 # Containerfile — common OCI layer build

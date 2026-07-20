@@ -1,11 +1,15 @@
 ---
 name: skill-improvement
 version: "1.1"
-last_updated: 2026-07-20
+last_updated: "2026-07-20"
 tags: [skills, improvement, documentation]
-description: "The skill-improvement mandate — every agent session must produce a skill file update alongside the work. Use when completing a task and deciding whether to write a skill update, or when creating or updating a skill file."
+description: >-
+  The skill-improvement mandate — every agent session must produce a skill
+  file update alongside the work. Use when completing a task and deciding
+  whether to write a skill update, or when creating or updating a skill
+  file." type: procedure
 metadata:
-  type: procedure
+  type: reference
   context7-sources:
     - /anthropics/skills
     - /addyosmani/agent-skills

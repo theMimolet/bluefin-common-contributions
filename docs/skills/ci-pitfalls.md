@@ -1,9 +1,11 @@
 ---
 name: ci-pitfalls
 version: "1.0"
-last_updated: 2026-07-19
+last_updated: "2026-07-19"
 tags: [ci, workflows, github-actions, pitfalls]
-description: "Incident log of CI and workflow gotchas that caused silent failures or startup_failure across projectbluefin repos — branch-from-target, consumer PR format, caller permissions starvation, workflow_run name matching, merge_group sarif, Renovate automerge, buildah storage, ruleset check names, app token scoping. Use when debugging a CI failure that silently skips or shows startup_failure with no output."
+description: >-
+  Incident log of CI gotchas across projectbluefin repos. Use when debugging
+  silent CI failures, startup_failure, or workflow skip behavior.
 metadata:
   type: reference
   context7-sources:

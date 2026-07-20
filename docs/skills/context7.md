@@ -1,16 +1,14 @@
 ---
 name: context7
 version: "1.0"
-last_updated: 2026-07-19
+last_updated: "2026-07-19"
 tags: [context7, docs, verification, tooling]
 description: >-
-  Context7 is the mandatory first-lookup source for any external tool used in
-  this repo. Before writing or asserting anything about bootc, cosign, skopeo,
-  buildah, ostree, rpm-ostree, just, GitHub Actions, pre-commit, Renovate, or
-  any other named tool — resolve its library ID and read the live docs via
-  Context7. Training data is stale; the docs are the source of truth.
+  Mandatory first-lookup policy for external tools. Use before asserting
+  anything about bootc, cosign, skopeo, buildah, just, GitHub Actions, or
+  Renovate.
 metadata:
-  type: policy
+  type: reference
 ---
 
 # Context7 — mandatory first-lookup policy

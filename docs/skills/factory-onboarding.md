@@ -1,11 +1,14 @@
 ---
 name: factory-onboarding
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [factory, onboarding, setup]
-description: "How to onboard a repo into the Project Bluefin factory model. The self-improvement mandate, what agents must do, and what is banned. Load when setting up a new repo or auditing factory compliance."
+description: >-
+  How to onboard a repo into the Project Bluefin factory model. The
+  self-improvement mandate, what agents must do, and what is banned. Load
+  when setting up a new repo or auditing factory compliance." type: procedure
 metadata:
-  type: procedure
+  type: reference
 ---
 
 # Factory Onboarding

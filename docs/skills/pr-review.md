@@ -1,11 +1,13 @@
 ---
 name: pr-review
 version: "2.0"
-last_updated: 2026-06-24
+last_updated: "2026-06-24"
 tags: [review, testing, contributing]
-description: "Reviewer's guide for PRs in projectbluefin/common — PR type taxonomy, per-type review checklist, CI gate interpretation, OEM hook review pattern, test quality standards, and report template. Use when reviewing any incoming PR to common. Lab testing methodology now lives in lab-testing.md."
+description: >-
+  PR reviewer's guide for projectbluefin/common. Use when reviewing PRs,
+  interpreting CI gates, or following the review report template.
 metadata:
-  type: procedure
+  type: reference
 ---
 
 # PR Review Guide — projectbluefin/common

@@ -1,11 +1,15 @@
 ---
 name: human-gates
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [gates, approval, security]
-description: "The four human decision gates — Design, Security, Breakage, and Merge — when an agent must stop and request human input. Use when uncertain whether a change requires human review, or to verify evidence requirements before opening a PR."
+description: >-
+  The four human decision gates — Design, Security, Breakage, and Merge —
+  when an agent must stop and request human input. Use when uncertain whether
+  a change requires human review, or to verify evidence requirements before
+  opening a PR." type: procedure
 metadata:
-  type: procedure
+  type: reference
 ---
 
 # Human Decision Gates

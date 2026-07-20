@@ -1,9 +1,11 @@
 ---
 name: workflow-map
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [workflows, ci, reference]
-description: "What each GitHub workflow in projectbluefin/common is for — validation, E2E, release, and factory-policy boundaries. Use when deciding which .github/workflows/ file to edit, understanding CI pipeline stages, or debugging a workflow failure."
+description: >-
+  What each GitHub workflow in common is for. Use when editing workflows,
+  debugging CI, or understanding pipeline stages.
 metadata:
   type: reference
 ---

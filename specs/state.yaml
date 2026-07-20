@@ -2,13 +2,13 @@
 session:
   active_flow: execute-plan
   active_epic: e01-common-docs
-  active_story: e01s01
+  active_story: e01s03
   project: projectbluefin/common
 git:
   base_branch: main
 handoff:
-  next_skill: kickoff-branch
-  prev_skill: plan-work
+  next_skill: execute-plan
+  prev_skill: kickoff-branch
   note: >-
-    Audit complete; scope and epic created. First story: normalize agent entry
-    points (e01s01). Use kickoff-branch then execute tasks in order.
+    e01s01 complete and committed. Now normalizing skill front-matter and
+    adding docs/skills/write-a-skill.md.

@@ -1,9 +1,11 @@
 ---
 name: shell-scripts
 version: "1.0"
-last_updated: 2026-06-24
+last_updated: "2026-06-24"
 tags: [shell, bash, testing, bats, shellcheck]
-description: "Shell script authoring and testability in common — removing a shell script (4 touch-points), bats mocking patterns, env-var override idioms, PATH-stub mocking, shellcheck pitfalls, XDG isolation, idempotent main guard. Use when writing or testing shell scripts under system_files/."
+description: >-
+  Shell script authoring and testability. Use when writing or testing shell
+  scripts under system_files/, removing scripts, or adding bats tests.
 metadata:
   type: reference
   context7-sources:

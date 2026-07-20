@@ -1,9 +1,13 @@
 ---
 name: lab-testing
-description: "KubeVirt lab testing for common — how to boot bluefin, bluefin-lts, and dakota on ghost and verify common-layer changes before promotion. Use when testing a common PR or change against real variant images on the homelab cluster."
+version: "1.0"
+last_updated: "2026-07-20"
+tags: [lab, testing, kubevirt]
+description: >-
+  KubeVirt lab testing for common. Use when testing a common PR against
+  bluefin, bluefin-lts, or dakota on ghost.
 metadata:
   type: reference
-  context7-sources: []
 ---
 
 # Lab Testing — common layer on KubeVirt

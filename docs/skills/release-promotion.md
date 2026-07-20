@@ -1,11 +1,15 @@
 ---
 name: release-promotion
 version: "1.0"
-last_updated: 2026-06-23
+last_updated: "2026-06-23"
 tags: [release, promotion, staging]
-description: "Promotion criteria, monthly release cadence, hotfix procedure, and artifact verification for projectbluefin/common. Use when cutting a release, understanding the promotion pipeline, or verifying release artifacts."
-metadata:
+description: >-
+  Promotion criteria, monthly release cadence, hotfix procedure, and artifact
+  verification for projectbluefin/common. Use when cutting a release,
+  understanding the promotion pipeline, or verifying release artifacts."
   type: runbook
+metadata:
+  type: reference
 ---
 
 # Release and promotion — common
