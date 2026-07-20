@@ -156,6 +156,7 @@ Lifecycle automation source of truth: `.github/workflows/lifecycle.yml`
 - **Never push directly to a protected branch.** Always open a PR. PRs enter the human review queue (`pr/needs-review`) and require `lgtm` from a human before merging. This applies to `common/main` too — branch protection bypass is not agent-permitted.
 - **Doc-only exception:** `docs/` edits and `AGENTS.md` changes in `common` may be pushed directly to `main` without a PR.
 - **To add information to an issue or PR you authored, edit the body — do not add a new comment.** Use `gh api repos/projectbluefin/common/issues/<n> -X PATCH --field body=@file`. A new comment is only appropriate as a reply to someone else or for a distinct event.
+- **Exception: Vanguard Lab Strike Reports are required PR comments.** When the CI/lab agent verifies a PR through the ghost cluster, it must post the lab result as a PR comment using the Vanguard Lab Strike Report template from `projectbluefin/lab/docs/vanguard-report-template.md`. This is evidence of cluster verification, not a status update, and is allowed on any projectbluefin PR.
 - **After pushing, verify CI is green before claiming done:** `gh run list --repo projectbluefin/common --limit 5` — read the output; running or failing = not done. "Done" means CI green, not "I pushed."
 - **Never claim a task complete without verifying.** "I've updated the file" is not done. Run the checks. Read the output.
 

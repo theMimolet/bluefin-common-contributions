@@ -38,6 +38,18 @@ Neither replaces the other. Lab tests run on demand; E2E runs on every push.
 | `just/`, `Justfile`, `*.just` | all three (ujust ships to all variants) |
 | `Containerfile` changes | all three |
 
+## Posting lab results
+
+When you verify a PR through the ghost cluster, the result must be posted as a
+**Vanguard Lab Strike Report** PR comment. This is the canonical evidence format
+for cluster verification. Copy the template from
+[`projectbluefin/lab/docs/vanguard-report-template.md`](https://github.com/projectbluefin/lab/blob/main/docs/vanguard-report-template.md),
+fill every field with real CLI evidence (workflow name/phase, `argo logs`, pod/VMI
+state), and update an existing report comment from you rather than stacking duplicates.
+
+This report is an explicit exception to the normal "don't post comments describing
+your actions" convention — it is the lab result, not a status update.
+
 ## Lab infrastructure
 
 | Item | Value |
