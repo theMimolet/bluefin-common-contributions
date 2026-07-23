@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-umotd
+uwelcome
